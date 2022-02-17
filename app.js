@@ -1,26 +1,31 @@
-const express = require('express')
-const app = express()
-const port = 3000
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+const app = express();
+const PORT = 3000;
+const userDB = process.env.MONGO_CONNECTION;
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({extended: true}));
+
+app.route('/')
+.get((req, res)=>{
+  res.render('home');
 })
 
-app.get('/login', (req, res) => {
-  res.render('login.ejs')
+app.route('/login')
+.get((req, res)=>{
+  res.render('login')
 })
 
-app.post('/login ', (req, res) => {
+app.route('/signup')
+.get((req, res)=>{
+  res.render('signup')
 })
 
-app.get('/signup', (req, res) => {
-  res.render('signup.ejs')
-})
-
-app.post('/signup', (req, res) => {
-})
-
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
 })
