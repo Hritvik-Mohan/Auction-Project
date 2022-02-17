@@ -18,7 +18,6 @@ const userDB = process.env.MONGO_CONNECTION;
 mongoose.connect(userDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false
 })
 
 const userSchema = new mongoose.Schema({
