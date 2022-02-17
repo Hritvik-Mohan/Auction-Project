@@ -1,7 +1,9 @@
+<%- include('./partials/head') %>
+
 <h1>Sign Up</h1>
-<form action="/signup" method="POST">
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" required>
+<form name="signupForm" action="/signup" onsubmit="return validateForm()" method="POST">
+    <label for="fName">Name</label>
+    <input type="text" id="name" name="fName">
   </div>
   <div>
     <label for="email">Email</label>
@@ -14,3 +16,9 @@
   <button type="submit">Sign Up</button>
 </form>
 <a href="/login">Login</a>
+
+<%if (message){%>
+  <p><%=message%></p>
+<%}%>
+
+<%- include('./partials/footer') %>
