@@ -1,30 +1,21 @@
 const mongoose = require("mongoose");
 
-const productDB = process.env.MONGO_CONNECTION;
+const auctionDB = process.env.MONGO_CONNECTION;
 
-mongoose.connect(userDB, {
+mongoose.connect(auctionDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// userDB schema
-const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
+// Transactions Schema
+const transactionSchema = new mongoose.Schema({
+
+  // TODO
+
 });
 
-// userDB object
-const User = mongoose.model("user", userSchema);
+//     Transaction Object        Collection Name
+//         ⬇️                          ⬇️
+const Transaction = mongoose.model("transaction", transactionSchema);
 
-module.exports = User;
+module.exports = Transaction;

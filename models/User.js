@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const userDB = process.env.MONGO_CONNECTION;
+const auctionDB = process.env.MONGO_CONNECTION;
 
-mongoose.connect(userDB, {
+mongoose.connect(auctionDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// userDB object     // collection name
+// User Object       Collection Name
 //     ⬇️                     ⬇️
 const User = mongoose.model("user", userSchema);
 
