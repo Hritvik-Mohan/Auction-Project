@@ -1,5 +1,15 @@
 <%- include('./partials/head') %>
 
-<div>Home Page</div>
+<h1>Home Page</h1>
+<hr>
+
+<% for (let item of product) {%>
+    <div>
+        <h1><%= item.title %></h1>
+        <p><%= item.about %></p>
+        <a href="/product/<%= item.id %>">Go To</a>
+    </div>
+<% } %>
+
 
 <%- include('./partials/footer') %>

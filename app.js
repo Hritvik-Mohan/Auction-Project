@@ -9,6 +9,9 @@ const User = require("./models/User");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Test imports
+const product = require('./product');
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -17,7 +20,7 @@ app.use(cors());
 
 // Home route
 app.route("/").get((req, res) => {
-  res.render("home");
+  res.render("home", { product });
 });
 
 // Login Route
@@ -68,6 +71,30 @@ app
     });
   });
 
+// Product Route
+app.route('/product/:id')
+.get((req, res)=>{
+  const { id } = req.params;
+  const item = product.find(item => item.id === Number(id));
+  res.render('product', { item });
+})
+
+// Bid Route
+app.route('/bid/:id')
+.get((req, res)=>{
+  res.send("Bid Route");
+})
+.post((req, res)=>{
+
+  const { id: productId } = req.params;
+  const { bid: bidAmount } = req.body;
+
+  console.log(productId, bidAmount);
+
+  res.redirect(`/product/${productId}`);
+})
+
+// Default Route if page not exists
 app.route("*").get((req, res) => {
   res.send("ERROR 404");
 });
