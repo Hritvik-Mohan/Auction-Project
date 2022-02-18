@@ -5,4 +5,4 @@ const validateForm = () => {
     console.log(firstName);
 }
 
-validateForm();
+validateForm?.();

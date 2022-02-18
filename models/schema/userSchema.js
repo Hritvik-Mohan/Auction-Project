@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bidsSchema = require("./bidsSchema")
 
 // userDB schema
 const userSchema = new mongoose.Schema({
@@ -19,6 +20,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    bids: [bidsSchema]
 });
 
 module.exports = userSchema;
