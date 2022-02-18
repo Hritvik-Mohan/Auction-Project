@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const adminSchema = require('./schema/adminSchema');
 
 const auctionDB = process.env.MONGO_CONNECTION;
 
@@ -22,6 +23,8 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  bids: []
 });
 
 // Admin object          Collection Name

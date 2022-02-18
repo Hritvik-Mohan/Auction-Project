@@ -15,6 +15,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({extended: true}));
 app.use(cors());
 
+// Global variables
+let message = "";
 
 // Home route
 app.route('/')
@@ -31,6 +33,7 @@ app.route('/login')
   console.log(req.body);
 })
 
+// Signup Route
 app.route('/signup')
 .get((req, res)=>{
   const message = ""
@@ -38,11 +41,11 @@ app.route('/signup')
 })
 .post((req, res)=>{
   console.log(req.body);
-  let message = "";
-  const { fName, email, password } = req.body;
+
+  const { fName, lName, email, password } = req.body;
 
   // TODO
-  // This code is crashing the code
+  // This code is crashing the app
   // User.findOne({email: email}, (err, foundOne)=>{
   //   if(foundOne){
   //     message = "User exists with that email"
@@ -56,6 +59,7 @@ app.route('/signup')
 
   const newUser = new User({
     firstName: fName,
+    lastName: lName,
     email: email,
     password: password
   });

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const productSchema = require('./schema/productSchema');
 
 const auctionDB = process.env.MONGO_CONNECTION;
 
