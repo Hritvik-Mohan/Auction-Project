@@ -31,6 +31,24 @@ app
   })
   .post((req, res) => {
     console.log(req.body);
+
+    User.findOne(req.body)
+      .then(data => {
+        console.log("Everything went find");
+        console.log(data);
+
+        if(!data){
+          console.log("SignUp please");
+          res.redirect('/signup');
+        } else {
+          console.log("Welcome user")
+          res.redirect('/');
+        }
+      })
+      .catch(err => {
+        console.log("An error occured");
+        console.log(err);
+      })
   });
 
 // Signup Route
@@ -45,30 +63,45 @@ app
 
     const { fName, lName, email, password } = req.body;
 
-    User.findOne({ email: email }, (err, foundUser) => {
-      if (!err) {
-        if (foundUser) {
-          res.redirect("/login");
-        } else {
-          const newUser = new User({
-            firstName: fName,
-            lastName: lName,
-            email: email,
-            password: password,
-          });
+    User.findOne({email: email})
+    .then(data => {
 
-          newUser.save((err) => {
-            if (!err) {
-              res.redirect("/");
-            } else {
-              res.send(err);
-            }
-          });
-        }
+      // data will be null if no user with that email exists.
+      // else if will return the existing data
+      console.log(data);
+
+      if(!data){
+        const newUser = new User({
+          firstName: fName,
+          lastName: lName,
+          email: email,
+          password: password,
+        });
+
+        newUser.save()
+          .then(data =>{
+            console.log('Saved new user')
+
+            // returns the new data object saved
+            console.log(data)
+
+            res.redirect('/');
+          })
+          .catch(err => {
+            console.log(err);
+          })
+
       } else {
-        console.log(err);
+        console.log("Login Instead!!!");
+        res.redirect('/login');
       }
-    });
+      
+    })
+    .catch(err => {
+      console.log("Error");
+      console.log(err.errors.name.properties.message);
+    })
+
   });
 
 // Product Route
