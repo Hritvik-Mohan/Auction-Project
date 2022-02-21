@@ -1,15 +1,53 @@
-const mongoose = require("mongoose");
-const userSchema = require('./schema/userSchema');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const auctionDB = process.env.MONGO_CONNECTION;
+const bidsSchema = new Schema({
+  productId: {
+    type: mongoose.ObjectId,
+    trim: true,
+    required: true
+  },
+  bidAmout: {
+    type: Number,
+    required: true
+  }
+})
 
-mongoose.connect(auctionDB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const userSchema = new Schema({
+  firstName: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  lastName: {
+      type: String,
+      required: true,
+      trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  image: {
+    type: String,
+    trim: true
+  },
+  address: {
+    type: String,
+    trim: true
+  },
+  bids: {
+    type: [bidsSchema]
+  }
+})
 
-// User Object       Collection Name
-//     ⬇️                     ⬇️
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model('user', userSchema)
 
 module.exports = User;
