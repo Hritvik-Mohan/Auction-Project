@@ -23,10 +23,19 @@ app.use(methodOverride('_method'));
 const User = require('./models/User');
 const AppError = require('./utils/AppError')
 
+// * Local mongo server
 mongoose.connect('mongodb://localhost:27017/auctionDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
+// ! Comment out the server you are not using
+
+// ? Online mongo server
+// mongoose.connect(process.env.MONGO_CONNECTION, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
 // ! Wrapper functions to check async errors
 const wrapAsync = (f) => {
