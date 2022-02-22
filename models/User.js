@@ -37,11 +37,8 @@ const userSchema = new Schema({
   },
   image: {
     type: String,
-    trim: true
-  },
-  address: {
-    type: String,
-    trim: true
+    trim: true,
+    default:'https://i.imgur.com/FPnpMhC.jpeg',
   },
   bids: {
     type: [bidsSchema]
