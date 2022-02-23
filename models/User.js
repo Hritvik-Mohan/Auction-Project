@@ -35,6 +35,10 @@ const userSchema = new Schema({
     required: true,
     trim: true
   },
+  dob: {
+    type: String,
+    required: true
+  },
   image: {
     type: String,
     trim: true,

@@ -66,6 +66,15 @@ const validateUser = (req, res, next) => {
   next();
 }
 
+// ! Middleware function to validate age
+const validateAge = (req, res, next) => {
+  const ageInMilliseconds = new Date() - new Date(req.body.user.dob);
+  const age =  Math.floor(ageInMilliseconds/1000/60/60/24/365); 
+  if (age<18){
+    throw new AppError('Sorry you are underage', 405);
+  }
+  next();
+}
 // Home route
 app.route("/").get((req, res) => {
   res.render("home");
@@ -79,9 +88,10 @@ app.route('/users')
     res.render('users/index', { users })
   })
   .post(
+    validateAge,
     validateUser,
     wrapAsync(async (req, res)=>{
-
+    console.log(req.body.user);
     // * Setting image to undefined if user did not
     // * set his profile pic. undefined will let 
     // * mongoose know to set a default profile pic
@@ -131,10 +141,10 @@ app.route('/users/:id')
       throw new AppError('Not Found', 404);
     }
 
-    console.log(user, req.params.id);
     res.render('users/profile', { user });
   }))
   .put(
+    validateAge,
     validateUser,
     wrapAsync(async (req, res)=>{
 
@@ -143,9 +153,7 @@ app.route('/users/:id')
     req.body.user.image = req.body.user.image.length === 0 ? 
                           'https://i.imgur.com/FPnpMhC.jpeg' : 
                           req.body.user.image;
-                          
-    const { firstName, lastName, email, image, password } = req.body.user;
-    console.log(`Image: ${image}`);
+              
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       req.body.user,
