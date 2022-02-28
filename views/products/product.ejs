@@ -1,0 +1,20 @@
+<% layout('layouts/boilerplate') %> 
+
+<h1>Product Page</h1>
+<hr>
+
+<% for (let image of product.images){  %> 
+    <img style="width: 12rem;" src="<%= image %> " alt=""><br>
+<% }%>
+<h3>Title</h3>
+<p><%= product.title %> </p>
+<h3>Description</h3>
+<p><%= product.description %></p>
+<h3>Category</h3>
+<p><%= product.category %> </p>
+<h3>Base Price</h3>
+<p> $ <%= product.base_price %> </p>
+
+<% if (product.user){ %>
+<h4>Posted by <a href="/users/<%= product.user._id %>"><%= product.user.firstName %> </a></h4>
+<% } %> 

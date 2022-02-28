@@ -21,6 +21,8 @@ app.use(methodOverride('_method'));
 
 // ! My imports
 const User = require('./models/User');
+const Product = require('./models/Product');
+
 const AppError = require('./utils/AppError');
 const userSchema = require('./schemas/userSchema');
 
@@ -177,6 +179,39 @@ app.route('/users/:id/edit')
 
     res.render('users/edit', { user })
   }))
+
+
+// ! Products REST Routes
+app.route('/products')
+  .get(wrapAsync (async (req, res)=>{
+    const products = await Product.find({})
+    res.render('products/index', { products });
+  }))
+  .post( async (req, res)=>{
+    console.log(req.body);
+    const product  = new Product(req.body.product)
+    const savedProduct = await product.save();
+    res.send(savedProduct)
+  })
+
+app.route('/products/new')
+  .get((req, res)=>{
+    res.render('products/new');
+  })
+
+app.route('/products/:id')
+  .get(async (req, res)=>{
+    const product = await Product.findById(req.params.id).populate('user');
+    res.send(product);
+    res.render('products/product', { product });
+  })
+
+app.route('/products/:id/edit')
+.get(async (req, res)=> {
+  // ! Will come back to this later
+  const product = await Product.findById(req.params.id).populate('user');
+  res.send(product)
+})
 
 app.all('*', (req, res, next)=>{
   next(new AppError('Page Not Found', 404));

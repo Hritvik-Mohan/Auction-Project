@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %> 
+
+<form action="/products" method="POST">
+    <div>
+        <label for="title">Title</label>
+    </div>
+    <div>
+        <input type="text" name="product[title]" id="title">
+    </div>
+    <div>
+        <label for="description">Description</label>
+    </div>
+    <div>
+        <input type="text" name="product[description]" id="description">
+    </div>
+    <div>
+        <label for="base_price">Base Price</label>
+    </div>
+    <div>
+        <input type="number" name="product[base_price]" step="any" id="base_price">
+    </div>
+    <div>
+        <label for="category">Select Category</label>
+    </div>
+    <div>
+        <select name="product[category]" id="category">
+            <option value="art">Art</option>
+            <option value="antiques">Antiques</option>
+            <option value="vehicle">Vehicle</option>
+            <option value="books">Books</option>
+            <option value="collectible">Collectible</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+    <div>
+        <label for="images">Add Image</label>
+    </div>
+    <div>
+        <input type="text" name="product[images]" id="">
+    </div>
+    <div>
+        <button type="submit">Put this up for bidding</button>
+    </div>
+</form>
