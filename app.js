@@ -21,7 +21,13 @@ app.use(methodOverride('_method'));
 
 // ! My imports
 const User = require('./models/User');
-const AppError = require('./utils/AppError')
+const Product = require('./models/Product');
+
+const AppError = require('./utils/AppError');
+const userSchema = require('./schemas/userSchema');
+
+// ! My global variables
+let alertMessage = ""
 
 // * Local mongo server
 mongoose.connect('mongodb://localhost:27017/auctionDB', {
@@ -37,6 +43,12 @@ mongoose.connect('mongodb://localhost:27017/auctionDB', {
 //   useUnifiedTopology: true,
 // });
 
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, "connection error"));
+db.once('open', ()=>{
+  console.log("connected to local db");
+});
+
 // ! Wrapper functions to check async errors
 const wrapAsync = (f) => {
   return function(req, res, next){
@@ -44,12 +56,27 @@ const wrapAsync = (f) => {
   }
 }
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, "connection error"));
-db.once('open', ()=>{
-  console.log("connected to local db");
-});
+// ! Middleware function to validate user data
+const validateUser = (req, res, next) => {
+  console.log(req.body);
+  const { error } = userSchema.validate(req.body);
+  if(error){
+    console.log(error);
+    const msg = error.details.map(e=>e.message).join(',');
+    throw new AppError(msg, 400);
+  }
+  next();
+}
 
+// ! Middleware function to validate age
+const validateAge = (req, res, next) => {
+  const ageInMilliseconds = new Date() - new Date(req.body.user.dob);
+  const age =  Math.floor(ageInMilliseconds/1000/60/60/24/365); 
+  if (age<18){
+    throw new AppError('Sorry you are underage', 405);
+  }
+  next();
+}
 // Home route
 app.route("/").get((req, res) => {
   res.render("home");
@@ -62,11 +89,24 @@ app.route('/users')
     const users = await User.find({});
     res.render('users/index', { users })
   })
-  .post(wrapAsync(async (req, res)=>{
-    const newUser = new User(req.body);
+  .post(
+    validateAge,
+    validateUser,
+    wrapAsync(async (req, res)=>{
+    console.log(req.body.user);
+    // * Setting image to undefined if user did not
+    // * set his profile pic. undefined will let 
+    // * mongoose know to set a default profile pic
+    req.body.user.image = req.body.user.image.length === 0 ? 
+                          undefined : 
+                          req.body.user.image;
+
+    const newUser = new User(req.body.user);
     const savedUser = await newUser.save();
+
     console.log(savedUser)
     res.redirect('/users');
+
   }))
 
 app.route('/users/register')
@@ -74,16 +114,55 @@ app.route('/users/register')
     res.render('users/register');
   })
 
+app.route('/users/login')
+  .get((req, res)=>{
+    res.render('users/login', { alertMessage });
+  })
+  .post(async (req, res)=>{
+    const { email, password } =  req.body.user;
+
+    const foundUser = await User.findOne({email, password});
+
+    // * Found the user
+    if(foundUser){
+      res.redirect('/')
+    }
+
+    // * If user not found
+    alertMessage = "Incorrect email or password !";
+    res.render('users/login', { alertMessage })
+
+  })
+
+
 app.route('/users/:id')
   .get(wrapAsync(async (req, res)=>{
     const user = await User.findById(req.params.id);
-    console.log(user, req.params.id);
+
+    if(!user){
+      throw new AppError('Not Found', 404);
+    }
+
     res.render('users/profile', { user });
   }))
-  .put(wrapAsync(async (req, res)=>{
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true});
+  .put(
+    validateAge,
+    validateUser,
+    wrapAsync(async (req, res)=>{
+
+    // * Setting a default image if user did not
+    // * set his own image
+    req.body.user.image = req.body.user.image.length === 0 ? 
+                          'https://i.imgur.com/FPnpMhC.jpeg' : 
+                          req.body.user.image;
+              
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body.user,
+      {new: true, runValidators: true}
+    );
     console.log(updatedUser);
-    res.redirect('/users');
+    res.redirect(`/users/${updatedUser._id}`);
   }))
   .delete(wrapAsync(async (req, res)=>{
     await User.findByIdAndDelete(req.params.id);
@@ -93,8 +172,46 @@ app.route('/users/:id')
 app.route('/users/:id/edit')
   .get(wrapAsync(async (req, res)=>{
     const user = await User.findById(req.params.id);
+
+    if(!user){
+      throw new AppError('Not Found', 404);
+    }
+
     res.render('users/edit', { user })
   }))
+
+
+// ! Products REST Routes
+app.route('/products')
+  .get(wrapAsync (async (req, res)=>{
+    const products = await Product.find({})
+    res.render('products/index', { products });
+  }))
+  .post( async (req, res)=>{
+    console.log(req.body);
+    const product  = new Product(req.body.product)
+    const savedProduct = await product.save();
+    res.send(savedProduct)
+  })
+
+app.route('/products/new')
+  .get((req, res)=>{
+    res.render('products/new');
+  })
+
+app.route('/products/:id')
+  .get(async (req, res)=>{
+    const product = await Product.findById(req.params.id).populate('user');
+    res.send(product);
+    res.render('products/product', { product });
+  })
+
+app.route('/products/:id/edit')
+.get(async (req, res)=> {
+  // ! Will come back to this later
+  const product = await Product.findById(req.params.id).populate('user');
+  res.send(product)
+})
 
 app.all('*', (req, res, next)=>{
   next(new AppError('Page Not Found', 404));
@@ -102,7 +219,7 @@ app.all('*', (req, res, next)=>{
 
 app.use((err, req, res, next)=>{
   const { status=500, message="Something went wrong" } = err;
-  res.status(status).send(message);
+  res.status(status).send({err, message});
 })
 
 app.listen(PORT, () => {

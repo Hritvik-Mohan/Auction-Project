@@ -1,35 +1,39 @@
-<% layout('layouts/boilerplate') %> 
+<% layout('layouts/boilerplate') %>
 
 <form action="/users/<%= user._id %>?_method=PUT" method="POST">
     <div>
         <label for="firstName">First Name</label>
     </div>
     <div>
-        <input type="text" name="firstName" id="firstName" value="<%= user.firstName %> ">
+        <input type="text" name="user[firstName]" id="firstName" value="<%= user.firstName %> ">
     </div>
     <div>
         <label for="lastName">Last Name</label>
     </div>
     <div>
-        <input type="text" name="lastName" id="lastName" value="<%= user.lastName %> ">
+        <input type="text" name="user[lastName]" id="lastName" value="<%= user.lastName %> ">
     </div>
     <div>
         <label for="email">Email</label>
     </div>
     <div>
-        <input type="email" name="email" id="email" value="<%= user.email %> ">
+        <input type="email" name="user[email]" id="email" value="<%= user.email %> ">
+    </div>
+    <div>
+        <label for="dob">DOB</label>
+        <input type="date" value="<%= user.dob %>" name="user[dob]" id="dob">
     </div>
     <div>
         <label for="image">Image</label>
     </div>
     <div>
-        <input type="text" name="image" id="image" value="<%= user.image %> ">
+        <input type="text" name="user[image]" id="image" value="<%= user.image %> ">
     </div>
     <div>
         <label for="password">Password</label>
     </div>
     <div>
-        <input type="password" name="password" id="password" value="<%= user.password %> ">
+        <input type="password" name="user[password]" id="password" value="<%= user.password %> ">
     </div>
     <div>
         <button type="submit">Submit</button>

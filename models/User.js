@@ -35,13 +35,14 @@ const userSchema = new Schema({
     required: true,
     trim: true
   },
+  dob: {
+    type: String,
+    required: true
+  },
   image: {
     type: String,
-    trim: true
-  },
-  address: {
-    type: String,
-    trim: true
+    trim: true,
+    default:'https://i.imgur.com/FPnpMhC.jpeg',
   },
   bids: {
     type: [bidsSchema]

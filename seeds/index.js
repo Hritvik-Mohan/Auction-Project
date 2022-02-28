@@ -1,8 +1,10 @@
-const { use } = require('express/lib/application');
 const mongoose = require('mongoose');
 const User = require('../models/User');
+const Product = require('../models/Product')
 
 const { users } = require('./users');
+const { products } = require('./products');
+const { find } = require('../models/Product');
 
 mongoose.connect('mongodb://localhost:27017/auctionDB', {
   useNewUrlParser: true,
@@ -15,4 +17,40 @@ db.once('open', ()=>{
   console.log("connected to local db");
 });
 
-User.insertMany(users)
+// User.insertMany(users)
+
+// Product.insertMany(products);
+
+const userId = ['6213cc66d6e6804b2133b298', '6213cc66d6e6804b2133b299', '6214ab8c30c7865c3dfa9214']
+const productId = ['6218c034cc34eebd07e54fb3', '6218c034cc34eebd07e54fb4', '6218c034cc34eebd07e54fb5']
+
+const findAndAddUser = async (user_id, prod_id) => {
+  const user = await User.findById(user_id); // find user
+  const product = await Product.findById(prod_id);
+
+  product.user = user;
+
+  await product.save()
+}
+console.log("Hi")      
+product.save()
+.then(data=>{
+  console.log(data)
+})
+.error(err=>console.log(err))
+
+console.log('Exit')
+
+// findAndAddUser(userId[2], productId[2]);
+
+const findAll = async () => {
+  const products = await Product.find({})
+  console.log(products)
+}
+
+findAll()
+
+// for (let i=0; i<3; i++){
+//   findAndAddUser(userId[i], productId[i]);
+//   console.log(`Progress ${i}/3`);
+// }
