@@ -20,4 +20,4 @@ It’s a place that holds auctions on the internet. It's a platform that is a me
 </a>
 <br>
 
-## [<h3>Connect with us on Discord](https://discord.gg/5PNFxQF2nz) 
+# [<h3>Connect with us on Discord](https://discord.gg/5PNFxQF2nz) 
