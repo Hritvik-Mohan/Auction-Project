@@ -1,36 +1,17 @@
-const catchAsync = require("../../models/product.model");
+const catchAsync = require("../../utils/catchAsync");
 const Product = require("../../models/product.model")
 
-module.exports.registerProduct = catchAsync((req, res) => {
-    const {
-        title,
-        description,
-        basePrice,
-        images,
-        startTime,
-        category,
-        duration
-    } = req.body.product;
-    if (!title || !description || !basePrice || !images || !startTime || !category || !duration) {
-        return res.status(400).send({
-            success: false,
-            error: "title, description, basePrice, images and startTime are required"
-        });
-    }
+module.exports.addNewProduct = catchAsync(async(req, res)=>{
+    // ! Later
+    res.send({ "msg": "working on it" })
+})
 
-    const product = new Product(req.body.product);
-    await product.save();
+module.exports.editProduct = catchAsync(async (req, res)=>{
+    // ! Later
+    res.send({ "msg": "working on it" })
+})
 
-    res.status(200).send({
-        success: true,
-        product: {
-            title: product.title,
-            description: product.description,
-            basePrice: product.basePrice,
-            images: product.images,
-            startTime: product.startTime,
-            category: product.category,
-            duration: product.duration
-        }
-    });
-});
+module.exports.deleteProduct = catchAsync(async (req, res)=>{
+    // !Later
+    res.send({ "msg": "working on it" })
+})

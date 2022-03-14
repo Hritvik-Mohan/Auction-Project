@@ -63,8 +63,8 @@ app.all('*', (req, res, next)=>{
  * Default error handling middleware.
  */
 app.use((err, req, res, next)=>{
-  const { status=500, message="Something went wrong" } = err;
-  res.status(status).send({err, message});
+  const { status=500, message="Something went wrong", stack } = err;
+  res.status(status).send({err, message, stack});
 })
 
 const runServer = async () =>{
