@@ -12,7 +12,7 @@ const productSchema = new Schema({
     // required: true,
     trim: true
   },
-  base_price: {
+  basePrice: {
     type: Number,
     trim: true
   },
@@ -21,7 +21,7 @@ const productSchema = new Schema({
     trim: true,
     // required: true
   }],
-  start_time: {
+  startTime: {
     type: String,
     // required: true,
   },
