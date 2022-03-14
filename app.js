@@ -67,7 +67,7 @@ app.use((err, req, res, next)=>{
   res.status(status).send({err, message});
 })
 
-const runServer = () =>{
+const runServer = async () =>{
   await connectDb();
 
   app.listen(PORT, () => {
