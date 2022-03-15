@@ -2,6 +2,7 @@
  * Node Module Imports
  */
 const validator = require("validator");
+const { newToken } = require("../../utils/jwt");
 
 /**
  * Utils imports
@@ -20,79 +21,82 @@ const User = require("../../models/user.model");
  * @param {object} res response object 
  * @returns {undefined}
  */
-module.exports.register = catchAsync(async (req,res) => {
-  const { 
-    email, 
-    firstName, 
-    lastName, 
-    password, 
-    phoneNumber, 
-    image ,
-    role, 
-    dob
-  } = req.body;
+module.exports.registerUser = catchAsync(async (req, res) => {
 
-  if(!role){
-    role = "ROLE_USER"
-  }
-  if(!email || !firstName || !lastName || !password || !phoneNumber || !dob){
-    return res.status(400).send({ error: 'email, firstName, lastName, password and phoneNumber are required' });
-  }
-  const existingUser = await User.findOne({
-    $or : [
-      {email}, //Check if this matches
-      {phoneNumber} // OR this matches
-    ]
-  }); // Check for email and phoneNumber
-  if (existingUser) {
-    return res
-      .status(400)
-      .send({ error: 'That email address OR phoneNumebr is already in use.' });
-  }
-
-  if(!validator.isEmail(email)){
-    return res.status(400).send({error: 'Invalid email'});
-  }
-
-  if(!validator.isAlpha(firstName)){
-    return res.status(400).send({error: 'Invalid First Name'});
-  }
-
-  if(!validator.isAlpha(lastName)){
-    return res.status(400).send({error: 'Invalid Last Name'});
-  }
-
-  if(!validator.isMobilePhone(phoneNumber)){
-    return res.status(400).send({error: 'Invalid Phone Number'});
-  }
-
-  const user = new User({
+  // 1. Get user data 
+  const {
     email,
     firstName,
     lastName,
     password,
     phoneNumber,
-    role,
     dob
+  } = req.body.user;
+
+  let {
+    avatar,
+    role,
+  } = req.body.user;
+
+  // 2. If user is not an admin, set role to user
+  if (!role) {
+    role = "ROLE_USER"
+  }
+
+  if(role === 'ROLE_ADMIN'){
+    // ! VERIFICATION REQUIRED
+  }
+
+  // 3. If not profile pic was added then set default profile pic
+  if (!avatar) {
+    avatar = "https://i.imgur.com/FPnpMhC.jpeg"
+  }
+
+  // 4. Check if all required deatails are provided
+  if (!email || !firstName || !lastName || !password || !phoneNumber || !dob) {
+    return res.status(400).send({
+      error: 'email, firstName, lastName, password and phoneNumber are required'
+    });
+  }
+
+  // 5. Check if user exists with phone or email
+  const existingUser = await User.findOne({
+    $or: [{
+        email
+      }, //Check if this matches
+      {
+        phoneNumber
+      } // OR this matches
+    ]
+  });
+
+  if (existingUser) {
+    return res
+      .status(400)
+      .send({
+        error: 'That email address OR phoneNumebr is already in use.'
+      });
+  }
+
+  const user = new User({
+    firstName,
+    lastName,
+    email,
+    password,
+    phoneNumber,
+    dob,
+    avatar,
+    role
   });
 
   const registeredUser = await user.save();
 
-  const token =  newToken(registeredUser);
+  const token =  newToken(registeredUser._id);
 
-  res.status(200).send({
-    success: true,
-    token: `${token}`,
-    user: {
-      id: registeredUser.id,
-      firstName: registeredUser.firstName,
-      lastName: registeredUser.lastName,
-      email: registeredUser.email,
-      dob: registeredUser.dob,
-      role: registeredUser.role,
-      phoneNumber : registeredUser.phoneNumber
-    }
-  });
+  // Setting the token in cookies
+  res.cookie('token', token, { signed: true });
+
+  res.redirect('/users/profile');
 })
 
 
@@ -105,48 +109,67 @@ module.exports.register = catchAsync(async (req,res) => {
  * @param {object} res response object
  * @returns undefined
  */
-module.exports.signin = catchAsync(async (req, res) => {
-  if (!req.body.credId || !req.body.password)
-    return res.status(400).send({ message: "CredId and password required" });
+module.exports.login = catchAsync(async (req, res) => {
+  const {
+    credId,
+    password
+  } = req.body;
+  if (!credId || !password)
+    return res.status(400).send({
+      message: "credId and password are required"
+    });
 
-    let searchQuery = {};
-    if(validator.isEmail(req.body.credId)){
-      searchQuery = {
-        email : req.body.credId
-      }
-    }else if(validator.isMobilePhone(req.body.credId)){
-      searchQuery = {
-        phoneNumber : req.body.credId
-      }
-    }else {
-      return res.status(400).send({error: 'Entered CredId is neither a valid Email or Phone Number '});
+  let searchQuery = {};
+  if (validator.isEmail(credId)) {
+    searchQuery = {
+      email: credId
     }
-
-  const user = await User.findOne(searchQuery)
-      .exec();
-  if (!user) {
-      return res.status(200).send({status:"failed", message: "Email/Phone Number not registered"});
+  } else if (validator.isMobilePhone(credId)) {
+    searchQuery = {
+      phoneNumber: credId
+    }
+  } else {
+    return res.status(400).send({
+      error: 'Entered credId is neither a valid Email or Phone Number '
+    });
   }
-      const match = await user.checkPassword(req.body.password);
-      if (!match) {
-      return res.status(200).send({status:"failed",message: "Invalid Email or Password" });
-      }
-      const token = newToken(user);
-      return res.status(201).send({
-          status: "ok", 
-          token: token,
-          user : {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          role: user.role,
-          phoneNumber : user.phoneNumber
-          }
-      });
+
+  const user = await User.findOne(searchQuery).exec();
+
+  if (!user) {
+    return res.status(200).send({
+      status: "failed",
+      message: "Email/Phone Number not registered"
+    });
+  }
+  const match = await user.checkPassword(password);
+  if (!match) {
+    return res.status(200).send({
+      status: "failed",
+      message: "Invalid Email or Password"
+    });
+  }
+  const token = newToken(user._id);
+
+  // Setting the token to the cookies for identifying signed user
+  res.cookie('token', token, { signed: true });
+
+  return res.redirect('/users/profile');
 })
 
-  
+/**
+ * This logout function clears the jwt token from cookie and hence 
+ * logs him out.
+ * 
+ * @param {object} req contains email/phoneNumber Password
+ * @param {object} res response object
+ * @returns undefined
+ */
+module.exports.logout = (req, res)=>{
+  res.clearCookie('token')
+  return res.redirect('/');
+}
+
 
 /**
  * This login function checks if the user exists, if yes then
@@ -157,43 +180,45 @@ module.exports.signin = catchAsync(async (req, res) => {
  * @param {object} res response object
  * @returns undefined
  */
-module.exports.forgotPassword = catchAsync(async (req, res) => {  
-  const { credId } = req.body
+module.exports.forgotPassword = catchAsync(async (req, res) => {
+  const {
+    credId
+  } = req.body
   if (!credId)
-      return res.status(400).send({
-          message: "CredId is required"
-      });
+    return res.status(400).send({
+      message: "CredId is required"
+    });
 
   let searchQuery = {};
   let sendOtpTo = "";
 
   if (validator.isEmail(credId)) {
-      searchQuery = {
-          email: credId,
-      };
-      sendOtpTo = "email";
+    searchQuery = {
+      email: credId,
+    };
+    sendOtpTo = "email";
   } else if (validator.isMobilePhone(credId)) {
-      searchQuery = {
-          phoneNumber: credId,
-      };
-      sendOtpTo = "phone";
+    searchQuery = {
+      phoneNumber: credId,
+    };
+    sendOtpTo = "phone";
   } else {
-      return res
-          .status(400)
-          .send({
-              error: "Entered credId is neither a valid Email or Phone Number ",
-          });
+    return res
+      .status(400)
+      .send({
+        error: "Entered credId is neither a valid Email or Phone Number ",
+      });
   }
 
   // 1. Finding the user with the searchQuery
   const user = await User.findOne(searchQuery).exec();
   if (!user)
-      return res
-          .status(400)
-          .send({
-              status: "failed",
-              message: "Email/Phone Number not registered",
-          });
+    return res
+      .status(400)
+      .send({
+        status: "failed",
+        message: "Email/Phone Number not registered",
+      });
 
   // 2. Generating a 6 digit random number for otp
   const otp = Math.floor(100000 + Math.random() * 900000);
@@ -205,34 +230,34 @@ module.exports.forgotPassword = catchAsync(async (req, res) => {
   await user.save();
   // 5. Sending the otp to email or phone depending upon the sendOtpTo variable
   if (sendOtpTo === "email") {
-        const mailOptions = {
-            to: credId,
-            subject: 'OTP for Password Reset',
-            html: forgot_password_template(otp)
-        };
-        await sendMail(mailOptions);
+    const mailOptions = {
+      to: credId,
+      subject: 'OTP for Password Reset',
+      html: forgot_password_template(otp)
+    };
+    await sendMail(mailOptions);
   } else {
-      // Message to send
-      const msg = `Your OTP for password reset is ${otp}. Use this OTP to get resetted password to your registered email or phone.`;
+    // Message to send
+    const msg = `Your OTP for password reset is ${otp}. Use this OTP to get resetted password to your registered email or phone.`;
 
-      // Sending the message to the user
-      const {
-          status,
-          message
-      } = await sendOtpPhone(credId, msg);
-      if (status === "failed") return res.status(400).send({
-          status,
-          message
-      });
+    // Sending the message to the user
+    const {
+      status,
+      message
+    } = await sendOtpPhone(credId, msg);
+    if (status === "failed") return res.status(400).send({
+      status,
+      message
+    });
   }
 
   // 6. Sending the response
   res.status(201).send({
-      status: "ok",
-      message: `OTP sent to your ${sendOtpTo} with reset password link`,
+    status: "ok",
+    message: `OTP sent to your ${sendOtpTo} with reset password link`,
   });
 })
-  
+
 
 /**
  * This reset password function checks the email and otp 
@@ -243,44 +268,47 @@ module.exports.forgotPassword = catchAsync(async (req, res) => {
  * @param {object} res response object
  * @returns undefined
  */
-module.exports.resetPassword = catchAsync(async (req, res) => {  
-  const { credId, otp } = req.body;
+module.exports.resetPassword = catchAsync(async (req, res) => {
+  const {
+    credId,
+    otp
+  } = req.body;
   if (!credId || !otp)
-      return res.status(400).send({
-          message: "CredId and OTP are required"
-      });
+    return res.status(400).send({
+      message: "CredId and OTP are required"
+    });
 
   let searchQuery = {};
   let sendResetTo = "";
 
   if (validator.isEmail(credId)) {
-      searchQuery = {
-          email: credId,
-      };
-      sendResetTo = "email";
+    searchQuery = {
+      email: credId,
+    };
+    sendResetTo = "email";
   } else if (validator.isMobilePhone(credId)) {
-      searchQuery = {
-          phoneNumber: credId,
-      };
-      sendResetTo = "phone";
+    searchQuery = {
+      phoneNumber: credId,
+    };
+    sendResetTo = "phone";
   } else {
-      return res
-          .status(400)
-          .send({
-              error: "Entered CredId is neither a valid Email or Phone Number ",
-          });
+    return res
+      .status(400)
+      .send({
+        error: "Entered CredId is neither a valid Email or Phone Number ",
+      });
   }
 
   // 1. Finding the user with searchQuery
   const user = await User.findOne(searchQuery).exec();
   if (!user) return res.status(400).send({
-      error: "User does not exists"
+    error: "User does not exists"
   });
 
   // 2. Checking if the otp matches the one in the database
   const result = await user.checkOTP(otp);
   if (!result) return res.status(400).send({
-      error: "Invalid OTP"
+    error: "Invalid OTP"
   });
 
   // 4. Generating a random password of length 8
@@ -297,30 +325,30 @@ module.exports.resetPassword = catchAsync(async (req, res) => {
 
   // 7. Send the newly generated password to the user's email or phone
   if (sendResetTo === "email") {
-      const mailOptions = {
-          to: credId,
-          subject: 'Password Reset ',
-          html: reset_password_template(credId, password)
-      };
-      await sendMail(mailOptions);
+    const mailOptions = {
+      to: credId,
+      subject: 'Password Reset ',
+      html: reset_password_template(credId, password)
+    };
+    await sendMail(mailOptions);
   } else {
-      // Message to send 
-      const msg = `This is your new Credentials ${sendResetTo[0].toUpperCase() + sendResetTo.slice(1)} : ${credId} Password : ${password} .Use this password to log in to your account and change it to a new password`;
+    // Message to send 
+    const msg = `This is your new Credentials ${sendResetTo[0].toUpperCase() + sendResetTo.slice(1)} : ${credId} Password : ${password} .Use this password to log in to your account and change it to a new password`;
 
-      // Sending the message to the user
-      const {
-          status,
-          message
-      } = await sendOtpPhone(credId, msg);
-      if (status === "failed") res.status(400).send({
-          status,
-          message
-      });
+    // Sending the message to the user
+    const {
+      status,
+      message
+    } = await sendOtpPhone(credId, msg);
+    if (status === "failed") res.status(400).send({
+      status,
+      message
+    });
   }
-  
+
   // 8. Sending the response
   res.status(201).send({
-      status: "ok",
-      message: "Password reset successfully",
+    status: "ok",
+    message: "Password reset successfully",
   });
 });

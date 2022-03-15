@@ -8,8 +8,8 @@ const {
 /**
  * Middleware Imports
  */
-const validateAge = require("../../middlewares/validateAge");
-const validateUser = require("../../middlewares/validateUser");
+const protect = require("../../middlewares/protect");
+const role = require("../../middlewares/role")
 
 /**
  * Utils Import
@@ -26,11 +26,13 @@ const User = require("../../models/user.model");
  * Controller Imports
  */
 const {
-  getAllUsers
+  getAllUsers,
+  getProfile
 } = require("../../controllers/user/user.controller")
 const {
-  register,
-  signin,
+  registerUser,
+  login,
+  logout,
   forgotPassword,
   resetPassword
 } = require("../../controllers/user/auth.controller")
@@ -44,8 +46,8 @@ const UserRouter = Router();
  * Routes
  */
 UserRouter.route('/users')
-  .get(getAllUsers)
-  .post(register)
+  .get(protect, role.checkRole(role.ROLES.Admin), getAllUsers)
+  .post(registerUser)
 
 UserRouter.route('/users/register')
   .get((req, res) => {
@@ -56,24 +58,16 @@ UserRouter.route('/users/login')
   .get((req, res) => {
     res.render('users/login');
   })
-  .post(signin)
+  .post(login)
+
+UserRouter.route('/users/logout')
+  .get(logout)
 
 
-UserRouter.route('/users/:id')
-  .get(catchAsync(async (req, res) => {
-    const user = await User.findById(req.params.id);
-
-    if (!user) {
-      throw new AppError('Not Found', 404);
-    }
-
-    res.render('users/profile', {
-      user
-    });
-  }))
+UserRouter.route('/users/profile')
+   // req.headers.authorization = value;
+  .get(protect, getProfile)
   .put(
-    validateAge,
-    validateUser,
     catchAsync(async (req, res) => {
 
       // * Setting a default image if user did not

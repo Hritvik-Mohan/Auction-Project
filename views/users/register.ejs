@@ -20,10 +20,10 @@
         <input type="email" name="user[email]" id="email">
     </div>
     <div>
-        <label for="image">Image</label>
+        <label for="avatar">Profile Pic</label>
     </div>
     <div>
-        <input type="text" name="user[image]" id="image">
+        <input type="text" name="user[avatar]" id="avatar">
     </div>
     <div>
         <label for="dob">DOB</label>
@@ -39,6 +39,19 @@
     </div>
     <div>
         <label for="phoneNumber">Phone Number</label>
+    </div>
+    <div>
+        <input type="text" name="user[phoneNumber]" id="phoneNumber">
+    </div>
+    <div>
+        <label for="role">Select Role</label>
+    </div>
+    <div>
+        <select name="user[role]" id="role">
+            <option value="ROLE_USER">User</option>
+            <option value="ROLE_ADMIN">Admin</option>
+            <option value="ROLE_SELLER">Seller</option>
+        </select>
     </div>
     <div>
         <button type="submit">Submit</button>

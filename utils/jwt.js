@@ -6,9 +6,9 @@ const SECRETS = require("../configs/config");
  * @param {object} user 
  * @returns {string} JWT Token  
  */
-const newToken = (user) => {
+const newToken = (id) => {
     return jwt.sign({
-        id: user._id
+        id
     }, SECRETS.JWT_SECRET, {
         expiresIn: SECRETS.JWT_EXP,
     });
