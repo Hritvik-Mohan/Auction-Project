@@ -9,5 +9,5 @@ module.exports.getAllUsers = catchAsync(async (req, res) => {
 
 module.exports.getProfile = catchAsync(async (req, res)=>{
     const user = req.user;
-    res.render("users/profile", { user })
+    return res.render("users/profile", { user })
 })

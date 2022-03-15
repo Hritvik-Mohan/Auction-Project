@@ -32,6 +32,7 @@ const {
 const {
   registerUser,
   login,
+  logout,
   forgotPassword,
   resetPassword
 } = require("../../controllers/user/auth.controller")
@@ -58,6 +59,9 @@ UserRouter.route('/users/login')
     res.render('users/login');
   })
   .post(login)
+
+UserRouter.route('/users/logout')
+  .get(logout)
 
 
 UserRouter.route('/users/profile')

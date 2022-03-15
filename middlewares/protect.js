@@ -5,15 +5,15 @@ const User = require("../models/user.model");
 
 
 const protect = catchAsync( async (req, res, next)=>{
-    let token;
+    let jwtToken;
 
-    if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
+    if(req.signedCookies && req.signedCookies.token){
         try{
             // Get token from header
-            token = req.headers.authorization.split(' ')[1];
+            jwtToken = req.signedCookies.token;
 
             // Verify the token
-            const payload = await verifyToken(token, SECRETS.JWT_SECRET);
+            const payload = await verifyToken(jwtToken, SECRETS.JWT_SECRET);
 
             // Find the user based on its id and set it to req.user
             req.user = await User.findById(payload.id).select("-password");
@@ -31,11 +31,8 @@ const protect = catchAsync( async (req, res, next)=>{
             })
         }
     }
-    if(!token){
-        return res.status(400).send({
-            status: "failed",
-            message: "Not authorized"
-        })
+    if(!jwtToken){
+        return res.redirect('/users/login');
     }
 })
 

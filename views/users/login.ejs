@@ -1,17 +1,18 @@
 <% layout('layouts/boilerplate') %> 
 
+<h1>Login with email or phone</h1>
 <form action="/users/login" method="POST">
     <div>
-        <label for="email">Email</label>
+        <label for="credId">Login with Email or Phone</label>
     </div>
     <div>
-        <input type="email" name="user[email]" id="email">
+        <input type="text" name="credId" id="credId" placeholder="email or phone">
     </div>
     <div>
         <label for="password">Password</label>
     </div>
     <div>
-        <input type="password" name="user[password]" id="password">
+        <input type="password" name="password" id="password">
     </div>
     <div>
         <button type="submit">Login</button>

@@ -43,6 +43,10 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     role = "ROLE_USER"
   }
 
+  if(role === 'ROLE_ADMIN'){
+    // ! VERIFICATION REQUIRED
+  }
+
   // 3. If not profile pic was added then set default profile pic
   if (!avatar) {
     avatar = "https://i.imgur.com/FPnpMhC.jpeg"
@@ -92,20 +96,7 @@ module.exports.registerUser = catchAsync(async (req, res) => {
   // Setting the token in cookies
   res.cookie('token', token, { signed: true });
 
-  res.status(200).send({
-    success: true,
-    token,
-    user: {
-      id: registeredUser._id,
-      firstName: registeredUser.firstName,
-      lastName: registeredUser.lastName,
-      email: registeredUser.email,
-      phoneNumber: registeredUser.phoneNumber,
-      dob: registeredUser.dob,
-      avatar: registeredUser.avatar,
-      role: registeredUser.role
-    }
-  });
+  res.redirect('/users/profile');
 })
 
 
@@ -160,25 +151,24 @@ module.exports.login = catchAsync(async (req, res) => {
   }
   const token = newToken(user._id);
 
-  // Setting the toke to headers
-  req.headers.authorization = token;
+  // Setting the token to the cookies for identifying signed user
+  res.cookie('token', token, { signed: true });
 
-  return res.status(201).send({
-    status: "ok",
-    token,
-    user: {
-      id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-      phoneNumber: user.phoneNumber,
-      dob: user.dob,
-      avatar: user.avatar
-    }
-  });
+  return res.redirect('/users/profile');
 })
 
+/**
+ * This logout function clears the jwt token from cookie and hence 
+ * logs him out.
+ * 
+ * @param {object} req contains email/phoneNumber Password
+ * @param {object} res response object
+ * @returns undefined
+ */
+module.exports.logout = (req, res)=>{
+  res.clearCookie('token')
+  return res.redirect('/');
+}
 
 
 /**
