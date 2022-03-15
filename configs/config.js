@@ -6,6 +6,7 @@ const SECRETS = {
     JWT_EXP: process.env.JWT_EXP,
     PASS_CODE: process.env.PASS_CODE,
     MOGODB_LOCAL_CONNECTION: process.env.MOGODB_LOCAL_CONNECTION,
+    SIGN_COOKIE: process.env.SIGN_COOKIE
 };
 
 module.exports = SECRETS;
