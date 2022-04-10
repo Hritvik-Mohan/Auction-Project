@@ -18,6 +18,7 @@ const SECRETS = require("./configs/config")
  * Utils Imports
  */
 const connectDb = require("./utils/connectDb");
+const AppError = require("./utils/AppError");
 
 /**
  * Routes imports
