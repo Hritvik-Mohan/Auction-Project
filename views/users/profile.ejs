@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') %> 
 
-<h1>Dashboard</h1>
+<h1>Profile</h1>
 <hr>
 <img style="width: 12rem;" src="<%= user.avatar %> " alt="">
 <h2>Full Name</h2>
@@ -16,5 +16,5 @@
 <form action="/users/<%= user._id %>?_method=DELETE" method="POST">
     <button type="submit">Delete</button>
 </form>
-<a href="/users">Home</a>
+<a href="/">Home</a>
 <a href="/users/logout">Logout</a>
