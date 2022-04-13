@@ -1,39 +1,37 @@
-<% layout('layouts/boilerplate') %>
-
-<form action="/users/<%= user._id %>?_method=PUT" method="POST">
+<% layout('layouts/boilerplate') %> 
+<form action="/users/profile?_method=PUT" method="POST" enctype="multipart/form-data">
     <div>
         <label for="firstName">First Name</label>
     </div>
     <div>
-        <input type="text" name="user[firstName]" id="firstName" value="<%= user.firstName %> ">
+        <input type="text" name="firstName" id="firstName" value="<%= user.firstName %> ">
     </div>
     <div>
         <label for="lastName">Last Name</label>
     </div>
     <div>
-        <input type="text" name="user[lastName]" id="lastName" value="<%= user.lastName %> ">
+        <input type="text" name="lastName" id="lastName" value="<%= user.lastName %> ">
     </div>
     <div>
         <label for="email">Email</label>
     </div>
     <div>
-        <input type="email" name="user[email]" id="email" value="<%= user.email %> ">
+        <input type="email" name="email" id="email" value="<%= user.email %> ">
     </div>
     <div>
-        <label for="dob">DOB</label>
-        <input type="date" value="<%= user.dob %>" name="user[dob]" id="dob">
+        <label for="avatar">Update Profile Pic</label>
     </div>
     <div>
-        <label for="image">Image</label>
+        <img src="<%= user.avatar.thumbnail %> " alt="your profile pic">
     </div>
     <div>
-        <input type="text" name="user[image]" id="image" value="<%= user.image %> ">
+        <input id="avatar" type="file" name="avatar">
     </div>
     <div>
-        <label for="password">Password</label>
+        <label for="phoneNumber">Phone Number</label>
     </div>
     <div>
-        <input type="password" name="user[password]" id="password" value="<%= user.password %> ">
+        <input type="text" name="phoneNumber" id="phoneNumber" value="<%= user.phoneNumber %> ">
     </div>
     <div>
         <button type="submit">Submit</button>

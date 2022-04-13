@@ -81,12 +81,11 @@ module.exports.registerUser = catchAsync(async (req, res) => {
 
   const registeredUser = await user.save();
 
-  req.user = registeredUser;
-
   const token =  newToken(registeredUser._id);
 
   // Setting the token in cookies
   res.cookie('token', token, { signed: true });
+  req.flash("success", "Welcome to Auction App");
 
   return res.redirect('/products');
 })
@@ -128,7 +127,6 @@ module.exports.login = catchAsync(async (req, res) => {
   }
   const token = newToken(user._id);
 
-  req.user = user;
   // Setting the token to the cookies for identifying signed user
   res.cookie('token', token, { signed: true });
   req.flash("success", "Welcome to Auction App");

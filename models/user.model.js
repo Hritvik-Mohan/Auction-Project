@@ -16,6 +16,10 @@ const ImageSchema = new Schema({
 
 }, opts)
 
+ImageSchema.virtual('thumbnail').get(function(){
+  return this.path.replace('/upload', '/upload/w_200');
+});
+
 const userSchema = new Schema({
   firstName: {
     type: String,
