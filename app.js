@@ -1,6 +1,8 @@
 /**
  * Node Modules Imports
  */
+const { config } = require("dotenv");
+process.env.NODE_ENV !== "production" && config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
