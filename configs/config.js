@@ -5,7 +5,10 @@ const SECRETS = {
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_EXP: process.env.JWT_EXP,
     PASS_CODE: process.env.PASS_CODE,
-    SIGN_COOKIE: process.env.SIGN_COOKIE
+    SIGN_COOKIE: process.env.SIGN_COOKIE,
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_KEY: process.env.CLOUDINARY_KEY,
+    CLOUDINAY_SECRET: process.env.CLOUDINAY_SECRET
 };
 
 module.exports = SECRETS;

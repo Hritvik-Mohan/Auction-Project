@@ -4,6 +4,13 @@
 const {
   Router
 } = require("express");
+const multer = require('multer')
+const {
+  storage
+} = require("../../utils/cloudinaryUpload");
+const upload = multer({
+  storage
+})
 
 /**
  * Middleware Imports
@@ -47,7 +54,7 @@ const UserRouter = Router();
  */
 UserRouter.route('/users')
   .get(protect, role.checkRole(role.ROLES.Admin), getAllUsers)
-  .post(registerUser)
+  .post(upload.single('avatar'), registerUser)
 
 UserRouter.route('/users/register')
   .get((req, res) => {
@@ -65,7 +72,7 @@ UserRouter.route('/users/logout')
 
 
 UserRouter.route('/users/profile')
-   // req.headers.authorization = value;
+  // req.headers.authorization = value;
   .get(protect, getProfile)
   .put(
     catchAsync(async (req, res) => {

@@ -1,57 +1,50 @@
 <% layout('layouts/boilerplate') %> 
 
-<form action="/users" method="POST">
+<form action="/users" method="POST" enctype="multipart/form-data">
     <div>
         <label for="firstName">First Name</label>
     </div>
     <div>
-        <input type="text" name="user[firstName]" id="firstName">
+        <input type="text" name="firstName" id="firstName">
     </div>
     <div>
         <label for="lastName">Last Name</label>
     </div>
     <div>
-        <input type="text" name="user[lastName]" id="lastName">
+        <input type="text" name="lastName" id="lastName">
     </div>
     <div>
         <label for="email">Email</label>
     </div>
     <div>
-        <input type="email" name="user[email]" id="email">
+        <input type="email" name="email" id="email">
     </div>
     <div>
         <label for="avatar">Profile Pic</label>
     </div>
     <div>
-        <input type="text" name="user[avatar]" id="avatar">
+        <input id="avatar" type="file" name="avatar" required>
     </div>
     <div>
         <label for="dob">DOB</label>
     </div>
     <div>
-        <input type="date" name="user[dob]" id="dob">
+        <input type="date" name="dob" id="dob" required>
     </div>
     <div>
         <label for="password">Password</label>
     </div>
     <div>
-        <input type="password" name="user[password]" id="password">
+        <input type="password" name="password" id="password">
     </div>
     <div>
         <label for="phoneNumber">Phone Number</label>
     </div>
     <div>
-        <input type="text" name="user[phoneNumber]" id="phoneNumber">
+        <input type="text" name="phoneNumber" id="phoneNumber">
     </div>
     <div>
         <label for="role">Select Role</label>
-    </div>
-    <div>
-        <select name="user[role]" id="role">
-            <option value="ROLE_USER">User</option>
-            <option value="ROLE_ADMIN">Admin</option>
-            <option value="ROLE_SELLER">Seller</option>
-        </select>
     </div>
     <div>
         <button type="submit">Submit</button>

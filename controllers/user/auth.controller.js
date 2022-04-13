@@ -23,6 +23,8 @@ const User = require("../../models/user.model");
  */
 module.exports.registerUser = catchAsync(async (req, res) => {
 
+  console.log(req.body);
+  console.log(req.file);
   // 1. Get user data 
   const {
     email,
@@ -31,33 +33,19 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     password,
     phoneNumber,
     dob
-  } = req.body.user;
+  } = req.body;
 
-  let {
-    avatar,
-    role,
-  } = req.body.user;
+  const {
+    path,
+    filename
+  } = req.file
 
-  // 2. If user is not an admin, set role to user
-  if (!role) {
-    role = "ROLE_USER"
+  const avatar = {
+    path, filename
   }
 
-  if(role === 'ROLE_ADMIN'){
-    // ! VERIFICATION REQUIRED
-  }
-
-  // 3. If not profile pic was added then set default profile pic
-  if (!avatar) {
-    avatar = "https://i.imgur.com/FPnpMhC.jpeg"
-  }
-
-  // 4. Check if all required deatails are provided
-  if (!email || !firstName || !lastName || !password || !phoneNumber || !dob) {
-    return res.status(400).send({
-      error: 'email, firstName, lastName, password and phoneNumber are required'
-    });
-  }
+  // Default role
+  const role = 'ROLE_USER';
 
   // 5. Check if user exists with phone or email
   const existingUser = await User.findOne({
@@ -78,6 +66,8 @@ module.exports.registerUser = catchAsync(async (req, res) => {
       });
   }
 
+  
+
   const user = new User({
     firstName,
     lastName,
@@ -91,12 +81,14 @@ module.exports.registerUser = catchAsync(async (req, res) => {
 
   const registeredUser = await user.save();
 
+  req.user = registeredUser;
+
   const token =  newToken(registeredUser._id);
 
   // Setting the token in cookies
   res.cookie('token', token, { signed: true });
 
-  res.redirect('/users/profile');
+  return res.redirect('/products');
 })
 
 
@@ -111,35 +103,20 @@ module.exports.registerUser = catchAsync(async (req, res) => {
  */
 module.exports.login = catchAsync(async (req, res) => {
   const {
-    credId,
+    email,
     password
   } = req.body;
-  if (!credId || !password)
+  if (!email || !password)
     return res.status(400).send({
-      message: "credId and password are required"
+      message: "email and password are required"
     });
 
-  let searchQuery = {};
-  if (validator.isEmail(credId)) {
-    searchQuery = {
-      email: credId
-    }
-  } else if (validator.isMobilePhone(credId)) {
-    searchQuery = {
-      phoneNumber: credId
-    }
-  } else {
-    return res.status(400).send({
-      error: 'Entered credId is neither a valid Email or Phone Number '
-    });
-  }
-
-  const user = await User.findOne(searchQuery).exec();
+  const user = await User.findOne({email}).exec();
 
   if (!user) {
     return res.status(200).send({
       status: "failed",
-      message: "Email/Phone Number not registered"
+      message: "User not registered with this email"
     });
   }
   const match = await user.checkPassword(password);
@@ -151,10 +128,12 @@ module.exports.login = catchAsync(async (req, res) => {
   }
   const token = newToken(user._id);
 
+  req.user = user;
   // Setting the token to the cookies for identifying signed user
   res.cookie('token', token, { signed: true });
+  req.flash("success", "Welcome to Auction App");
 
-  return res.redirect('/users/profile');
+  return res.redirect('/products');
 })
 
 /**
@@ -167,7 +146,8 @@ module.exports.login = catchAsync(async (req, res) => {
  */
 module.exports.logout = (req, res)=>{
   res.clearCookie('token')
-  return res.redirect('/');
+  req.flash("success", "Logged you out. See you again !");
+  return res.redirect('/products');
 }
 
 
