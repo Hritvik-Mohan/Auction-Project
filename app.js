@@ -1,6 +1,8 @@
 /**
  * Node Modules Imports
  */
+const { config } = require("dotenv");
+process.env.NODE_ENV !== "production" && config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
@@ -8,6 +10,8 @@ const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const coookieParser = require("cookie-parser");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 /**
  * Cofigs Import
@@ -46,6 +50,24 @@ app.use(cors());
 app.use(methodOverride('_method'));
 app.use(coookieParser(SECRETS.SIGN_COOKIE));
 app.use(morgan("dev"));
+app.use(session({
+  secret: SECRETS.SIGN_COOKIE,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}));
+app.use(flash());
+/**
+ * Setting global variables
+ */
+ app.use((req, res, next)=>{
+  res.locals.currentUser = req.signedCookies.token;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
+})
 
 /**
  * Routes middleware

@@ -7,8 +7,7 @@ const userSchema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().required(),
         dob: Joi.date().required(),
-        image: Joi.string().empty('').default('https://i.imgur.com/FPnpMhC.jpeg'),
-    })
+    }).required()
 })
 
 module.exports = userSchema;

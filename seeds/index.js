@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
-const User = require('../models/User');
-const Product = require('../models/Product')
-
-const { users } = require('./users');
-const { products } = require('./products');
-const { find } = require('../models/Product');
+const User = require('../models/user.model');
+const Product = require('../models/product.model')
 
 mongoose.connect('mongodb://localhost:27017/auctionDB', {
   useNewUrlParser: true,
@@ -32,14 +28,6 @@ const findAndAddUser = async (user_id, prod_id) => {
 
   await product.save()
 }
-console.log("Hi")      
-product.save()
-.then(data=>{
-  console.log(data)
-})
-.error(err=>console.log(err))
-
-console.log('Exit')
 
 // findAndAddUser(userId[2], productId[2]);
 
@@ -48,9 +36,16 @@ const findAll = async () => {
   console.log(products)
 }
 
-findAll()
+// findAll()
 
 // for (let i=0; i<3; i++){
 //   findAndAddUser(userId[i], productId[i]);
 //   console.log(`Progress ${i}/3`);
 // }
+ 
+const deleteAllUsers = async () => {
+  await User.deleteMany({})
+  console.log('All users deleted')
+}
+
+deleteAllUsers()

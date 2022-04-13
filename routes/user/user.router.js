@@ -4,6 +4,13 @@
 const {
   Router
 } = require("express");
+const multer = require('multer')
+const {
+  storage
+} = require("../../utils/cloudinaryUpload");
+const upload = multer({
+  storage
+})
 
 /**
  * Middleware Imports
@@ -16,7 +23,7 @@ const role = require("../../middlewares/role")
  */
 const catchAsync = require("../../utils/catchAsync");
 const AppError = require("../../utils/AppError");
-
+const { cloudinary } = require("../../utils/cloudinaryUpload");
 /**
  * Model Imports
  */
@@ -47,7 +54,7 @@ const UserRouter = Router();
  */
 UserRouter.route('/users')
   .get(protect, role.checkRole(role.ROLES.Admin), getAllUsers)
-  .post(registerUser)
+  .post(upload.single('avatar'), registerUser)
 
 UserRouter.route('/users/register')
   .get((req, res) => {
@@ -65,26 +72,41 @@ UserRouter.route('/users/logout')
 
 
 UserRouter.route('/users/profile')
-   // req.headers.authorization = value;
+  // req.headers.authorization = value;
   .get(protect, getProfile)
   .put(
+    protect,
+    upload.single('avatar'),
     catchAsync(async (req, res) => {
 
-      // * Setting a default image if user did not
-      // * set his own image
-      req.body.user.image = req.body.user.image.length === 0 ?
-        'https://i.imgur.com/FPnpMhC.jpeg' :
-        req.body.user.image;
+      // 1. Getting the current user.
+      const user = req.user;
 
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        req.body.user, {
-          new: true,
-          runValidators: true
+      // 2. Based on input from the edit from setting the fields to update.
+      let query = { $set: {} };
+      for (let key in req.body){
+        if(user[key] && user[key] !== req.body[key]){
+          query.$set[key] = req.body[key];
         }
-      );
-      console.log(updatedUser);
-      res.redirect(`/users/${updatedUser._id}`);
+      }
+
+      // 3. If user has update profile pic then...
+      if(req.file){
+        // 3.1. Delete the previous avatar from cloudinary before adding a new one
+        // await cloudinary.uploader.destroy(req.file.filename)
+        const prevAvatarFilename = req.user.avatar.filename;
+        await cloudinary.uploader.destroy(prevAvatarFilename);
+        // 3.2. Add the new avatar cloudinary path to the user object
+        query.$set.avatar = {
+          path: req.file.path,
+          filename: req.file.filename
+        }
+      }
+
+      // 4. Finally updating the user.
+      await User.findByIdAndUpdate(user._id, query);
+
+      res.redirect(`/users/profile`);
     }))
   .delete(catchAsync(async (req, res) => {
     await User.findByIdAndDelete(req.params.id);
