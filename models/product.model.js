@@ -4,44 +4,44 @@ const Schema = mongoose.Schema;
 const productSchema = new Schema({
   title: {
     type: String,
-    // required: true,
+    required: true,
     trim: true
   },
   description: {
     type: String,
-    // required: true,
+    required: true,
     trim: true
   },
-  base_price: {
+  basePrice: {
     type: Number,
     trim: true
   },
   images: [{
     type: String,
     trim: true,
-    // required: true
   }],
-  start_time: {
+  startTime: {
     type: String,
-    // required: true,
+    required: true,
   },
   duration: {
     type: Number,
     enum: [3, 5, 7, 10], // numbers in days
-    // required: true
+    required: true
   },
   category: {
       type: String,
-      // required: true,
+      required: true,
       enum:['art', 'antiques', 'vehicle', 'books', 'collectible', 'other'],
       trim: true
   },
   user: {
       type: Schema.Types.ObjectId,
-      ref: 'user'
+      ref: 'User',
+      required: true
   }
 })
 
-const Product = mongoose.model('product', productSchema)
+const Product = mongoose.model('Product', productSchema)
 
 module.exports = Product;
