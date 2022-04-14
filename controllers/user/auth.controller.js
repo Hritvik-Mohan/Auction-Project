@@ -22,9 +22,7 @@ const User = require("../../models/user.model");
  * @returns {undefined}
  */
 module.exports.registerUser = catchAsync(async (req, res) => {
-
-  console.log(req.body);
-  console.log(req.file);
+  
   // 1. Get user data 
   const {
     email,
@@ -113,10 +111,8 @@ module.exports.login = catchAsync(async (req, res) => {
   const user = await User.findOne({email}).exec();
 
   if (!user) {
-    return res.status(200).send({
-      status: "failed",
-      message: "User not registered with this email"
-    });
+    req.flash("error", "Invalid email or password");
+    return res.redirect('/users/login')
   }
   const match = await user.checkPassword(password);
   if (!match) {

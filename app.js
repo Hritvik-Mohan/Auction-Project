@@ -23,6 +23,7 @@ const SECRETS = require("./configs/config")
  */
 const connectDb = require("./utils/connectDb");
 const AppError = require("./utils/AppError");
+const getCurrentUser = require("./utils/getCurrentUser");
 
 /**
  * Routes imports
@@ -62,12 +63,12 @@ app.use(flash());
 /**
  * Setting global variables
  */
- app.use((req, res, next)=>{
-  res.locals.currentUser = req.signedCookies.token;
+ app.use(async (req, res, next)=>{
+  res.locals.currentUser = await getCurrentUser(req);
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
-})
+});
 
 /**
  * Routes middleware

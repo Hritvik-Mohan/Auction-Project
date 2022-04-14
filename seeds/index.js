@@ -48,4 +48,10 @@ const deleteAllUsers = async () => {
   console.log('All users deleted')
 }
 
+const deleteAllProducts = async () => {
+  await Product.deleteMany({})
+  console.log('All products deleted')
+}
+
 deleteAllUsers()
+deleteAllProducts()

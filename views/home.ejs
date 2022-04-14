@@ -1,7 +1,12 @@
 <h1>Home</h1>
 <nav>
     <ul>
-        <li><a href="/users/register">Register</a></li>
-        <li><a href="/users/login">Login</a></li>
+        <% if(!currentUser){ %> 
+            <li><a href="/users/register">Register</a></li>
+            <li><a href="/users/login">Login</a></li>
+        <% } else { %>
+            <li><a href="/users/logout">Logout</a></li>
+            <li><a href="/products/new">Sell</a></li>
+        <% } %>  
     </ul>
 </nav>

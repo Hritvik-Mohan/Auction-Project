@@ -1,6 +1,24 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const opts = { toJSON: { virtuals: true } }
+
+const imageSchema = new Schema({
+    path: {
+        type: String,
+        trim: true
+    },
+    filename: {
+        type: String,
+        trim: true
+    }
+
+}, opts)
+
+imageSchema.virtual('thumbnail').get(function(){
+  return this.path.replace('/upload', '/upload/w_200');
+});
+
 const productSchema = new Schema({
   title: {
     type: String,
@@ -14,12 +32,10 @@ const productSchema = new Schema({
   },
   basePrice: {
     type: Number,
-    trim: true
-  },
-  images: [{
-    type: String,
     trim: true,
-  }],
+    required: true
+  },
+  images: [imageSchema],
   startTime: {
     type: String,
     required: true,
