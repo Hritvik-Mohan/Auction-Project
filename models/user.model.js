@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const opts = { toJSON: { virtuals: true } }
 
-const ImageSchema = new Schema({
+const imageSchema = new Schema({
     path: {
         type: String,
         trim: true
@@ -16,7 +16,7 @@ const ImageSchema = new Schema({
 
 }, opts)
 
-ImageSchema.virtual('thumbnail').get(function(){
+imageSchema.virtual('thumbnail').get(function(){
   return this.path.replace('/upload', '/upload/w_200');
 });
 
@@ -52,7 +52,7 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Please add the date of birth."]
   },
-  avatar: ImageSchema,
+  avatar: imageSchema,
   role: {
     type: String,
     default: 'ROLE_MEMBER',

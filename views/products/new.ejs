@@ -1,29 +1,29 @@
 <% layout('layouts/boilerplate') %> 
 
-<form action="/products" method="POST">
+<form action="/products/new" method="POST" enctype="multipart/form-data">
     <div>
         <label for="title">Title</label>
     </div>
     <div>
-        <input type="text" name="product[title]" id="title">
+        <input type="text" name="title" id="title" required>
     </div>
     <div>
         <label for="description">Description</label>
     </div>
     <div>
-        <input type="text" name="product[description]" id="description">
+        <input type="text" name="description" id="description" required>
     </div>
     <div>
         <label for="base_price">Base Price</label>
     </div>
     <div>
-        <input type="number" name="product[base_price]" step="any" id="base_price">
+        <input type="number" name="basePrice" step="any" id="base_price" required>
     </div>
     <div>
         <label for="category">Select Category</label>
     </div>
     <div>
-        <select name="product[category]" id="category">
+        <select name="category" id="category" required>
             <option value="art">Art</option>
             <option value="antiques">Antiques</option>
             <option value="vehicle">Vehicle</option>
@@ -36,7 +36,24 @@
         <label for="images">Add Image</label>
     </div>
     <div>
-        <input type="text" name="product[images]" id="">
+        <input type="file" name="images" id="images" multiple required>
+    </div>
+    <div>
+        <label for="startTime">Start Time</label>
+    </div>
+    <div>
+        <input type="date" name="startTime" id="startTime" required>
+    </div>
+    <div>
+        <label for="duration">Duration</label>
+    </div>
+    <div>
+        <select name="duration" id="duration" required>
+            <option value="3">3 days</option>
+            <option value="5">5 days</option>
+            <option value="7">7 days</option>
+            <option value="10">10 days</option>
+        </select>
     </div>
     <div>
         <button type="submit">Put this up for bidding</button>

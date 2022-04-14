@@ -10,7 +10,16 @@
 <h2>DOB</h2>
 <h3><%= user.dob %></h3> 
 
-<a href="/users/<%= user._id %>/edit">Edit</a>
+<% if(user.products.length){ %>
+    <h2>Listed items</h2>
+    <ul>
+        <% for (product of user.products){ %> 
+            <li><a href="/products/<%= product._id %>"><%= product.title %></a></li>
+        <% } %> 
+    </ul>
+<% } %>  
+
+<a href="/users/edit">Edit</a>
 
 <a href="/">Home</a>
 <a href="/users/logout">Logout</a>
