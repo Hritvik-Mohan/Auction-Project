@@ -1,49 +1,52 @@
-<% layout('layouts/boilerplate') %> 
+<% layout('layouts/boilerplate') %>
 
-<form action="/users" method="POST" enctype="multipart/form-data">
-    <div>
-        <label for="firstName">First Name</label>
-    </div>
-    <div>
-        <input type="text" name="firstName" id="firstName" required>
-    </div>
-    <div>
-        <label for="lastName">Last Name</label>
-    </div>
-    <div>
-        <input type="text" name="lastName" id="lastName" required>
-    </div>
-    <div>
-        <label for="email">Email</label>
-    </div>
-    <div>
-        <input type="email" name="email" id="email" required>
-    </div>
-    <div>
-        <label for="avatar">Profile Pic</label>
-    </div>
-    <div>
-        <input id="avatar" type="file" name="avatar" required>
-    </div>
-    <div>
-        <label for="dob">DOB</label>
-    </div>
-    <div>
-        <input type="date" name="dob" id="dob" required>
-    </div>
-    <div>
-        <label for="password">Password</label>
-    </div>
-    <div>
-        <input type="password" name="password" id="password" required>
-    </div>
-    <div>
-        <label for="phoneNumber">Phone Number</label>
-    </div>
-    <div>
-        <input type="text" name="phoneNumber" id="phoneNumber" required>
-    </div>
-    <div>
-        <button type="submit">Submit</button>
-    </div>
+<link rel="stylesheet" href="/css/register.css" />
+
+<div class="global-container">
+    <div class="card login-form">
+        <div class="card-body">
+            <h1 class="text-center display-2">Register</h1>
+            <!-- <div class="card-text"> -->
+
+                <form action="/users" method="POST" enctype="multipart/form-data">
+                    
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" name="firstName" class="form-control" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="mt-3">Last Name</label>
+                        <input type="text" name="lastName" class="form-control" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="mt-3">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="avatar" class="mt-3">Profile Pic</label>
+                    </div>
+                    <div class="form-group">
+                        <input id="avatar" type="file" class="form-control" name="avatar" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob" class="mt-3">DOB</label>
+                        <input type="date" name="dob" class="form-control" id="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="mt-3">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber" class="mt-3">Phone Number</label>
+                        <input type="text" name="phoneNumber" class="form-control" id="phoneNumber" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-block mt-4 btn-lg">Submit</button>
+                    </div>
 </form>
+
+
+            <!-- </div> -->
+        </div>
+    </div>
+</div>

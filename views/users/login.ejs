@@ -1,33 +1,33 @@
-<% layout('layouts/boilerplate') %> 
-<link rel="stylesheet" href="/css/login.css">
+<% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/css/login.css" />
 
 <div class="global-container">
     <div class="card login-form">
         <div class="card-body">
-            <h1 class="card-title text-center">Login</h1>
-            <div class="card-text">
+            <h1 class="text-center display-1">Login</h1>
+                
                 <form action="/users/login" method="POST">
                     <div class="form-group">
                         <label for="">Email</label>
-                        <input name="email" type="email" class="form-control form-control-sm" id="email">
+                        <input name="email" type="email" class="form-control form-control-lg" id="email" />
                     </div>
                     <div class="form-group">
                         <label for="">Password</label>
-                        <a href="#" style="float: right; font-size: 12px;">Forgot Password</a>
-                        <input name="password" type="password" class="form-control form-control-sm" id="password">
+                        <a href="#" style="float: right; font-size: 12px">Forgot Password</a>
+                        <input name="password" type="password" class="form-control form-control-lg" id="password" />
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        Sign In
-                    </button>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg button-center">
+                            Sign In
+                        </button>
+                    </div>
 
-                    <div class="signup">Don't have an account</div> <a href="#">Create new a ccount</a>
+                    <div class="signup mt-4">Don't have an account</div>
+                    <a href="#">Create new account</a>
                 </form>
-            </div>
         </div>
     </div>
 </div>
-
-
 
 <!-- <h1>Login with email or phone</h1>
 <form action="/users/login" method="POST">
