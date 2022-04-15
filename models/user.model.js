@@ -14,6 +14,8 @@ const imageSchema = new Schema({
         trim: true
     }
 
+},{
+  timestamps: true
 }, opts)
 
 imageSchema.virtual('thumbnail').get(function(){
@@ -62,6 +64,18 @@ const userSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref : "Product"
+    }
+  ],
+  bids: [
+    {
+      type: Schema.Types.ObjectId,
+      ref : "Bid"
+    }
+  ],
+  bidsWon: [
+    {
+      type: Schema.Types.ObjectId,
+      ref : "Bid"
     }
   ]
 },

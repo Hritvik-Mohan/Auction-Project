@@ -17,6 +17,7 @@ const upload = multer({
  */
 const protect = require("../../middlewares/protect");
 const role = require("../../middlewares/role")
+const isSeller = require("../../middlewares/isSeller");
 
 /**
  * Model Imports
@@ -31,7 +32,8 @@ const {
   getProfile,
   getProfileById,
   renderEditProfile,
-  updateProfile
+  updateProfile,
+  submitBid
 } = require("../../controllers/user/user.controller")
 const {
   registerUser,
@@ -78,5 +80,9 @@ UserRouter.route('/users/edit')
 UserRouter.route('/users/:id')
   .get(protect, getProfileById)
 
+
+  // /users/<%= product._id %>/bid
+UserRouter.route('/users/:productId/bid')
+  .post(protect, isSeller, submitBid);
 
 module.exports = UserRouter;

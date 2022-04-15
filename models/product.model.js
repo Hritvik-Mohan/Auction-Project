@@ -35,6 +35,15 @@ const productSchema = new Schema({
     trim: true,
     required: true
   },
+  currentHighestBid: {
+    amount: {
+      type: Number
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  },
   images: [imageSchema],
   startTime: {
     type: String,
@@ -55,7 +64,13 @@ const productSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true
-  }
+  },
+  bids: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Bid'
+    }
+  ]
 })
 
 const Product = mongoose.model('Product', productSchema)

@@ -24,6 +24,10 @@ module.exports.getAllProduct = catchAsync(async (req, res) => {
  */
 module.exports.getOneProduct = catchAsync(async (req, res) => {
     const product = await Product.findById(req.params.id).populate('user');
+    if(!product) {
+        req.flash('error', 'Product not found');
+        return res.redirect('/products');
+    }
     res.render('products/product', {
         product
     });

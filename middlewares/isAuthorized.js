@@ -4,12 +4,13 @@ const isAuthorized = (req, res, next) => {
     const user = req.user;
 
     // 2. Get product data.
-    const { id: productId } = req.params;
+    const {
+        id: productId
+    } = req.params;
 
     // 3. Check if the user is the owner of the product.
-    if(user.products.includes(productId)) {
-        console.log(user.products.includes(productId));
-       return next();
+    if (user.products.includes(productId)) {
+        return next();
     }
 
     // 4. If not, flash the message, 'You are not authorized'.
