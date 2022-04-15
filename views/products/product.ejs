@@ -14,6 +14,17 @@
 <p><%= product.category %> </p>
 <h3>Base Price</h3>
 <p> $ <%= product.basePrice %> </p>
+<% if(currentUser && !product.user._id.equals(currentUser)){ %> 
+<form action="/users/<%= product._id %>/bid" method="post">
+    <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid">
+    <button type="submit">Submit Bid</button>
+</form>
+<% } %>
+<% if(product.currentHighestBid.amount){ %> 
+    <h3>Current Highest Bid</h3>
+    <p>$ <%= product.currentHighestBid.amount %></p>
+<% } %> 
+
 <h3>Start Time</h3>
 <p><%= product.startTime %> </p>
 <h3>Duration</h3>
