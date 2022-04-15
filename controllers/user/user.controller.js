@@ -104,11 +104,7 @@ module.exports.updateProfile = catchAsync(async (req, res) => {
         }
     }
 
-    // 4. Finally updating the user.
-    console.log(query);
-    console.log(query.$set.email);
-    console.log(query.$set.phoneNumber);
-    
+    // 5. Finally updating the user.
     await User.findByIdAndUpdate(user._id, query);
 
     res.redirect(`/users/profile`);
