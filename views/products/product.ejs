@@ -41,4 +41,9 @@
     <form action="/products/<%= product._id %>_method=DELETE" method="post">
         <button type="submit">Delete Product</button>
     </form>
-<% } %> 
+<% } %>
+<script>
+    const startTime = '<%- product.startTime %>';
+    const duration = '<%- product.duration %>';
+</script> 
+<script src="/js/timer.js"></script>
