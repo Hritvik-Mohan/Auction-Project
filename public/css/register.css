@@ -6,9 +6,8 @@ body{
     background-color: #f4f4f4;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;    
+    background-size: cover;
 }
-
 
 .global-container{
     /* height: 100%; */
@@ -26,20 +25,10 @@ form {
 }
 
 .login-form {
-    width: 470px;
-    height: 500px;
-    margin: 100px;
+    width: 50%;
+    height: 800px;
+    margin-top: 70px;
     /* background: #1a2226 !important; */
     border-radius: 10px !important;
 }
-
-
-input[type="email"],
-input[type="password"] {
-    /* background: #1a2226; */
-    /* border: 2px solid; */
-    border-radius: 3px;
-    margin-bottom: 25px;
-}
-
 
