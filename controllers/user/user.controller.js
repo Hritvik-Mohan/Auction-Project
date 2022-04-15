@@ -51,9 +51,7 @@ module.exports.getProfileById = catchAsync(async (req, res) => {
  * Renders edit profile page for current user
  */
 module.exports.renderEditProfile = (req, res)=>{
-    console.log('in edit profile');
     const user = req.user;
-    console.log(user);
     res.render('users/edit', { user });
 };
 
