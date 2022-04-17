@@ -14,15 +14,17 @@
 <p><%= product.category %> </p>
 <h3>Base Price</h3>
 <p> $ <%= product.basePrice %> </p>
-<% if(currentUser && !product.user._id.equals(currentUser)){ %> 
-<form action="/users/<%= product._id %>/bid" method="post">
-    <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid">
-    <button type="submit">Submit Bid</button>
-</form>
-<form action="/users/<%= product._id %>/bid" method="post">
-    <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100  %>" hidden>
-    <button type="submit">Quick Bid <%= product.currentHighestBid.amount + 100  %></button>
-</form>
+<% if(currentUser && !product.user._id.equals(currentUser)){ %>
+<div id="submit-bid">
+    <form action="/users/<%= product._id %>/bid" method="post">
+        <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid">
+        <button type="submit">Submit Bid</button>
+    </form>
+    <form action="/users/<%= product._id %>/bid" method="post">
+        <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100  %>" hidden>
+        <button type="submit">Quick Bid <%= product.currentHighestBid.amount + 100  %></button>
+    </form>
+</div> 
 <% } %>
 <% if(product.currentHighestBid.amount){ %> 
     <h3>Current Highest Bid</h3>
@@ -30,15 +32,24 @@
 <% } %> 
 
 <h3>Start Time</h3>
-<p><%= product.startTime %> </p>
+<p class="startTime"><%= product.startTime %> </p>
 <h3>Duration</h3>
 <p><%= product.duration %> Days</p>
 <h3>Listed by</h3>
 <a href="/users/<%= product.user._id %>"><%= product.user.firstName %></a>
+<hr>
+<h1>Time Remaining</h1>
+<p id="timer"></p>
+
 <br>
 <% if(currentUser && product.user._id.equals(currentUser)){ %>
     <a href="/products/<%= product._id %>/edit">Edit Product</a>
     <form action="/products/<%= product._id %>_method=DELETE" method="post">
         <button type="submit">Delete Product</button>
     </form>
-<% } %> 
+<% } %>
+<script>
+    let startTime = '<%- product.startTime %>';
+    const duration = '<%- product.duration %>';
+</script> 
+<script src="/js/product/productPage.js"></script>
