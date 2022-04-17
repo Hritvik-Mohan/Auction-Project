@@ -1,8 +1,14 @@
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
         <div class="container">
-            <a href="/" class="navbar-brand">Auction App</a>
-
+            <a href="/" class="navbar-brand">AuctionApp</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/products/new">Sell</a>
+                  </li>
+                  </ul>
+                  </div>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -10,13 +16,16 @@
             <div class="collapse navbar-collapse" id="navmenu">
                 <ul class="navbar-nav ms-auto">
                     <% if(!currentUser){ %>
-                        <li class="nav-item">
-                            <a href="/users/register" class="nav-link">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/users/login" class="nav-link">Login</a>
-                        </li>
+                    <li class="nav-item">
+                        <a href="/users/register" class="nav-link">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/users/login" class="nav-link">Login</a>
+                    </li>
                     <% } else{ %>
+                    <li class="nav-item">
+                        <a href="/users/profile" class="nav-link lg"><i class="bi bi-person-circle"></i></a>
+                    </li>
                     <li class="nav-item">
                         <a href="/users/logout" class="nav-link">Logout</a>
                     </li>

@@ -22,6 +22,10 @@ imageSchema.virtual('thumbnail').get(function(){
   return this.path.replace('/upload', '/upload/w_200');
 });
 
+imageSchema.virtual('rounded').get(function(){
+  return this.path.replace('/upload', '/upload/w_150,h_150,c_fill,g_face,r_max');
+}, opts);
+
 const userSchema = new Schema({
   firstName: {
     type: String,

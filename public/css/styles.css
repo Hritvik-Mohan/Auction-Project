@@ -1,6 +1,6 @@
+* { box-sizing: border-box;}
 
-body::before {
-    display: block;
-    content: '';
-    height: 60px;
-  }
+body {
+    margin: 0;
+    /* font-family: sans-serif; */
+}
