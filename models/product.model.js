@@ -46,8 +46,8 @@ const productSchema = new Schema({
   },
   images: [imageSchema],
   startTime: {
-    type: String,
-    required: true,
+    type: Date,
+    required: true
   },
   duration: {
     type: Number,
