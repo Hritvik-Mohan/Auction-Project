@@ -71,6 +71,28 @@ const productSchema = new Schema({
       ref: 'Bid'
     }
   ]
+}, {
+  timestamps: true
+}, opts);
+
+// Virtal function to compute the end time of the auction in ISOString.
+productSchema.virtual('endTime').get(function(){
+  const startTimeInSeconds = new Date(this.startTime).getTime() / 1000;
+  const endTimeInSeconds = startTimeInSeconds + this.duration * 24 * 60 * 60;
+  const endTime = new Date(endTimeInSeconds * 1000);
+  return endTime.toISOString();
+});
+
+// Remove the product id from user's products after deleting the product.
+productSchema.post('findOneAndDelete', function(doc, next){
+  const user = doc.user;
+  const productId = doc._id;
+  user.products = user.products.filter(product => product.toString() !== productId.toString());
+  user.save(function(err, user){
+    if(err){
+      next(err);
+    }
+  })
 })
 
 const Product = mongoose.model('Product', productSchema)

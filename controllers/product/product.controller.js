@@ -119,4 +119,4 @@ module.exports.updateProduct = catchAsync(async (req, res)=>{
 module.exports.deleteProduct = catchAsync(async (req, res)=>{
     // !Later
     res.send({ "msg": "working on it" })
-})
+});

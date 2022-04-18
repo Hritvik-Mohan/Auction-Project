@@ -21,6 +21,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
+    "moment": "^2.29.3",
     "mongoose": "^6.2.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",

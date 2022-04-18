@@ -25,7 +25,7 @@ const isAuthorized = require("../../middlewares/isAuthorized");
 /**
  * Model imports.
  */
-const Product = require("../../models/product.model");
+
 
 /**
  * Controller imports.
@@ -62,7 +62,7 @@ ProductRouter.route('/products/new')
 ProductRouter.route('/products/:id')
     .get(getOneProduct)
     .put(protect, isAuthorized, upload.array('images'), updateProduct)
-    .delete(deleteProduct);
+    .delete(protect, isAuthorized, deleteProduct);
 
 /**
  * Get one and edit product page route.

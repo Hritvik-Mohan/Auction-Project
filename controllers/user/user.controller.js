@@ -129,9 +129,6 @@ module.exports.submitBid = catchAsync(async (req, res) => {
 
     // 4 . If the amount was not provided then throw an error.
     if(!amount) throw new AppError('Please enter a bid amount', 400);
-
-    console.log(productId);
-    console.log(amount);
     
     // 5. Find the product.
     const product = await Product.findById(productId);

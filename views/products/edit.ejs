@@ -34,12 +34,12 @@
         </select>
     </div>
     <div>
-        <label for="images">Add Images</label>
+        <label for="images">Add Image</label>
     </div>
     <div>
         <input type="file" name="images" id="images" multiple>
     </div>
-   
+
     <% if(product.images?.length){ %> 
         <div>
             <p>Delete images</p>
@@ -57,7 +57,7 @@
         <label for="startTime">Start Time</label>
     </div>
     <div>
-        <input type="date" name="startTime" id="startTime" value="<%= product.startTime %>" required>
+        <input type="datetime-local" name="startTime" id="startTime" value="<%= product.startTime %>" required>
     </div>
     <div>
         <label for="duration">Duration</label>
@@ -75,3 +75,6 @@
         <button type="submit">Make it so!</button>
     </div>
 </form>
+
+<script src="/js/moment-with-locales.min.js"></script>
+<script src="/js/product/editProduct.js"></script>
