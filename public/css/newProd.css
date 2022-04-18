@@ -6,24 +6,26 @@ body{
     background-color: #f4f4f4;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;    
+    background-size: cover;
 }
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     width: 30rem;
     margin: auto;
+    /* text-align: center; */
     border-radius: 10px
   }
 
 .global-container{
-    margin-top: 50px;
     /* height: 100%; */
+    margin-top: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     /* color: #0db8de; */
     opacity: 90%;
+    margin-bottom: 7rem;
 }
 
 form {
@@ -31,22 +33,4 @@ form {
     font-size: 17px;
     margin-top: 30px;
 }
-
-/* .login-form {
-    width: 470px;
-    height: 500px;
-    margin: 100px; */
-    /* background: #1a2226 !important; */
-    /* border-radius: 10px !important;
-} */
-
-
-input[type="email"],
-input[type="password"] {
-    /* background: #1a2226; */
-    /* border: 2px solid; */
-    border-radius: 3px;
-    margin-bottom: 25px;
-}
-
 

@@ -1,61 +1,64 @@
-<% layout('layouts/boilerplate') %> 
+<% layout('layouts/boilerplate') %>
 
-<form action="/products/new" method="POST" enctype="multipart/form-data">
-    <div>
-        <label for="title">Title</label>
+<link rel="stylesheet" href="/css/newProd.css" />
+
+<div class="global-container">
+    <div class="card login-form">
+        <div class="card-body">
+            <h1 class="text-center display-5">List a new product<br>for auction:</h1>
+            <form action="/products/new" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title" class="mt-3">Title</label>
+                    <input type="text" name="title" class="form-control" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description" class="mt-3">Description</label>
+                    <input type="text" name="description" class="form-control" id="description" required>
+                </div>
+                <div class="form-group">
+                    <label for="base_price" class="mt-3">Base Price</label>
+                    <input type="number" name="basePrice" step="any" class="form-control" id="base_price" required>
+                </div>
+                <div>
+                    <label for="category" class="mt-3">Select Category</label>
+                </div>
+                <div>
+                    <select name="category" class="form-control" id="category" required>
+                        <option value="art">Art</option>
+                        <option value="antiques">Antiques</option>
+                        <option value="vehicle">Vehicle</option>
+                        <option value="books">Books</option>
+                        <option value="collectible">Collectible</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="images" class="mt-3">Add Image</label>
+                </div>
+                <div>
+                    <input type="file" name="images" class="form-control" id="images" multiple required>
+                </div>
+                <div>
+                    <label for="startTime" class="mt-3">Start Time</label>
+                </div>
+                <div>
+                    <input type="date" name="startTime" class="form-control" id="startTime" required>
+                </div>
+                <div>
+                    <label for="duration" class="mt-3">Duration</label>
+                </div>
+                <div>
+                    <select name="duration" class="form-control" id="duration" required>
+                        <option value="3">3 days</option>
+                        <option value="5">5 days</option>
+                        <option value="7">7 days</option>
+                        <option value="10">10 days</option>
+                    </select>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success btn-block mt-4 btn-lg">Put this up for bidding</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <input type="text" name="title" id="title" required>
-    </div>
-    <div>
-        <label for="description">Description</label>
-    </div>
-    <div>
-        <input type="text" name="description" id="description" required>
-    </div>
-    <div>
-        <label for="base_price">Base Price</label>
-    </div>
-    <div>
-        <input type="number" name="basePrice" step="any" id="base_price" required>
-    </div>
-    <div>
-        <label for="category">Select Category</label>
-    </div>
-    <div>
-        <select name="category" id="category" required>
-            <option value="art">Art</option>
-            <option value="antiques">Antiques</option>
-            <option value="vehicle">Vehicle</option>
-            <option value="books">Books</option>
-            <option value="collectible">Collectible</option>
-            <option value="other">Other</option>
-        </select>
-    </div>
-    <div>
-        <label for="images">Add Image</label>
-    </div>
-    <div>
-        <input type="file" name="images" id="images" multiple required>
-    </div>
-    <div>
-        <label for="startTime">Start Time</label>
-    </div>
-    <div>
-        <input type="date" name="startTime" id="startTime" required>
-    </div>
-    <div>
-        <label for="duration">Duration</label>
-    </div>
-    <div>
-        <select name="duration" id="duration" required>
-            <option value="3">3 days</option>
-            <option value="5">5 days</option>
-            <option value="7">7 days</option>
-            <option value="10">10 days</option>
-        </select>
-    </div>
-    <div>
-        <button type="submit">Put this up for bidding</button>
-    </div>
-</form>
+</div>
