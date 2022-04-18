@@ -44,12 +44,13 @@
 <br>
 <% if(currentUser && product.user._id.equals(currentUser)){ %>
     <a href="/products/<%= product._id %>/edit">Edit Product</a>
-    <form action="/products/<%= product._id %>_method=DELETE" method="post">
+    <form action="/products/<%= product._id %>?_method=DELETE" method="post">
         <button type="submit">Delete Product</button>
     </form>
 <% } %>
 <script>
     let startTime = '<%- product.startTime %>';
+    let endTime = '<%- product.endTime %>';
     const duration = '<%- product.duration %>';
 </script> 
 <script src="/js/product/productPage.js"></script>
