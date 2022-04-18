@@ -1,0 +1,27 @@
+#container {
+    margin-top: 50px;
+    background: hsla(0, 0%, 100%, 0.15);
+    backdrop-filter: blur(30px);
+}
+
+h1 {
+    text-align: center;
+    width: 100%;
+    font-size: 2rem;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 30rem;
+    margin: auto;
+    text-align: center;
+    border-radius: 10px
+  }
+
+
+  .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
