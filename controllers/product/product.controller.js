@@ -49,6 +49,8 @@ module.exports.addNewProduct = catchAsync(async(req, res)=>{
         duration
     } = req.body;
 
+    // console.log(req.body);
+
     // 1. Creating the new product.
     const product = new Product(req.body);
 
@@ -117,4 +119,4 @@ module.exports.updateProduct = catchAsync(async (req, res)=>{
 module.exports.deleteProduct = catchAsync(async (req, res)=>{
     // !Later
     res.send({ "msg": "working on it" })
-})
+});
