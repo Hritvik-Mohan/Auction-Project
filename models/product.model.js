@@ -1,5 +1,14 @@
+/**
+ * Module imports.
+ */
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
+/**
+ * Model Imports.
+ */
+const User = require("./user.model");
+const Bid = require("./bid.model");
 
 const opts = { toJSON: { virtuals: true } }
 
@@ -83,17 +92,24 @@ productSchema.virtual('endTime').get(function(){
   return endTime.toISOString();
 });
 
-// Remove the product id from user's products after deleting the product.
-productSchema.post('findOneAndDelete', function(doc, next){
-  const user = doc.user;
-  const productId = doc._id;
-  user.products = user.products.filter(product => product.toString() !== productId.toString());
-  user.save(function(err, user){
-    if(err){
-      next(err);
-    }
-  })
-})
+// Remove the product id from user.products array after deleting the product.
+// Also delete all the bids associated with the product.
+productSchema.post('findOneAndDelete', async function(deletedProduct, next){
+  try{
+    const user = await User.findById(deletedProduct.user);
+    // await User.pull({ _id: user._id }, { products: deletedProduct._id });
+    const result = await Promise.all([
+      Bid.deleteMany({_id: { $in: deletedProduct.bids}}),
+      User.updateMany({}, {$pull: {bids: {$in: deletedProduct.bids}}}), 
+      user.products.pull(deletedProduct._id),
+    ]);
+    console.log(result);
+    await user.save();
+    next();
+  } catch(err){
+    next(err);
+  }
+});
 
 const Product = mongoose.model('Product', productSchema)
 

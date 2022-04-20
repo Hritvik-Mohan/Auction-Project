@@ -24,7 +24,18 @@ module.exports.getAllUsers = catchAsync(async (req, res) => {
  * Get the profile of logged in user.
  */
 module.exports.getProfile = catchAsync(async (req, res) => {
-    const user = await User.findById(res.locals.currentUser).populate('products', '_id , title');
+    const user = await User.findById(res.locals.currentUser)
+        .populate('products', '_id , title')
+        .populate({
+            path: "bids",
+            populate: {
+              path: "product",
+            }
+          });
+    
+    // console.log(user)
+    // console.log(user.bids.length)
+    // console.log(user.bids[0]?.product.title || 'No bids');
  
     return res.render("users/profile", {
         user
@@ -138,7 +149,6 @@ module.exports.submitBid = catchAsync(async (req, res) => {
 
     // 7. If the product has currentHighestBid property then..
     if(product.currentHighestBid){
-        console.log("check");
         // 7.1. If the currentHighestBid is less than the bid amount then throw an error.
         if(amount < product.currentHighestBid.amount) throw new AppError('Bid amount must be greater than the current highest bid', 400);
     }
