@@ -17,6 +17,9 @@ const protect = catchAsync( async (req, res, next)=>{
 
             // Find the user based on its id and set it to req.user
             req.user = await User.findById(payload.id).select("-password");
+
+            if(!req.user) return res.redirect("/users/login");
+            
             next();
         }catch(err){
             const error = err.message;

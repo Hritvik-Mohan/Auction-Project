@@ -6,8 +6,9 @@ const Product = require("../../models/product.model");
 /**
  * Utils imports.
  */
-const catchAsync = require("../../utils/catchAsync")
+const catchAsync = require("../../utils/catchAsync");
 const { cloudinary } = require("../../utils/cloudinaryUpload");
+const AppError = require("../../utils/AppError");
 
 /**
  * Get all products from the database
@@ -117,6 +118,28 @@ module.exports.updateProduct = catchAsync(async (req, res)=>{
 })
 
 module.exports.deleteProduct = catchAsync(async (req, res)=>{
-    // !Later
-    res.send({ "msg": "working on it" })
+    //1. Get product id from the params.
+    const { id } = req.params;
+
+    //2. Find the product by its id.
+    const product = await Product.findById(id);
+    //3. Check if the product exists.
+    if(!product) throw new AppError('Product not found', 404);
+
+    //4. Delete the product from the database
+    await Product.findByIdAndDelete(id);
+
+    //5. Delete the images from the cloudinary if it exists on cloudinary.
+    try{
+        await Promise.all(product.images.map(image => (cloudinary.uploader.destroy(image.filename))));
+    } catch(e){
+        req.flash('success', 'Product deleted successfully.');
+        return res.redirect('/products');
+    }
+
+    //6. Flash success message.
+    req.flash('success', 'Product deleted successfully.');
+
+    //7. Redirect to products page.
+    return res.redirect('/products');
 });

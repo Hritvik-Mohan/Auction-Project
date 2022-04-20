@@ -53,5 +53,15 @@ const deleteAllProducts = async () => {
   console.log('All products deleted')
 }
 
-deleteAllUsers()
-deleteAllProducts()
+// Getting users using exists command.
+/**
+ * @returns {Promise<void>} array of users
+ */
+const getUsersBy = async () => {
+  const users = await User.find({bids: {$exists: true, $in:["625d638181ae089b6c756b1c", "625d634b81ae089b6c756afa"]}});
+  console.log(users);
+}
+
+// deleteAllUsers()
+// deleteAllProducts()
+getUsersBy();

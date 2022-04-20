@@ -21,8 +21,8 @@
         <button type="submit">Submit Bid</button>
     </form>
     <form action="/users/<%= product._id %>/bid" method="post">
-        <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100  %>" hidden>
-        <button type="submit">Quick Bid <%= product.currentHighestBid.amount + 100  %></button>
+        <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" hidden>
+        <button type="submit">Quick Bid <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
     </form>
 </div> 
 <% } %>

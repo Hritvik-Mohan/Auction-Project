@@ -18,6 +18,16 @@
         <% } %>
     </ul>
     <% } %>
+    <% if(user.bids.length){ %>
+        <h2>Bids</h2>
+        <ul>
+        <% user.bids.forEach(bid =>{ %> 
+           <li>
+                <a href="/products/<%= bid.product._id %>"><%= bid.product.title %></a> 
+           </li>
+        <% }) %> 
+        </ul>
+    <% } %>  
 
     <a href="/users/edit" class="mb-4">Edit</a>
 
