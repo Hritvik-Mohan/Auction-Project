@@ -21,11 +21,9 @@ const upload = multer({
  */
 const protect = require("../../middlewares/protect");
 const isAuthorized = require("../../middlewares/isAuthorized");
-
-/**
- * Model imports.
- */
-
+const isAuctionRunning = require("../../middlewares/isAuctionRunning");
+const isAuctionOver = require("../../middlewares/isAuctionOver");
+const isWinner = require("../../middlewares/isWinner");
 
 /**
  * Controller imports.
@@ -36,9 +34,14 @@ const {
     addNewProduct,
     updateProduct,
     deleteProduct,
-    renderEditProduct
+    renderEditProduct,
+    claimProduct,
+    declareWinner
 } = require("../../controllers/product/product.controller");
 
+/**
+ * Router object.
+ */
 const ProductRouter = Router();
 
 /**
@@ -62,13 +65,18 @@ ProductRouter.route('/products/new')
 ProductRouter.route('/products/:id')
     .get(getOneProduct)
     .put(protect, isAuthorized, upload.array('images'), updateProduct)
-    .delete(protect, isAuthorized, deleteProduct);
-
+    .delete(protect, isAuthorized, deleteProduct)
+    .post(declareWinner)
 /**
  * Get one and edit product page route.
  */
 ProductRouter.route('/products/:id/edit')
     .get(protect, isAuthorized, renderEditProduct)
 
+/**
+ * Claim the won auction.
+ */
+ProductRouter.route('/products/:id/claim')
+    .post(protect, isAuctionOver, isWinner, claimProduct);
 
 module.exports = ProductRouter;

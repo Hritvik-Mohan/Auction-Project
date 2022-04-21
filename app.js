@@ -98,6 +98,9 @@ app.use((err, req, res, next)=>{
   res.status(status).send({err, message, stack});
 })
 
+
+// setInterval(()=>{console.log("Yo")}, 1000);
+
 const runServer = async () =>{
   await connectDb();
 

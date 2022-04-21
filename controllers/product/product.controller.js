@@ -2,43 +2,60 @@
  * Model imports.
  */
 const Product = require("../../models/product.model");
+const User = require("../../models/user.model");
+const Bid = require("../../models/bid.model");
 
 /**
  * Utils imports.
  */
 const catchAsync = require("../../utils/catchAsync");
-const { cloudinary } = require("../../utils/cloudinaryUpload");
+const {
+    cloudinary
+} = require("../../utils/cloudinaryUpload");
 const AppError = require("../../utils/AppError");
 
 /**
  * Get all products from the database
  */
 module.exports.getAllProduct = catchAsync(async (req, res) => {
-    const products = await Product.find({})
-    res.render('products/index', {
-        products
+    const products = await Product.find({});
+    res.render("products/index", {
+        products,
     });
-})
+});
 
 /**
  * Get only one product based on product id.
  */
 module.exports.getOneProduct = catchAsync(async (req, res) => {
-    const product = await Product.findById(req.params.id).populate('user');
-    if(!product) {
-        req.flash('error', 'Product not found');
-        return res.redirect('/products');
+    const product = await Product.findById(req.params.id)
+        .populate("user", "_id, firstName")
+        .populate({
+            path: "currentHighestBid",
+            populate: {
+                path: "user",
+                select: {
+                    _id: 1,
+                    firstName: 1,
+                    lastName: 1,
+                    email: 1,
+                },
+            },
+        });
+    
+    if (!product) {
+        req.flash("error", "Product not found");
+        return res.redirect("/products");
     }
-    res.render('products/product', {
-        product
+    res.render("products/product", {
+        product,
     });
-})
+});
 
 /**
  * Adds a new product to the database.
  */
-module.exports.addNewProduct = catchAsync(async(req, res)=>{
-
+module.exports.addNewProduct = catchAsync(async (req, res) => {
     const user = req.user;
 
     const {
@@ -48,7 +65,8 @@ module.exports.addNewProduct = catchAsync(async(req, res)=>{
         category,
         startTime,
         duration
-    } = req.body;
+    } =
+    req.body;
 
     // console.log(req.body);
 
@@ -56,7 +74,10 @@ module.exports.addNewProduct = catchAsync(async(req, res)=>{
     const product = new Product(req.body);
 
     // 2. Saving the images data to the images property of the product
-    product.images = req.files.map(file => ({ path: file.path, filename: file.filename }));
+    product.images = req.files.map((file) => ({
+        path: file.path,
+        filename: file.filename,
+    }));
 
     // 3. Associate the product with the user.
     product.user = req.user._id;
@@ -64,82 +85,208 @@ module.exports.addNewProduct = catchAsync(async(req, res)=>{
     // 4. Associating the user with the product.
     user.products.push(product._id);
 
-    // 5. Saving the product to the database and the updated user.
-    await product.save();
-    await user.save();
+    // 5. Setting the auction status based on time.
+    const today = new Date();
+    const endTime = new Date(product.endTime);
 
-    req.flash('success', 'Product added successfully.');
+    if(product.startTime <= today && endTime >= today){
+        product.auctionStatus = true;
+    } else {
+        product.auctionStatus = false;
+    };
+
+    // 6. Saving the product to the database and the updated user.
+    await Promise.all([product.save(), user.save()]);
+
+    req.flash("success", "Product added successfully.");
 
     res.redirect(`/products/${product._id}`);
-})
-
-module.exports.renderEditProduct = catchAsync(async (req, res)=>{
-    const { id } = req.params;
-    const product = await Product.findById(id);
-    res.render('products/edit', { product });
 });
 
-module.exports.updateProduct = catchAsync(async (req, res)=>{
-    const { id } = req.params;
+/**
+ * Render the product edit page.
+ */
+module.exports.renderEditProduct = catchAsync(async (req, res) => {
+    const {
+        id
+    } = req.params;
+    const product = await Product.findById(id);
+    res.render("products/edit", {
+        product
+    });
+});
+
+/**
+ * Updates the product based on its id.
+ */
+module.exports.updateProduct = catchAsync(async (req, res) => {
+    const {
+        id
+    } = req.params;
     const product = await Product.findById(id);
 
     // Check what fields are changed and need to be updated.
-    let query = { $set: {} };
-    for (let key in req.body){
-      if(product[key] && product[key] !== req.body[key]){
-        query.$set[key] = req.body[key];
-      }
+    let query = {
+        $set: {}
+    };
+    for (let key in req.body) {
+        if (product[key] && product[key] !== req.body[key]) {
+            query.$set[key] = req.body[key];
+        }
+    }
+
+    // Check if start time or duration were changed
+    if (query.$set.startTime || query.$set.duration) {
+        const today = new Date();
+        let startTimeInSeconds;
+
+        if(query.$set.startTime) startTimeInSeconds = new Date(query.$set.startTime).getTime() / 1000;
+        else startTimeInSeconds = product.startTime.getTime() / 1000;
+        
+        const endTimeInSeconds = startTimeInSeconds + Number(query.$set.duration) * 24 * 60 * 60;
+        const endTime = new Date(endTimeInSeconds * 1000);
+
+        if(new Date(query.$set.startTime) <= today && endTime >= today){
+            query.$set.auctionStatus = true;
+        } else {
+            query.$set.auctionStatus = false;
+        }
     }
 
     // Check if there are any images to be deleted
-    if(req.body.deleteImages?.length){
-        const { deleteImages } = req.body;
-        await Promise.all(deleteImages.map(filename => (cloudinary.uploader.destroy(filename))));
+    if (req.body.deleteImages?.length) {
+        const {
+            deleteImages
+        } = req.body;
+        await Promise.all(
+            deleteImages.map((filename) => cloudinary.uploader.destroy(filename))
+        );
         // Delete the images from the product
-        query.$pull = { images: { $in: req.body.deleteImages } };
+        query.$pull = {
+            images: {
+                $in: req.body.deleteImages
+            }
+        };
     }
 
     // Check if there are any images to be added
-    if(req.files){
+    if (req.files) {
         // Add the new images to the product
-        query.$push = { images: req.files.map(file => ({ path: file.path, filename: file.filename })) };
+        query.$push = {
+            images: req.files.map((file) => ({
+                path: file.path,
+                filename: file.filename,
+            })),
+        };
     }
-    
+
     // Running the update query parallely togeather.
-    await Promise.all(
-        [
-            Product.findByIdAndUpdate(id, query['$set']), 
-            Product.findByIdAndUpdate(id, query['$pull']),
-            Product.findByIdAndUpdate(id, query['$push'])
-        ]
-    );
+    await Promise.all([
+        Product.findByIdAndUpdate(id, query["$set"]),
+        Product.findByIdAndUpdate(id, query["$pull"]),
+        Product.findByIdAndUpdate(id, query["$push"]),
+    ]);
 
     return res.redirect(`/products/${id}`);
-})
+});
 
-module.exports.deleteProduct = catchAsync(async (req, res)=>{
+/**
+ * Deletes the product based on its id.
+ */
+module.exports.deleteProduct = catchAsync(async (req, res) => {
     //1. Get product id from the params.
-    const { id } = req.params;
+    const {
+        id
+    } = req.params;
 
     //2. Find the product by its id.
     const product = await Product.findById(id);
     //3. Check if the product exists.
-    if(!product) throw new AppError('Product not found', 404);
+    if (!product) throw new AppError("Product not found", 404);
 
     //4. Delete the product from the database
     await Product.findByIdAndDelete(id);
 
     //5. Delete the images from the cloudinary if it exists on cloudinary.
-    try{
-        await Promise.all(product.images.map(image => (cloudinary.uploader.destroy(image.filename))));
-    } catch(e){
-        req.flash('success', 'Product deleted successfully.');
-        return res.redirect('/products');
+    try {
+        await Promise.all(
+            product.images.map((image) => cloudinary.uploader.destroy(image.filename))
+        );
+    } catch (e) {
+        req.flash("success", "Product deleted successfully.");
+        return res.redirect("/products");
     }
 
     //6. Flash success message.
-    req.flash('success', 'Product deleted successfully.');
+    req.flash("success", "Product deleted successfully.");
 
     //7. Redirect to products page.
-    return res.redirect('/products');
+    return res.redirect("/products");
+});
+
+/**
+ * Claim the winning bid.
+ */
+module.exports.claimProduct = catchAsync(async (req, res) => {
+    const currentUser = req.user;
+    const product = req.product;
+
+    if(!currentUser.bidsWon.includes(product.currentHighestBid.bid)){
+        currentUser.bidsWon.push(product.currentHighestBid.bid);
+        product.auctionStatus = false;
+        await Promise.all([product.save(), currentUser.save()]);
+        req.flash("success", "You have claimed the bid.");
+        return res.redirect(`/products/${product._id}`);
+    } else {
+        req.flash('error', 'You have already won this product.');
+        return res.redirect(`/products/${product._id}`);
+    }
+
+});
+
+/**
+ *
+ */
+module.exports.declareWinner = catchAsync(async (req, res) => {
+   
+    const { id: productId } = req.params;
+    const { amount, userId, bidId } = req.body;
+
+    if(!amount || !userId || !bidId){
+        return res.send({
+            msg: "Invalid request"
+        })
+    }
+
+    const product = await Product.findById(productId);
+
+    if(!product) throw new AppError("Product not found", 404);
+
+    if(product.auctionStatus === false){
+        return res.send({
+            status: false,
+            msg: "Auction is not running"
+        })
+    }
+
+    const [user, bid] = await Promise.all([
+        User.findById(userId),
+        Bid.findById(bidId),
+    ]);
+
+    if(!user || !bid) throw new AppError("Invalid informations", 404);
+
+    product.auctionStatus = false;
+    user.bidsWon.push(bidId);
+
+    await Promise.all([
+        product.save(),
+        user.save()
+    ]);
+
+    return res.send({
+        status: true,
+        msg: "Winner is declared successfully."
+    });
+
 });

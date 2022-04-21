@@ -3,6 +3,7 @@
  */
 const Product = require("../models/product.model");
 
+// Note: This middleware is for user router. Not to be used in product router.
 const isTimeRemaining = async (req, res, next) => {
     
     // 1. Get product id.
@@ -11,17 +12,16 @@ const isTimeRemaining = async (req, res, next) => {
     // 2. Get product data.
     const product = await Product.findById(productId);
 
-    // 3. Get current time.
+    // 3. Get current time, startTime and endTime of the auction.
     const today = new Date();
-
-    // 4. Get end time of the auction
+    const startTime = product.startTime;
     const endTime = new Date(product.endTime);
 
-    // If end time is greater than today, then allow to bid.
-    if (endTime > today) {
+    // 4. If today is within the range of startTime and endTime, then allow to bid.
+    if (startTime <= today && endTime >= today) {
         return next();
     } else {
-        req.flash('error', 'Bid is closed.');
+        req.flash('error', 'Auction is not running.');
         return res.redirect(`/products/${productId}`);
     }
 }

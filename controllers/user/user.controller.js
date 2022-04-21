@@ -124,6 +124,9 @@ module.exports.updateProfile = catchAsync(async (req, res) => {
     res.redirect(`/users/profile`);
 })
 
+/**
+ * Submit bid for a product.
+ */
 module.exports.submitBid = catchAsync(async (req, res) => {
     // 1. Get the current user.
     const user = req.user;
@@ -163,6 +166,7 @@ module.exports.submitBid = catchAsync(async (req, res) => {
         existingBid.amount = amount;
         product.currentHighestBid.amount = amount;
         product.currentHighestBid.user = user._id;
+        product.currentHighestBid.bid = existingBid._id;
 
         await Promise.all([existingBid.save(), product.save()]);
 
@@ -179,6 +183,7 @@ module.exports.submitBid = catchAsync(async (req, res) => {
     // 10. Update the currentHighestBid property of the product.
     product.currentHighestBid.amount = amount;
     product.currentHighestBid.user = user._id;
+    product.currentHighestBid.bid = bid._id;
 
     // 11. Associate the bid with the product and the user.
     product.bids.push(bid._id);
