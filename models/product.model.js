@@ -9,6 +9,7 @@ const Schema = mongoose.Schema;
  */
 const User = require("./user.model");
 const Bid = require("./bid.model");
+const { boolean } = require('joi');
 
 const opts = { toJSON: { virtuals: true } }
 
@@ -51,6 +52,10 @@ const productSchema = new Schema({
     user: {
       type: Schema.Types.ObjectId,
       ref: 'User'
+    },
+    bid: {
+      type: Schema.Types.ObjectId,
+      ref: 'Bid'
     }
   },
   images: [imageSchema],
@@ -79,7 +84,10 @@ const productSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Bid'
     }
-  ]
+  ],
+  auctionStatus: {
+    type: Boolean
+  }
 }, {
   timestamps: true
 }, opts);

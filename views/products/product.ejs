@@ -22,14 +22,20 @@
     </form>
     <form action="/users/<%= product._id %>/bid" method="post">
         <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" hidden>
-        <button type="submit">Quick Bid <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
+        <button class="btn btn-primary" type="submit">Quick Bid <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
     </form>
 </div> 
 <% } %>
+<div id="bid-container">
+    <% if(product.currentHighestBid.amount){ %>
 <% if(product.currentHighestBid.amount){ %> 
-    <h3>Current Highest Bid</h3>
-    <p>$ <%= product.currentHighestBid.amount %></p>
+    <% if(product.currentHighestBid.amount){ %>
+        <h3>Current Highest Bid</h3>
+        <p>$ <%= product.currentHighestBid.amount %></p>
+    <% } %> 
 <% } %> 
+    <% } %> 
+</div>
 
 <h3>Start Time</h3>
 <p class="startTime"><%= product.startTime %> </p>
@@ -41,6 +47,12 @@
 <h1>Time Remaining</h1>
 <p id="timer"></p>
 
+<div id="claim-product">
+    <form action="/products/<%= product._id%>/claim" method="POST">
+        <button type="submit">Claim</button>
+    </form>
+</div>
+
 <br>
 <% if(currentUser && product.user._id.equals(currentUser)){ %>
     <a href="/products/<%= product._id %>/edit">Edit Product</a>
@@ -48,9 +60,16 @@
         <button type="submit">Delete Product</button>
     </form>
 <% } %>
+
+<button id="check-fetch">Click Me!</button>
+
+<script type="module"></script>
 <script>
     let startTime = '<%- product.startTime %>';
     let endTime = '<%- product.endTime %>';
     const duration = '<%- product.duration %>';
+    let highestBidInfo = '<%- JSON.stringify(product.currentHighestBid) %>';
+    let auctionStatus = '<%- product.auctionStatus %>';
+    const productId = '<%- product._id %>';
 </script> 
 <script src="/js/product/productPage.js"></script>
