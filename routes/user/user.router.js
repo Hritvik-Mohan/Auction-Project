@@ -52,38 +52,57 @@ const UserRouter = Router();
 /**
  * Routes
  */
+
+// Get all users route.
 UserRouter.route('/users')
   .get(protect, role.checkRole(role.ROLES.Admin), getAllUsers)
   .post(upload.single('avatar'), registerUser)
 
+// Register a new user route.
 UserRouter.route('/users/register')
   .get((req, res) => {
     res.render('users/register');
   })
 
+// Login a user route.
 UserRouter.route('/users/login')
   .get((req, res) => {
     res.render('users/login');
   })
   .post(login)
 
+// Logout a user route.
 UserRouter.route('/users/logout')
   .get(logout)
 
+// Forgot password route.
+UserRouter.route('/users/forgot-password')
+  .get((req, res)=>{
+    return res.render('users/forgot-password');
+  })
+  .post(forgotPassword)
 
+// Reset password route.
+UserRouter.route('/users/reset-password')
+  .get((req, res)=>{
+    return res.render('users/reset-password');
+  })
+  .post(resetPassword);
+
+// Get logged in user's profile route.
 UserRouter.route('/users/profile')
   .get(protect, getProfile)
   .put(protect, upload.single('avatar'), updateProfile)
 
+// Edit logged in user's profile route.
 UserRouter.route('/users/edit')
   .get(protect, renderEditProfile)
 
+// Get user profile by id route.
 UserRouter.route('/users/:id')
   .get(protect, getProfileById)
 
-/**
- * Bid Route.
- */
+// Submit a bid route.
 UserRouter.route('/users/:productId/bid')
   .post(protect, isSeller, isTimeRemaining, submitBid);
 

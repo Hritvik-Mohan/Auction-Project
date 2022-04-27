@@ -81,14 +81,29 @@ const userSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref : "Bid"
     }
-  ]
+  ],
+  otp: {
+    type: String,
+    trim: true
+  }
 },
 {
   timestamps: true
 })
 
 /**
- * Before saving hash and salt the password if it has been modified
+ * PRE
+ * These funcitons will execute everytime "BEFORE" a document is saved in users collection
+ * 
+ * @param {string} -  mongoose command
+ * @param {function} - middleware anonymous function
+ * @returns {funciton} - next method stating return to the call stack
+ * 
+ * 
+*/
+
+/**
+ * Before saving hash and salt the password if it has been modified.
  */
 userSchema.pre("save", async function (next) {
   try {
@@ -96,14 +111,28 @@ userSchema.pre("save", async function (next) {
           const hash = await bcrypt.hash(this.password, 8);
           this.password = hash;
       }
+      if(this.isModified("otp")){
+        const otpHash = await bcrypt.hash(this.otp, 8);
+        this.otp = otpHash;
+      }
+
       next();
   } catch (err) {
       next(err);
   }
 });
 
+
 /**
- * Compare the hashed password with the password provided
+* This function is attached to UserSchema, i.e. Every document would have access to this funciton, where
+* it can validate the password hash using becrypt
+* 
+* @param {string}  user password
+* @returns {Promise} - If does not match, returns rejecton and if matched, resolves the value
+*/
+
+/**
+ * Compare the hashed password with the password provided.
  */
 userSchema.methods.checkPassword = function (password) {
   const passwordHash = this.password;
@@ -116,6 +145,18 @@ userSchema.methods.checkPassword = function (password) {
       });
   });
 };
+
+userSchema.methods.checkOTP = function (otp) {
+  const otpHash = this.otp;
+  return new Promise((resolve, reject) => {
+      bcrypt.compare(otp, otpHash, (err, same) => {
+      if (err) {
+          return reject(err);
+      }
+      resolve(same);
+      });
+  });
+}
 
 const User = mongoose.model('User', userSchema)
 
