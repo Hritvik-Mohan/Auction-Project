@@ -32,10 +32,6 @@ module.exports.getProfile = catchAsync(async (req, res) => {
               path: "product",
             }
           });
-    
-    // console.log(user)
-    // console.log(user.bids.length)
-    // console.log(user.bids[0]?.product.title || 'No bids');
  
     return res.render("users/profile", {
         user

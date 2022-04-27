@@ -8,7 +8,9 @@ const SECRETS = {
     SIGN_COOKIE: process.env.SIGN_COOKIE,
     CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
     CLOUDINARY_KEY: process.env.CLOUDINARY_KEY,
-    CLOUDINAY_SECRET: process.env.CLOUDINAY_SECRET
+    CLOUDINAY_SECRET: process.env.CLOUDINAY_SECRET,
+    MAIL_ACC: process.env.MAIL_ACC,
+    MAIL_PASS: process.env.MAIL_PASS
 };
 
 module.exports = SECRETS;
