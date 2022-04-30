@@ -4,6 +4,15 @@
 const Product = require("../models/product.model");
 
 // Note: This middleware is for user router. Not to be used in product router.
+/**
+ * Check if auction is still active.
+ * 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ * @returns next() | if the auction is still active
+ * @returns res.redirect('/products/:productId') | if the auction is not active
+ */
 const isTimeRemaining = async (req, res, next) => {
     
     // 1. Get product id.

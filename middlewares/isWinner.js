@@ -1,12 +1,28 @@
-const isWinner = (req, res, next) => {
+/**
+ * Model imports.
+ */
+const Product = require("../models/product.model");
+
+/**
+ * Check if the logged in user is the winner of the product.
+ * 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ * @returns next() | if user is the winner
+ * @returns res.redirect('/products/:productId') | if user is not the winner
+ */
+const isWinner = async (req, res, next) => {
+
+    const { productId } = req.params;
+
     const currentUser = req.user;
-    const product = req.product;
+    const product = await Product.findById(productId);
 
     if (currentUser._id.equals(product.currentHighestBid.user) && !currentUser.products.includes(product._id)) {
-        console.log("You are the winner");
         return next();
     } else {
-        req.flash('error', 'You are not the winner');
+        req.flash('error', 'You are not the authorized to perform this action');
         return res.redirect(`/products/${product.id}`);
     }
 }

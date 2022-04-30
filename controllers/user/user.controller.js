@@ -10,7 +10,7 @@ const Product = require("../../models/product.model");
  */
 const catchAsync = require("../../utils/catchAsync")
 const { cloudinary } = require("../../utils/cloudinaryUpload");
-const AppError = require("../../utils/AppError")
+const AppError = require("../../utils/AppError");
 
 /**
  * Get list of all the users.
@@ -189,4 +189,12 @@ module.exports.submitBid = catchAsync(async (req, res) => {
     await Promise.all([bid.save(), product.save(), user.save()]);
   
     return res.redirect(`/products/${productId}`);
+});
+
+module.exports.renderSellerProfile = catchAsync(async(req, res) => {
+    const { productId } = req.params;
+    
+    const product = await Product.findById(productId);
+    const user = await User.findById(product.user).populate('products', '_id , title');
+    return res.render('users/sellerProfile', { product, user });
 });

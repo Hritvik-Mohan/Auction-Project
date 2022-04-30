@@ -5,8 +5,6 @@ console.log('productPage script loaded...');
 startTime = new Date(startTime).toISOString();
 endTime = new Date(endTime).toISOString();
 highestBidInfo = JSON.parse(highestBidInfo)
-console.log(auctionStatus);
-console.log(highestBidInfo);
 
 const labelTimer = document.getElementById('timer');
 const bidContainer = document.getElementById('bid-container');
@@ -40,6 +38,9 @@ const declareWinnerFrontend = () => {
             <h1>Winner!</h1>
             <p>Congrats ${firstName} ${lastName} for winning this product 🎉</p>
             <p><a href="/users/${_id}">See profile</a></p>
+            <form action="/contactSeller/${productId}">
+            <button class="btn btn-primary">Contact Seller</button>
+        </form>
        </div>
     `;
 
@@ -72,6 +73,7 @@ const encodeFormData = (data) => {
         .join('&');
 }
 
+// Function to make a POST request to the server to declare the winner.
 const declareWinnerBackend = () => {
     if(highestBidInfo.user){
         const data = {

@@ -47,12 +47,6 @@
 <h1>Time Remaining</h1>
 <p id="timer"></p>
 
-<div id="claim-product">
-    <form action="/products/<%= product._id%>/claim" method="POST">
-        <button type="submit">Claim</button>
-    </form>
-</div>
-
 <br>
 <% if(currentUser && product.user._id.equals(currentUser)){ %>
     <a href="/products/<%= product._id %>/edit">Edit Product</a>
@@ -60,8 +54,6 @@
         <button type="submit">Delete Product</button>
     </form>
 <% } %>
-
-<button id="check-fetch">Click Me!</button>
 
 <script type="module"></script>
 <script>
