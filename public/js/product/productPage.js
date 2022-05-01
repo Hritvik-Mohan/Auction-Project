@@ -6,6 +6,7 @@ startTime = new Date(startTime).toISOString();
 endTime = new Date(endTime).toISOString();
 highestBidInfo = JSON.parse(highestBidInfo)
 
+const contactSellerDiv = document.getElementById('contact-seller');
 const labelTimer = document.getElementById('timer');
 const bidContainer = document.getElementById('bid-container');
 
@@ -38,14 +39,22 @@ const declareWinnerFrontend = () => {
             <h1>Winner!</h1>
             <p>Congrats ${firstName} ${lastName} for winning this product 🎉</p>
             <p><a href="/users/${_id}">See profile</a></p>
-            <form action="/contactSeller/${productId}">
-            <button class="btn btn-primary">Contact Seller</button>
-        </form>
        </div>
     `;
 
     bidContainer.insertAdjacentHTML('afterbegin', html);
 }
+
+const showContactSeller = () => {
+    const contactSellerForm = `
+        <form action='/contactSeller/${productId}' method='GET'>
+            <button class="btn btn-success">Contact Seller</button>
+        </form>
+    `;
+    if(loggedinUserId && loggedinUserId === highestBidInfo.user._id)
+        contactSellerDiv.innerHTML = contactSellerForm;
+}
+
 
 // Function to POST data to the server.
 async function postData(url = '', data = '') {
@@ -104,6 +113,7 @@ const timeRemaining = () => {
         if(highestBidInfo.user) {
             declareWinnerFrontend();
             declareWinnerBackend();
+            showContactSeller();
         }
     }
 
@@ -129,6 +139,7 @@ const main = () => {
         if(highestBidInfo.user){
             declareWinnerFrontend();
             declareWinnerBackend();
+            showContactSeller();
         }
         document.getElementById('submit-bid')?.remove();
     }

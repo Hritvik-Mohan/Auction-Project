@@ -14,6 +14,8 @@ const User = require("../models/user.model");
  */
 const protect = catchAsync( async (req, res, next)=>{
     let jwtToken;
+    
+    req.session.returnTo = req.originalUrl;
 
     if(req.signedCookies && req.signedCookies.token){
         try{
