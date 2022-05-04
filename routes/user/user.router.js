@@ -20,10 +20,6 @@ const role = require("../../middlewares/role")
 const isSeller = require("../../middlewares/isSeller");
 const isTimeRemaining = require("../../middlewares/isTimeRemaining");
 
-/**
- * Model Imports
- */
-const User = require("../../models/user.model");
 
 /**
  * Controller Imports
@@ -40,9 +36,10 @@ const {
   registerUser,
   login,
   logout,
+  logoutAll,
   forgotPassword,
   resetPassword
-} = require("../../controllers/user/auth.controller")
+} = require("../../controllers/user/auth.controller");
 
 /**
  * Decalarations
@@ -73,7 +70,11 @@ UserRouter.route('/users/login')
 
 // Logout a user route.
 UserRouter.route('/users/logout')
-  .get(logout)
+  .get(protect, logout)
+
+// Clear all tokens and logout from all the devices.
+UserRouter.route('/users/logoutAll')
+  .get(protect, logoutAll)
 
 // Forgot password route.
 UserRouter.route('/users/forgot-password')
