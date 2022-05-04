@@ -1,16 +1,10 @@
 /**
- * Node Module Imports
- */
-const validator = require("validator");
-const { newToken } = require("../../utils/jwt");
-
-/**
  * Utils imports
  */
 const catchAsync = require("../../utils/catchAsync");
-const randomPassword = require("../../utils/randomPassword");
 const emailTemplate = require("../../utils/emailTemplate");
 const sendMail = require("../../utils/nodemailer")
+const { newToken } = require("../../utils/jwt");
 
 /**
  * Models Imports.
@@ -68,9 +62,11 @@ module.exports.registerUser = catchAsync(async (req, res) => {
   });
 
   if (existingUser) {
-    req.flash("error", "User already exists, head to login");
-    return res.redirect("/users/register");
+    req.flash("error", "An account already exists, head to login");
+    return res.redirect("/users/login");
   }
+
+  const token = newToken(registeredUser._id);
 
   const user = new User({
     firstName,
@@ -83,9 +79,10 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     role,
   });
 
-  const registeredUser = await user.save();
+  user.tokens.push({ token });
+  await user.save();
 
-  const token = newToken(registeredUser._id);
+  const registeredUser = await user.save();
 
   // Setting the token in cookies
   res.cookie("token", token, { signed: true });
@@ -123,6 +120,8 @@ module.exports.login = catchAsync(async (req, res) => {
     return res.redirect("/users/login");
   }
   const token = newToken(user._id);
+  user.tokens.push({ token });
+  await user.save();
 
   // Setting the token to the cookies for identifying signed user
   res.cookie("token", token, { signed: true });
@@ -144,11 +143,25 @@ module.exports.login = catchAsync(async (req, res) => {
  * @param {object} res response object
  * @returns undefined
  */
-module.exports.logout = (req, res) => {
+module.exports.logout = catchAsync(async (req, res) => {
   res.clearCookie("token");
+
+  req.user.tokens = req.user.tokens.filter((token) => token.token != req.token);
+  await req.user.save();
+
   req.flash("success", "Logged you out. See you again !");
   return res.redirect("/products");
-};
+});
+
+module.exports.logoutAll = catchAsync(async (req, res)=>{
+  res.clearCookie("token");
+
+  req.user.tokens = [];
+  await req.user.save();
+
+  req.flash("success", "Logged you out of all the devices.");
+  return res.redirect("/products");
+})
 
 /**
  * This login function checks if the user exists, if yes then
@@ -186,7 +199,7 @@ module.exports.forgotPassword = catchAsync(async (req, res) => {
   const info = await sendMail(email, "Reset Passoword", html);
 
   if(!info){
-    req.flash("error", "Could'nt send mail. Try again later.")
+    req.flash("error", "Couldn't send mail. Try again later.")
     return res.redirect("/users/forgot-password")
   }
 
@@ -232,7 +245,10 @@ module.exports.resetPassword = catchAsync(async (req, res) => {
   // 6. Clear the otp field from the user database
   user.otp = "";
 
-  // 7. Save the user
+  // 7. Clear all the tokens from the user database.
+  user.tokens = [];
+
+  // 8. Save the user
   await user.save();
 
   // 8. Sending the response

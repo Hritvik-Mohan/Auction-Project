@@ -86,7 +86,13 @@ const userSchema = new Schema({
   otp: {
     type: String,
     trim: true
-  }
+  },
+  tokens: [{
+    token: {
+      type: String,
+      required: true
+    }
+  }]
 },
 {
   timestamps: true
