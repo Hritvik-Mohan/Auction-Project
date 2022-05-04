@@ -99,12 +99,17 @@ app.use((err, req, res, next)=>{
 })
 
 const runServer = async () =>{
-  await connectDb();
-
-  app.listen(PORT, () => {
-    console.log("Server is live");
-    console.log(`Live at http://localhost:${PORT}/`);
-  });
+  if(process.env.NODE_ENV !== "production"){
+    await connectDb();
+    app.listen(PORT, ()=>{
+      console.log(`Devlopment server live on http://localhost:${PORT}`);
+    })
+  } else {
+    await connectDb(SECRETS.MONGODB_CONNECTION_STRING);
+    app.listen(PORT, ()=>{
+      console.log(`Production server live on port ${PORT}`);
+    })
+  }
 }
 
 runServer();

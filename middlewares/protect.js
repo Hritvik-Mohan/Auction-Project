@@ -16,7 +16,8 @@ const protect = catchAsync( async (req, res, next)=>{
             const payload = await verifyToken(jwtToken, SECRETS.JWT_SECRET);
 
             // Find the user based on its id and set it to req.user
-            req.user = await User.findById(payload.id).select("-password");
+            req.user = await User.findOne({_id: payload.id, "tokens.token": jwtToken }).select("-password");
+            req.token = jwtToken;
 
             if(!req.user) return res.redirect("/users/login");
             
