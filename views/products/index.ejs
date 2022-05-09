@@ -1,5 +1,5 @@
 <% layout('layouts/boilerplate') %> 
-
+<link rel="stylesheet" href="/css/prod.css" />
 <!-- <h1>Products Page</h1> -->
 
 <ul>
@@ -11,135 +11,35 @@
     <% } %>
 </ul>
 
-<!--Main layout-->
-<main class="my-5">
-    <div class="container">
-      <!--Section: Content-->
-      <section class="text-center">
-        <h4 class="mb-5"><strong>Products Page</strong></h4>
-
-        <div class="row">
-          <div class="col-lg-4 col-md-12 mb-4">
-            <div class="card">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Post title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-                <a href="#!" class="btn btn-primary">Read</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/023.jpg" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Post title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-                <a href="#!" class="btn btn-primary">Read</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/111.jpg" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Post title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-                <a href="#!" class="btn btn-primary">Read</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-4 col-md-12 mb-4">
-            <div class="card">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/002.jpg" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Post title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-                <a href="#!" class="btn btn-primary">Read</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/022.jpg" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Post title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-                <a href="#!" class="btn btn-primary">Read</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4">
-            <div class="card">
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                <img src="https://mdbootstrap.com/img/new/standard/nature/035.jpg" class="img-fluid" />
-                <a href="#!">
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-              <div class="card-body">
-                <h5 class="card-title">Post title</h5>
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the
-                  card's content.
-                </p>
-                <a href="#!" class="btn btn-primary">Read</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <!--Section: Content-->
+<!-- <div class="container-prod my-5">
+  <div class="prod-1">
+    <div class="img"></div>
+    <div class="title"></div>
+    <div class="current-price"></div>
+    <div class="time-ramining"></div>
+    <div class="price"></div>
+    <div class="time"></div>
+  </div>
+  <div class="prod-2">
+    <div class="img-2"></div>
+    <div class="title-2"></div>
+    <div class="current-price-2"></div>
+    <div class="time-remaining-2"></div>
+    <div class="price-2"></div>
+    <div class="time-2"></div>
+  </div>
+  <div class="prod-3">
+    <div class="img-3"></div>
+    <div class="title-3"></div>
+    <div class="current-price-3"></div>
+    <div class="time-remaining-3"></div>
+    <div class="price-3"></div>
+    <div class="time-3"></div>
+  </div>
+</div> -->
 
       <!-- Pagination -->
-      <nav class="my-4" aria-label="...">
+      <!-- <nav class="my-4" aria-label="...">
         <ul class="pagination pagination-circle justify-content-center">
           <li class="page-item">
             <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
@@ -155,5 +55,5 @@
         </ul>
       </nav>
     </div>
-  </main>
+  </main> -->
   <!--Main layout-->

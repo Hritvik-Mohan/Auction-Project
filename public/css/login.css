@@ -1,23 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); */
+
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --body-font-family: 'Roboto', sans-serif;
+    --dark-color: #212427;
+    --dark-color-lighter: #393939;
+    --accent-color: #4D34E4;
+    --accent-color-lighter: #5E49E0;
+    --background-color: #f6f6f6;
+    --light-color: #f6f6f6;
+}
+
+
 body{
-    display: block;
+    /* display: block; */
     content: "";
-    height: 60px;
+    /* height: 60px; */
     /* background-image: url("https://images.unsplash.com/photo-1614850715649-1d0106293bd1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"); */
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;    
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
     width: 30rem;
     margin: auto;
-    border-radius: 10px
+    background-color: var(--background-color);  
+    border-radius: 10px;
+    border: none;
   }
 
 .global-container{
-    margin-top: 50px;
+    /* margin-top: 50px; */
     /* height: 100%; */
     display: flex;
     align-items: center;
@@ -50,3 +74,23 @@ input[type="password"] {
 }
 
 
+@media screen and 
+(max-width: 537px) {
+    .card {
+        width: 27rem;
+    }
+}
+
+@media screen and 
+(max-width: 460px) {
+    .card {
+        width: 24rem;
+    }
+}
+
+@media screen and 
+(max-width: 420px) {
+    .card {
+        width: 17rem;
+    }
+}
