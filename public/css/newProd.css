@@ -3,29 +3,30 @@ body{
     content: "";
     height: 60px;
     /* background-image: url("https://images.unsplash.com/photo-1614850715649-1d0106293bd1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"); */
-    background-color: #f4f4f4;
+    /* background-color: #f4f4f4; */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); */
     width: 30rem;
     margin: auto;
     /* text-align: center; */
-    border-radius: 10px
+    border-radius: 10px;
+    border: none;
   }
 
 .global-container{
     /* height: 100%; */
-    margin-top: 50px;
+    /* margin-top: 50px; */
     display: flex;
     align-items: center;
     justify-content: center;
     /* color: #0db8de; */
     opacity: 90%;
-    margin-bottom: 7rem;
+    padding-bottom: 10rem;
 }
 
 form {
