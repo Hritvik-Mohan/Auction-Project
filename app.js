@@ -58,6 +58,7 @@ app.use(flash());
  */
  app.use(async (req, res, next)=>{
   res.locals.currentUser = await getCurrentUser(req);
+  console.log(res.locals.currentUser);
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();

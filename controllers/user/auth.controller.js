@@ -128,17 +128,13 @@ module.exports.login = catchAsync(async (req, res) => {
   res.cookie("token", token, { signed: true });
   req.flash("success", "Welcome to Auction App");
   
- 
-  // ! Bug---------------------------------------------------
-   // Redirecting to the previous page
-  // TODO
-  // const redirectTo = req.session.returnTo || "/products";
-  // delete req.session.redirectTo;
-  //----------------------------------------------------------
+  // ! Bug ------------------------------------------------
+  // Redirecting to the previous page
+  const redirectTo = req.session.returnTo || "/products";
+  delete req.session.redirectTo;
+  // ------------------------------------------------------
 
-  console.log(req.signedCookies)
-
-  return res.redirect('/products');
+  return res.redirect("/products");
 });
 
 /**
