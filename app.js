@@ -1,8 +1,6 @@
 /**
  * Node Modules Imports
  */
-const { config } = require("dotenv");
-process.env.NODE_ENV !== "production" && config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
@@ -12,11 +10,6 @@ const morgan = require("morgan");
 const coookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
-
-/**
- * Cofigs Import
- */
-const SECRETS = require("./configs/config")
 
 /**
  * Utils Imports
@@ -49,10 +42,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(methodOverride('_method'));
-app.use(coookieParser(SECRETS.SIGN_COOKIE));
+app.use(coookieParser(process.env.SIGN_COOKIE));
 app.use(morgan("dev"));
 app.use(session({
-  secret: SECRETS.SIGN_COOKIE,
+  secret: process.env.SIGN_COOKIE,
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -105,7 +98,7 @@ const runServer = async () =>{
       console.log(`Devlopment server live on http://localhost:${PORT}`);
     })
   } else {
-    await connectDb(SECRETS.MONGODB_CONNECTION_STRING);
+    await connectDb(process.env.MONGODB_CONNECTION_STRING);
     app.listen(PORT, ()=>{
       console.log(`Production server live on port ${PORT}`);
     })

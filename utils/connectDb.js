@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const SECRETS = require("../configs/config");
 
 /**
  * @description: Connect to the database by providing the connection string.
@@ -8,7 +7,7 @@ const SECRETS = require("../configs/config");
  *
  * @returns {undefined}
  */
-const connectDb = (url = SECRETS.MOGODB_LOCAL_CONNECTION) => {
+const connectDb = (url = process.env.MOGODB_LOCAL_CONNECTION) => {
     try {
       const con = mongoose.connect(url, {
         useNewUrlParser: true,

@@ -7,12 +7,12 @@
  /**
   * Config import.
   */
- const SECRETS = require("../configs/config"); 
+//  const SECRETS = require("../configs/config"); 
  
  cloudinary.config({
-     cloud_name: SECRETS.CLOUDINARY_CLOUD_NAME,
-     api_key: SECRETS.CLOUDINARY_KEY,
-     api_secret: SECRETS.CLOUDINAY_SECRET
+     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+     api_key: process.env.CLOUDINARY_KEY,
+     api_secret: process.env.CLOUDINAY_SECRET
  });
  
  const storage = new CloudinaryStorage({

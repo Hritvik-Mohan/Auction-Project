@@ -1,6 +1,4 @@
 const { verifyToken } = require("./jwt");
-const SECRETS = require("../configs/config");
-const User = require("../models/user.model");
 
 /**
  * If returns the current user if it is logged in.
@@ -12,7 +10,7 @@ const User = require("../models/user.model");
 const getCurrentUser = async (req, res) => {
     if(req.signedCookies && req.signedCookies.token){
         const token = req.signedCookies.token;
-        const payload = await verifyToken(token, SECRETS.JWT_SECRET);
+        const payload = await verifyToken(token, process.env.JWT_SECRET);
         return payload.id;
     } else {
         return undefined;

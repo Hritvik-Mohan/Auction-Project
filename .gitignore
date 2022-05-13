@@ -133,3 +133,4 @@ dist
 # ignore these too
 test.js
 Tests
+*.env

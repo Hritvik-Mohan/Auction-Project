@@ -4,11 +4,6 @@
 const nodemailer = require("nodemailer");
 
 /**
- * Config Import.
- */
-const SECRETS = require("../configs/config");
-
-/**
  * 
  * @param {string} email | email of the user
  * @param {string} subject | subject of the email 
@@ -20,13 +15,13 @@ const sendMail = async (email, subject, html) => {
   const transporter = nodemailer.createTransport({
     service: "hotmail",
     auth: {
-      user: SECRETS.MAIL_ACC, 
-      pass: SECRETS.MAIL_PASS, 
+      user: process.env.MAIL_ACC, 
+      pass: process.env.MAIL_PASS, 
     },
   });
 
   const options = {
-    from: SECRETS.MAIL_ACC,
+    from: process.env.MAIL_ACC,
     to: email,
     subject,
     html
