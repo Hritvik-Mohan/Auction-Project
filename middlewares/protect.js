@@ -1,6 +1,5 @@
 const { verifyToken } = require("../utils/jwt");
 const catchAsync = require("../utils/catchAsync");
-const SECRETS = require("../configs/config");
 const User = require("../models/user.model");
 
 /**
