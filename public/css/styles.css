@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+p {
+    margin: 0;
+}
+
 :root {
     --body-font-family: 'Roboto', sans-serif;
     --dark-color: #212427;
@@ -22,7 +26,7 @@
 
 body {
     font-size: 16px;
-    line-height: 1.5;
+    /* line-height: 1.5; */
     color: var(--dark-color);
     background: var(--background-color);
     margin: 0;
