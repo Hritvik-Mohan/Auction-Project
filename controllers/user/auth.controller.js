@@ -66,7 +66,7 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     return res.redirect("/users/login");
   }
 
-  const token = newToken(registeredUser._id);
+  
 
   const user = new User({
     firstName,
@@ -79,10 +79,9 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     role,
   });
 
+  const token = newToken(user._id);
   user.tokens.push({ token });
   await user.save();
-
-  const registeredUser = await user.save();
 
   // Setting the token in cookies
   res.cookie("token", token, { signed: true });
