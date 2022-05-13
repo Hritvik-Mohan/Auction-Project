@@ -21,7 +21,6 @@ const upload = multer({
  */
 const protect = require("../../middlewares/protect");
 const isAuthorized = require("../../middlewares/isAuthorized");
-const isAuctionRunning = require("../../middlewares/isAuctionRunning");
 const isAuctionOver = require("../../middlewares/isAuctionOver");
 const isWinner = require("../../middlewares/isWinner");
 
@@ -72,11 +71,5 @@ ProductRouter.route('/products/:id')
  */
 ProductRouter.route('/products/:id/edit')
     .get(protect, isAuthorized, renderEditProduct)
-
-/**
- * Claim the won auction.
- */
-ProductRouter.route('/products/:id/claim')
-    .post(protect, isAuctionOver, isWinner, claimProduct);
 
 module.exports = ProductRouter;

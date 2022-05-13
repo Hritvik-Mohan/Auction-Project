@@ -1,5 +1,6 @@
 <% layout('layouts/boilerplate') %> 
 
+<br>
 <h1>Product Page</h1>
 <hr>
 
@@ -18,13 +19,23 @@
 <div id="submit-bid">
     <form action="/users/<%= product._id %>/bid" method="post">
         <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid">
-        <button type="submit">Submit Bid</button>
+        <button class="btn btn-success" type="submit">Submit Bid</button>
     </form>
     <form action="/users/<%= product._id %>/bid" method="post">
         <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" hidden>
         <button class="btn btn-primary" type="submit">Quick Bid <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
     </form>
 </div> 
+<% } else { %>
+    <span class="bg-warning text-white">You must be logged in to bid on this product</span>
+     <form action="#" method="post">
+        <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid">
+        <button class="btn btn-success" type="submit" disabled>Submit Bid</button>
+    </form>
+    <form action="#" method="post">
+        <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" hidden>
+        <button class="btn btn-primary" type="submit" disabled>Quick Bid <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
+    </form>
 <% } %>
 <div id="bid-container">
     <% if(product.currentHighestBid.amount){ %>
@@ -47,12 +58,6 @@
 <h1>Time Remaining</h1>
 <p id="timer"></p>
 
-<div id="claim-product">
-    <form action="/products/<%= product._id%>/claim" method="POST">
-        <button type="submit">Claim</button>
-    </form>
-</div>
-
 <br>
 <% if(currentUser && product.user._id.equals(currentUser)){ %>
     <a href="/products/<%= product._id %>/edit">Edit Product</a>
@@ -61,7 +66,9 @@
     </form>
 <% } %>
 
-<button id="check-fetch">Click Me!</button>
+<!-- In this div I will dynamically add the contact-seller button -->
+<div id="contact-seller"></div>
+
 
 <script type="module"></script>
 <script>
@@ -71,5 +78,6 @@
     let highestBidInfo = '<%- JSON.stringify(product.currentHighestBid) %>';
     let auctionStatus = '<%- product.auctionStatus %>';
     const productId = '<%- product._id %>';
+    const loggedinUserId = '<%- currentUser %>';
 </script> 
 <script src="/js/product/productPage.js"></script>

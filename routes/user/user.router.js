@@ -20,6 +20,9 @@ const role = require("../../middlewares/role")
 const isSeller = require("../../middlewares/isSeller");
 const isTimeRemaining = require("../../middlewares/isTimeRemaining");
 
+const isWinner = require("../../middlewares/isWinner");
+
+
 
 /**
  * Controller Imports
@@ -30,8 +33,10 @@ const {
   getProfileById,
   renderEditProfile,
   updateProfile,
-  submitBid
+  submitBid,
+  renderSellerProfile
 } = require("../../controllers/user/user.controller")
+
 const {
   registerUser,
   login,
@@ -106,5 +111,9 @@ UserRouter.route('/users/:id')
 // Submit a bid route.
 UserRouter.route('/users/:productId/bid')
   .post(protect, isSeller, isTimeRemaining, submitBid);
+
+// Contact seller route.
+UserRouter.route('/contactSeller/:productId')
+  .get(protect, isWinner, renderSellerProfile);
 
 module.exports = UserRouter;

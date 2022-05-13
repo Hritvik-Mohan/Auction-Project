@@ -41,7 +41,8 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Please add an email"],
     unique: true,
-    trim: true
+    trim: true,
+    lowercase: true
   },
   phoneNumber:{
     type: String,

@@ -1,3 +1,12 @@
+/**
+ * Check if the logged in user is a seller
+ * 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ * @returns next() | if user is the seller
+ * @returns res.redirect('/products/:productId') | if user is not the seller
+ */
 const isSeller = (req, res, next) => {
     // 1. Get user
     const user = req.user;

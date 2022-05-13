@@ -99,6 +99,7 @@ module.exports.registerUser = catchAsync(async (req, res) => {
  * @returns undefined
  */
 module.exports.login = catchAsync(async (req, res) => {
+
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).send({
@@ -124,7 +125,12 @@ module.exports.login = catchAsync(async (req, res) => {
   res.cookie("token", token, { signed: true });
   req.flash("success", "Welcome to Auction App");
 
-  return res.redirect("/products");
+  // Redirecting to the previous page
+
+  const redirectTo = req.session.returnTo || "/products";
+  delete req.session.redirectTo;
+
+  return res.redirect(redirectTo);
 });
 
 /**
