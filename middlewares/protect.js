@@ -22,7 +22,7 @@ const protect = catchAsync( async (req, res, next)=>{
             jwtToken = req.signedCookies.token;
 
             // Verify the token
-            const payload = await verifyToken(jwtToken, SECRETS.JWT_SECRET);
+            const payload = await verifyToken(jwtToken, process.env.JWT_SECRET);
 
             // Find the user based on its id and set it to req.user
             req.user = await User.findOne({_id: payload.id, "tokens.token": jwtToken }).select("-password");
