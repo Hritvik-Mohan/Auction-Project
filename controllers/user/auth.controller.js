@@ -99,13 +99,12 @@ module.exports.registerUser = catchAsync(async (req, res) => {
  * @returns undefined
  */
 module.exports.login = catchAsync(async (req, res) => {
+
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).send({
       message: "email and password are required",
     });
-
-  console.log(req.session.redirectTo);
 
   const user = await User.findOne({ email }).exec();
 
@@ -127,8 +126,8 @@ module.exports.login = catchAsync(async (req, res) => {
   req.flash("success", "Welcome to Auction App");
 
   // Redirecting to the previous page
-  console.log(`in login: ${req.session.returnTo}`);
-  const redirectTo = req.session.redirectTo || "/products";
+
+  const redirectTo = req.session.returnTo || "/products";
   delete req.session.redirectTo;
 
   return res.redirect(redirectTo);
