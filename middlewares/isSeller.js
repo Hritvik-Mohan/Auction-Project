@@ -13,7 +13,7 @@ const isSeller = (req, res, next) => {
 
     // 2. Get product data.
     const {
-        productId
+        id: productId
     } = req.params;
     // console.log(user.products.includes(productId));
     // 3. Check if the user is the owner of the product.

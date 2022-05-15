@@ -14,11 +14,14 @@ const Product = require("../models/product.model");
  */
 const isWinner = async (req, res, next) => {
 
-    const { productId } = req.params;
-
     const currentUser = req.user;
-    const product = await Product.findById(productId);
+    let product = req.product;
 
+    if(!product){
+        const { id: productId } = req.params;
+        product = await Product.findById(productId);
+    }
+   
     if (currentUser._id.equals(product.currentHighestBid.user) && !currentUser.products.includes(product._id)) {
         return next();
     } else {

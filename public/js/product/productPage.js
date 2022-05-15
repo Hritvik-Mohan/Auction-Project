@@ -50,6 +50,9 @@ const showContactSeller = () => {
         <form action='/contactSeller/${productId}' method='GET'>
             <button class="btn btn-success">Contact Seller</button>
         </form>
+        <form action="/stripe/create-checkout-session/${productId}" method="POST">
+            <button type="submit" id="checkout-button" class="btn btn-success">Checkout</button>
+        </form>
     `;
     if(loggedinUserId && loggedinUserId === highestBidInfo.user._id)
         contactSellerDiv.innerHTML = contactSellerForm;

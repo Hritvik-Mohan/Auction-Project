@@ -66,6 +66,29 @@ UserRouter.route('/users/register')
     res.render('users/register');
   })
 
+// TODO: 
+UserRouter.route("/users/address")
+  .get(protect, (req, res)=>{
+    res.render("users/address")
+  })
+  .post(protect, (req, res)=>{
+    res.status(200).json({
+      
+    })
+  })
+
+// TODO:
+UserRouter.route("/users/address/edit")
+  .get(protect, (req, res)=>{
+    const user = req.user;
+    const { billingAddress, shippingAddress} = user.address;
+    res.render("users/address", {
+      billingAddress,
+      shippingAddress
+    });
+  })
+
+
 // Login a user route.
 UserRouter.route('/users/login')
   .get((req, res) => {
@@ -104,16 +127,16 @@ UserRouter.route('/users/profile')
 UserRouter.route('/users/edit')
   .get(protect, renderEditProfile)
 
-// Get user profile by id route.
+// Get user profile by id route. /users/user_id
 UserRouter.route('/users/:id')
   .get(protect, getProfileById)
 
-// Submit a bid route.
-UserRouter.route('/users/:productId/bid')
+// Submit a bid route. /users/product_id/bid
+UserRouter.route('/users/:id/bid')
   .post(protect, isSeller, isTimeRemaining, submitBid);
 
-// Contact seller route.
-UserRouter.route('/contactSeller/:productId')
+// Contact seller route. /constactSeller/product_id
+UserRouter.route('/contactSeller/:id')
   .get(protect, isWinner, renderSellerProfile);
 
 module.exports = UserRouter;

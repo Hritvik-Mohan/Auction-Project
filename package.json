@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.0",
     "cloudinary": "^1.29.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.6",

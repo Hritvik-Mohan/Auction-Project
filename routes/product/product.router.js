@@ -56,10 +56,28 @@ ProductRouter.route('/products/new')
     .get(protect,(req, res) => {
         res.render('products/new');
     })
-    .post(protect, upload.array('images', 6), addNewProduct)
+    .post(protect, upload.array('images', 6), addNewProduct);
 
 /**
- * Get one product and delete one product route.
+ * Checkout route.
+ */
+ProductRouter.route("/products/checkout/:id")
+    .get(protect, isAuctionOver, isWinner, (req, res) => {
+        const product = req.product;
+        const user = req.user;
+        const { billingAddress = false, shippingAddress = false } = user.address;
+        console.log(billingAddress, shippingAddress)
+
+        res.render("products/checkout", {
+            product,
+            user,
+            billingAddress,
+            shippingAddress
+        })
+    })
+
+/**
+ * Get one product and delete one product route. /products/product_id
  */
 ProductRouter.route('/products/:id')
     .get(getOneProduct)
@@ -67,7 +85,7 @@ ProductRouter.route('/products/:id')
     .delete(protect, isAuthorized, deleteProduct)
     .post(declareWinner)
 /**
- * Get one and edit product page route.
+ * Get one and edit product page route. /products/product_id/edit
  */
 ProductRouter.route('/products/:id/edit')
     .get(protect, isAuthorized, renderEditProduct)

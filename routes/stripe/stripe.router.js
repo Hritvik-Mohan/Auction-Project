@@ -4,6 +4,7 @@
 const {
     Router
 } = require("express");
+const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_TEST_TOKEN);
 
 /**
@@ -11,19 +12,20 @@ const stripe = require('stripe')(process.env.STRIPE_TEST_TOKEN);
  */
 const protect = require("../../middlewares/protect");
 const isWinner = require("../../middlewares/isWinner");
+const isAuctionOver = require("../../middlewares/isAuctionOver");
 
 /**
  * Controller Imports
  */
 const {
-    createPayment
+    createPayment,
 } = require("../../controllers/stripe/stripe.controller")
 
 /**
  * Decalarations
  */
 const StripeRouter = Router();
-const YOUR_DOMAIN = 'http://localhost:3000';
+
 
 /**
  * Routes
@@ -34,7 +36,18 @@ const YOUR_DOMAIN = 'http://localhost:3000';
 /**
  * Stripe Test Route
  */
-app.post('/create-checkout-session',protect);
+StripeRouter.route("/stripe/create-checkout-session/:id")
+    .post(protect, isAuctionOver, isWinner, createPayment)
 
+
+StripeRouter.route("/stripe/success")
+    .get((req, res)=>{
+        res.render("stripe/success")
+    });
+
+StripeRouter.route("/stripe/cancel")
+    .get((req, res)=>{
+        res.render("stripe/success")
+    });
 
 module.exports = StripeRouter;
