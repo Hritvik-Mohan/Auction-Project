@@ -23,16 +23,39 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
  */
 // const { fulfillOrder } = require("./webhookEvents");
 
-const createOrder = session => {
+const createOrder = async (session) => {
     console.log(session);
     console.log("Save the order to the database");
+    const transaction = new Transaction({
+        product: session.metadata.product_id,
+        bidder: session.metadata.user_id,
+        seller: session.metadata.seller_id,
+        bid: session.metadata.bid_id,
+        amount: session.metadata.amount,
+        stripeCustomerId: session.customer,
+        stripePaymentIntentId: session.payment_intent,
+    });
+
+    await transaction.save();
 }
 
-const fulfillOrder = session => {
+const fulfillOrder = async (session) => {
     console.log("Send the email to the buyer to confirm the order");
+    const transaction = await Transaction.findOne({
+        product: session.metadata.product_id,
+        bidder: session.metadata.user_id,
+        seller: session.metadata.seller_id
+    });
+
+    transaction.paymentStatus = "paid";
+
+    await transaction.save();
+
+    //TODO: Send the email to the buyer to confirm the order
 }
 
 const emailCustomerAboutFailedPayment = session => {
+    //TODO:
     console.log("Send the email to the customer to inform them that the payment failed");
 }
 
@@ -57,7 +80,7 @@ module.exports.webhookHandler = catchAsync(async (req, res) => {
         case 'checkout.session.completed': {
             const session = event.data.object;
             // Save an order in your database, marked as 'awaiting payment'
-            createOrder(session);
+            await createOrder(session);
 
             // Check if the order is paid (for example, from a card payment)
             //
@@ -65,7 +88,7 @@ module.exports.webhookHandler = catchAsync(async (req, res) => {
             // you're still waiting for funds to be transferred from the customer's
             // account.
             if (session.payment_status === 'paid') {
-                fulfillOrder(session);
+                await fulfillOrder(session);
             }
 
             break;

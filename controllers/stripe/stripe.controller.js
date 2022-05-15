@@ -37,12 +37,6 @@ module.exports.createPayment = catchAsync(async (req, res) => {
         name,
         description,
         images: images.map(image => image.path),
-        metadata: {
-            'product_id': `${_id}`,
-            'seller_id': `${seller}`,
-            'bidder_id': `${bidder}`,
-            'bid_id': `${bid}`
-        }
     });
 
     const price = await stripe.prices.create({
@@ -63,6 +57,13 @@ module.exports.createPayment = catchAsync(async (req, res) => {
         mode: 'payment',
         success_url: `${DOMAIN}/stripe/success`,
         cancel_url: `${DOMAIN}/stripe/cancel`,
+        metadata: {
+            'product_id': `${_id}`,
+            'seller_id': `${seller}`,
+            'bidder_id': `${bidder}`,
+            'bid_id': `${bid}`,
+            'amount': `${amount}`,
+        }
     });
 
     res.redirect(303, session.url);

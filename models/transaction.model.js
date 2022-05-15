@@ -7,7 +7,12 @@ const transactionSchema = new Schema({
         ref: "Product",
         required: true
     },
-    user: {
+    bidder: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    seller:{
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true
@@ -16,13 +21,13 @@ const transactionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Bid",
     },
-    price: {
+    amount: {
         type: Number,
         required: true
     },
-    status: {
+    paymentStatus: {
         type: String,
-        enum: ["pending", "success", "failed"],
+        enum: ["paid", "unpaid"],
         default: "pending"
     },
     stripeCustomerId : {

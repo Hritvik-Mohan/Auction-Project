@@ -2,7 +2,7 @@
 
 <div>
     <div>
-        <h1>Product Details</h1>
+        <h1>Checkout</h1>
         <% for (let image of product.images){  %> 
             <img style="width: 12rem;" src="<%= image.path %> "><br>
         <% }%>
@@ -28,9 +28,12 @@
             <p>Pincode: <%= shippingAddress.pincode %></p>
             <p>Phone number: <%= shippingAddress.phoneNumber %></p>
 
-            <a href="/users/address/edit">Change</a>
+            <a class="btn btn-primary" href="/users/address/edit">Change</a>
+            <form action="/stripe/create-checkout-session/<%= product._id %>" method="POST">
+                <button type="submit" id="checkout-button" class="btn btn-success">Proceed to payment</button>
+            </form>
         <% } else { %>  
-            <a href="/users/address">Add</a>
+            <a class="btn btn-primary" href="/users/addAddress">Add</a>
         <% } %> 
        
 
