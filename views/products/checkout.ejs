@@ -1,0 +1,44 @@
+<% layout('layouts/boilerplate') %> 
+
+<div>
+    <div>
+        <h1>Checkout</h1>
+        <% for (let image of product.images){  %> 
+            <img style="width: 12rem;" src="<%= image.path %> "><br>
+        <% }%>
+        <h3>Title</h3>
+        <p><%= product.title %> </p>
+        <h3>Description</h3>
+        <p><%= product.description %></p>
+        <h3>Amount Total</h3>
+        <p><strong><%= product.currentHighestBid.amount %>&#8377;</strong></p> 
+ 
+        <% if(billingAddress && shippingAddress){ %>
+            <h3>Billing Address</h3>
+            <p>Name: <%= billingAddress.name %></p>
+            <p>Address: <%= billingAddress.address %></p>
+            <p>City: <%= billingAddress.city %></p>
+            <p>State: <%= billingAddress.state %></p>
+            <p>Pincode: <%= billingAddress.pincode %></p>
+            <p>Phone number: <%= billingAddress.phoneNumber %></p>
+
+            <h3>Shipping Address</h3>
+            <p>Name: <%= shippingAddress.name %></p>
+            <p>Address: <%= shippingAddress.address %></p>
+            <p>City: <%= shippingAddress.city %></p>
+            <p>State: <%= shippingAddress.state %></p>
+            <p>Pincode: <%= shippingAddress.pincode %></p>
+            <p>Phone number: <%= shippingAddress.phoneNumber %></p>
+
+            <a class="btn btn-primary" href="/users/address/edit">Change</a>
+            <form action="/stripe/create-checkout-session/<%= product._id %>" method="POST">
+                <button type="submit" id="checkout-button" class="btn btn-success">Proceed to payment</button>
+            </form>
+        <% } else { %>  
+            <a class="btn btn-primary" href="/users/addAddress">Add</a>
+        <% } %> 
+       
+
+
+</div>
+<script src="/js/product/checkoutPage.js"></script>

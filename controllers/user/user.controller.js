@@ -13,7 +13,7 @@ const { cloudinary } = require("../../utils/cloudinaryUpload");
 const AppError = require("../../utils/AppError");
 
 /**
- * Get list of all the users.
+ * @description - Get list of all the users.
  */
 module.exports.getAllUsers = catchAsync(async (req, res) => {
     const users = await User.find({});
@@ -21,7 +21,7 @@ module.exports.getAllUsers = catchAsync(async (req, res) => {
 });
 
 /**
- * Get the profile of logged in user.
+ * @description - Get the profile of logged in user.
  */
 module.exports.getProfile = catchAsync(async (req, res) => {
     const user = await User.findById(res.locals.currentUser)
@@ -39,7 +39,7 @@ module.exports.getProfile = catchAsync(async (req, res) => {
 });
 
 /**
- * Get public profile of a particular user based on its id.
+ * @description - Get public profile of a particular user based on its id.
  */
 module.exports.getProfileById = catchAsync(async (req, res) => {
     const {
@@ -58,7 +58,7 @@ module.exports.getProfileById = catchAsync(async (req, res) => {
 });
 
 /**
- * Renders edit profile page for current user
+ * @description - Renders edit profile page for current user
  */
 module.exports.renderEditProfile = (req, res)=>{
     const user = req.user;
@@ -66,7 +66,7 @@ module.exports.renderEditProfile = (req, res)=>{
 };
 
 /**
- * Update the profile of the logged in user.
+ * @description - This function is used to update the profile of the user.
  */
 module.exports.updateProfile = catchAsync(async (req, res) => {
 
@@ -121,7 +121,7 @@ module.exports.updateProfile = catchAsync(async (req, res) => {
 })
 
 /**
- * Submit bid for a product.
+ * @description - This function is used to submit the bid for a product.
  */
 module.exports.submitBid = catchAsync(async (req, res) => {
     // 1. Get the current user.
@@ -129,7 +129,7 @@ module.exports.submitBid = catchAsync(async (req, res) => {
 
     // 2. Get the product id.
     const {
-        productId
+        id: productId
     } = req.params;
 
     // 3. Get the bid amount.
@@ -191,10 +191,73 @@ module.exports.submitBid = catchAsync(async (req, res) => {
     return res.redirect(`/products/${productId}`);
 });
 
+
+/**
+ * @description - This function is used to render the seller's profile page.
+ */
 module.exports.renderSellerProfile = catchAsync(async(req, res) => {
     const { productId } = req.params;
     
     const product = await Product.findById(productId);
     const user = await User.findById(product.user).populate('products', '_id , title');
     return res.render('users/sellerProfile', { product, user });
+});
+
+/**
+ * @description - This function is used to update the user's address.
+ */
+module.exports.updateUserAddress = catchAsync(async (req, res) => {
+    // Update the users address
+    const user = req.user;
+    const { billingAddress, shippingAddress } = user.address;
+    
+    // Check what fields are changed and update the address
+    let query = {
+      $set: {}
+    }
+
+    // Match the fields
+    for (let key in req.body) {
+      if(key.startsWith("s_")) {
+        if(billingAddress[key.slice(2)] && billingAddress[key.slice(2)] !== req.body[key]){
+          query.$set[`address.billingAddress.${key.slice(2)}`] = req.body[key];
+        }
+      } else {
+        if(shippingAddress[key.slice(2)] && shippingAddress[key.slice(2)] !== req.body[key]){
+          query.$set[`address.shippingAddress.${key.slice(2)}`] = req.body[key];
+        }
+      }
+    }
+
+    // Finally update the user's address.
+    await User.findByIdAndUpdate(user._id, query);
+
+    req.flash("success", "Address updated successfully");
+
+    return res.redirect("/users/profile");
+});
+
+/**
+ * @description - This function is used to save the user's address.
+ */
+module.exports.saveUserAddress = catchAsync(async (req, res) => {
+    const user = req.user;
+
+    const billingAddress = {};
+    const shippingAddress = {};
+
+    const shippingAddressArray = ["s_name", "s_phoneNumber", "s_address", "s_city", "s_state", "s_pincode"];
+    const billingAddressArray = ["b_name", "b_phoneNumber", "b_address", "b_city", "b_state", "b_pincode"];
+
+    shippingAddressArray.forEach(item => billingAddress[item.slice(2)] = req.body[item]);
+    billingAddressArray.forEach(item => shippingAddress[item.slice(2)] = req.body[item]);
+
+    user.address.shippingAddress = shippingAddress;
+    user.address.billingAddress = billingAddress;
+
+    await user.save();
+
+    req.flash("success", "Address added successfully");
+
+    return res.redirect("/users/profile");
 });

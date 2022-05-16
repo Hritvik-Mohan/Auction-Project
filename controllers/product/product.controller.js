@@ -42,7 +42,8 @@ module.exports.getOneProduct = catchAsync(async (req, res) => {
                 },
             },
         });
-    
+  
+
     if (!product) {
         req.flash("error", "Product not found");
         return res.redirect("/products");
@@ -245,7 +246,11 @@ module.exports.claimProduct = catchAsync(async (req, res) => {
 });
 
 /**
- *
+ * @description - This function is used to declare the winner and save it to db.
+ * 
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * 
  */
 module.exports.declareWinner = catchAsync(async (req, res) => {
    
@@ -290,3 +295,22 @@ module.exports.declareWinner = catchAsync(async (req, res) => {
     });
 
 });
+
+/**
+ * @description - This function renders the checkout page.
+ * 
+ * @param {object} req - The request object.
+ * @param {object} res - The response object.
+ */
+module.exports.renderCheckout = (req, res) => {
+    const product = req.product;
+    const user = req.user;
+    const { billingAddress = false, shippingAddress = false } = user.address;
+
+    res.render("products/checkout", {
+        product,
+        user,
+        billingAddress,
+        shippingAddress
+    })
+};

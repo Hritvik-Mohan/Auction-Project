@@ -112,19 +112,22 @@ module.exports.login = catchAsync(async (req, res) => {
     req.flash("error", "Invalid email or password");
     return res.redirect("/users/login");
   }
+
   const match = await user.checkPassword(password);
   if (!match) {
     req.flash("error", "Invalid email or password");
     return res.redirect("/users/login");
   }
+
   const token = newToken(user._id);
   user.tokens.push({ token });
   await user.save();
 
+
   // Setting the token to the cookies for identifying signed user
   res.cookie("token", token, { signed: true });
   req.flash("success", "Welcome to Auction App");
-
+  
   // ! Bug ------------------------------------------------
   // Redirecting to the previous page
   const redirectTo = req.session.returnTo || "/products";

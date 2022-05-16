@@ -26,6 +26,41 @@ imageSchema.virtual('rounded').get(function(){
   return this.path.replace('/upload', '/upload/w_150,h_150,c_fill,g_face,r_max');
 }, opts);
 
+const addressSchema = new Schema({
+    name: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    phoneNumber: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    address: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    city: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    state: {
+      type: String,
+      trim: true,
+      required: true
+    },
+    pincode: {
+      type: String,
+      trim: true,
+      required: true
+    }
+}, {
+  timestamps: true
+});
+
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -49,6 +84,10 @@ const userSchema = new Schema({
     required: [true, "Please add the phone number"],
     unique: true,
     trim: true
+  },
+  address: {
+    billingAddress: addressSchema,
+    shippingAddress: addressSchema,
   },
   password: {
     type: String,
@@ -127,6 +166,19 @@ userSchema.pre("save", async function (next) {
   } catch (err) {
       next(err);
   }
+});
+
+/**
+ * @description - Virtuals are a way to create properties that are not stored 
+ *                in the database, but are computed from other properties.
+ *                 
+ *              - This virtual property returns all the tasks that are associated with
+ *                the current user.
+ */
+userSchema.virtual("transactions", {
+  ref: "Transaction",
+  localField: "_id",
+  foreignField: "bidder"
 });
 
 

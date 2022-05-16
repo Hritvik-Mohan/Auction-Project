@@ -9,7 +9,7 @@ const Schema = mongoose.Schema;
  */
 const User = require("./user.model");
 const Bid = require("./bid.model");
-const { boolean } = require('joi');
+
 
 const opts = { toJSON: { virtuals: true } }
 

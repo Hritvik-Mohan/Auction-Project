@@ -14,7 +14,7 @@
 <h3>Category</h3>
 <p><%= product.category %> </p>
 <h3>Base Price</h3>
-<p> $ <%= product.basePrice %> </p>
+<p> &#8377; <%= product.basePrice %> </p>
 <% if(currentUser && !product.user._id.equals(currentUser)){ %>
 <div id="submit-bid">
     <form action="/users/<%= product._id %>/bid" method="post">
@@ -42,7 +42,7 @@
 <% if(product.currentHighestBid.amount){ %> 
     <% if(product.currentHighestBid.amount){ %>
         <h3>Current Highest Bid</h3>
-        <p>$ <%= product.currentHighestBid.amount %></p>
+        <p>&#8377; <%= product.currentHighestBid.amount %></p>
     <% } %> 
 <% } %> 
     <% } %> 
@@ -66,7 +66,7 @@
     </form>
 <% } %>
 
-<!-- In this div I will dynamically add the contact-seller button -->
+<!-- In this div I will dynamically add the contact-seller button and checkout button-->
 <div id="contact-seller"></div>
 
 

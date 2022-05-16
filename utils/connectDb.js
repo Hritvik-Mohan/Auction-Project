@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
  *
  * @returns {undefined}
  */
-const connectDb = (url = process.env.MOGODB_LOCAL_CONNECTION) => {
+const connectDb = (url = process.env.MONGODB_LOCAL_CONNECTION) => {
     try {
       const con = mongoose.connect(url, {
         useNewUrlParser: true,

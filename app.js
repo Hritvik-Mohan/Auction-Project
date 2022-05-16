@@ -19,10 +19,12 @@ const AppError = require("./utils/AppError");
 const getCurrentUser = require("./utils/getCurrentUser");
 
 /**
- * Routes imports
+ * Router imports
  */
 const UserRouter = require("./routes/user/user.router");
 const ProductRouter = require("./routes/product/product.router")
+const StripeRouter = require("./routes/stripe/stripe.router");
+const WebhookRouter = require("./routes/stripe/webhook.router");
 
 /**
  * Declarations
@@ -33,6 +35,9 @@ const PORT = process.env.PORT || 3000;
 /**
  * Middlewares
  */
+// Listen for incoming webhook requests 
+app.use("/", WebhookRouter);
+// ------------------------------------
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
@@ -58,7 +63,6 @@ app.use(flash());
  */
  app.use(async (req, res, next)=>{
   res.locals.currentUser = await getCurrentUser(req);
-  console.log(res.locals.currentUser);
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
@@ -69,6 +73,7 @@ app.use(flash());
  */
 app.use("/", UserRouter);
 app.use("/", ProductRouter);
+app.use("/", StripeRouter);
 
 /**
  * Home route.

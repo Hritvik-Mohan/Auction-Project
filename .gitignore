@@ -134,3 +134,4 @@ dist
 test.js
 Tests
 *.env
+playground

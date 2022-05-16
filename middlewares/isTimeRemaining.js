@@ -16,7 +16,7 @@ const Product = require("../models/product.model");
 const isTimeRemaining = async (req, res, next) => {
     
     // 1. Get product id.
-    const { productId } = req.params;
+    const { id: productId } = req.params;
 
     // 2. Get product data.
     const product = await Product.findById(productId);
