@@ -10,7 +10,6 @@ const morgan = require("morgan");
 const coookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
-const bodyParser = require("body-parser");
 
 /**
  * Utils Imports
@@ -38,7 +37,7 @@ const PORT = process.env.PORT || 3000;
  */
 // Listen for incoming webhook requests 
 app.use("/", WebhookRouter);
-// ----------------------------
+// ------------------------------------
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));

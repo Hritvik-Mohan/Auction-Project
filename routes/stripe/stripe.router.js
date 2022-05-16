@@ -4,8 +4,6 @@
 const {
     Router
 } = require("express");
-const bodyParser = require('body-parser');
-const stripe = require('stripe')(process.env.STRIPE_TEST_TOKEN);
 
 /**
  * Middleware Imports
@@ -13,6 +11,7 @@ const stripe = require('stripe')(process.env.STRIPE_TEST_TOKEN);
 const protect = require("../../middlewares/protect");
 const isWinner = require("../../middlewares/isWinner");
 const isAuctionOver = require("../../middlewares/isAuctionOver");
+const canCheckout = require("../../middlewares/canCheckout");
 
 /**
  * Controller Imports
@@ -37,7 +36,7 @@ const StripeRouter = Router();
  * Stripe Test Route
  */
 StripeRouter.route("/stripe/create-checkout-session/:id")
-    .post(protect, isAuctionOver, isWinner, createPayment)
+    .post(protect, isAuctionOver, isWinner, canCheckout, createPayment)
 
 
 StripeRouter.route("/stripe/success")

@@ -23,6 +23,7 @@ const protect = require("../../middlewares/protect");
 const isAuthorized = require("../../middlewares/isAuthorized");
 const isAuctionOver = require("../../middlewares/isAuctionOver");
 const isWinner = require("../../middlewares/isWinner");
+const canCheckout = require("../../middlewares/canCheckout");
 
 /**
  * Controller imports.
@@ -35,7 +36,8 @@ const {
     deleteProduct,
     renderEditProduct,
     claimProduct,
-    declareWinner
+    declareWinner,
+    renderCheckout
 } = require("../../controllers/product/product.controller");
 
 /**
@@ -62,19 +64,7 @@ ProductRouter.route('/products/new')
  * Checkout route.
  */
 ProductRouter.route("/products/checkout/:id")
-    .get(protect, isAuctionOver, isWinner, (req, res) => {
-        const product = req.product;
-        const user = req.user;
-        const { billingAddress = false, shippingAddress = false } = user.address;
-        console.log(billingAddress, shippingAddress)
-
-        res.render("products/checkout", {
-            product,
-            user,
-            billingAddress,
-            shippingAddress
-        })
-    })
+    .get(protect, isAuctionOver, isWinner, canCheckout, renderCheckout)
 
 /**
  * Get one product and delete one product route. /products/product_id

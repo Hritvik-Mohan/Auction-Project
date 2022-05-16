@@ -10,6 +10,8 @@
         <p><%= product.title %> </p>
         <h3>Description</h3>
         <p><%= product.description %></p>
+        <h3>Amount Total</h3>
+        <p><strong><%= product.currentHighestBid.amount %>&#8377;</strong></p> 
  
         <% if(billingAddress && shippingAddress){ %>
             <h3>Billing Address</h3>

@@ -168,6 +168,19 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+/**
+ * @description - Virtuals are a way to create properties that are not stored 
+ *                in the database, but are computed from other properties.
+ *                 
+ *              - This virtual property returns all the tasks that are associated with
+ *                the current user.
+ */
+userSchema.virtual("transactions", {
+  ref: "Transaction",
+  localField: "_id",
+  foreignField: "bidder"
+});
+
 
 /**
 * This function is attached to UserSchema, i.e. Every document would have access to this funciton, where

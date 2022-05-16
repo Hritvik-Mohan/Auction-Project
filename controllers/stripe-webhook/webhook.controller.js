@@ -3,15 +3,6 @@
  */
 const stripe = require('stripe')(process.env.STRIPE_TEST_TOKEN);
 
-
-/**
- * Model imports.
- */
-const Product = require("../../models/product.model");
-const User = require("../../models/user.model");
-const Bid = require("../../models/bid.model");
-const Transaction = require("../../models/transaction.model");
-
 /**
  * Utils imports.
  */
@@ -21,43 +12,11 @@ const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 /**
  * Webhook events imports.
  */
-// const { fulfillOrder } = require("./webhookEvents");
-
-const createOrder = async (session) => {
-    console.log(session);
-    console.log("Save the order to the database");
-    const transaction = new Transaction({
-        product: session.metadata.product_id,
-        bidder: session.metadata.user_id,
-        seller: session.metadata.seller_id,
-        bid: session.metadata.bid_id,
-        amount: session.metadata.amount,
-        stripeCustomerId: session.customer,
-        stripePaymentIntentId: session.payment_intent,
-    });
-
-    await transaction.save();
-}
-
-const fulfillOrder = async (session) => {
-    console.log("Send the email to the buyer to confirm the order");
-    const transaction = await Transaction.findOne({
-        product: session.metadata.product_id,
-        bidder: session.metadata.user_id,
-        seller: session.metadata.seller_id
-    });
-
-    transaction.paymentStatus = "paid";
-
-    await transaction.save();
-
-    //TODO: Send the email to the buyer to confirm the order
-}
-
-const emailCustomerAboutFailedPayment = session => {
-    //TODO:
-    console.log("Send the email to the customer to inform them that the payment failed");
-}
+const { 
+    createOrder, 
+    fulfillOrder, 
+    emailCustomerAboutFailedPayment 
+} = require("./webhookEvents");
 
 /**
  * Webhook handler function.

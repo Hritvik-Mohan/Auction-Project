@@ -33,7 +33,9 @@ const {
   renderEditProfile,
   updateProfile,
   submitBid,
-  renderSellerProfile
+  renderSellerProfile,
+  saveUserAddress,
+  updateUserAddress
 } = require("../../controllers/user/user.controller")
 
 const {
@@ -70,57 +72,8 @@ UserRouter.route("/users/addAddress")
   .get(protect, (req, res) => {
     res.render("users/addAddress")
   })
-  .post(protect, async (req, res) => {
-    const user = req.user;
-
-    const billingAddress = {};
-    const shippingAddress = {};
-
-    const shippingAddressArray = ["s_name", "s_phoneNumber", "s_address", "s_city", "s_state", "s_pincode"];
-    const billingAddressArray = ["b_name", "b_phoneNumber", "b_address", "b_city", "b_state", "b_pincode"];
-
-    shippingAddressArray.forEach(item => billingAddress[item.slice(2)] = req.body[item]);
-    billingAddressArray.forEach(item => shippingAddress[item.slice(2)] = req.body[item]);
-
-    user.address.shippingAddress = shippingAddress;
-    user.address.billingAddress = billingAddress;
-
-    await user.save();
-
-    req.flash("success", "Address added successfully");
-
-    return res.redirect("/users/profile");
-  })
-  .put(protect, async (req, res) => {
-    // Update the users address
-    const user = req.user;
-    const { billingAddress, shippingAddress } = user.address;
-    
-    // Check what fiels are changed and update the address
-    let query = {
-      $set: {}
-    }
-
-    for (let key in req.body) {
-      console.log(key, key.slice(2))
-      if(key.startsWith("s_")) {
-        if(billingAddress[key.slice(2)] && billingAddress[key.slice(2)] !== req.body[key]){
-          query.$set[`address.billingAddress.${key.slice(2)}`] = req.body[key];
-        }
-      } else {
-        if(shippingAddress[key.slice(2)] && shippingAddress[key.slice(2)] !== req.body[key]){
-          query.$set[`address.shippingAddress.${key.slice(2)}`] = req.body[key];
-        }
-      }
-    }
-
-    await User.findByIdAndUpdate(user._id, query);
-
-    req.flash("success", "Address updated successfully");
-
-    return res.redirect("/users/profile");
-
-  })
+  .post(protect, saveUserAddress)
+  .put(protect, updateUserAddress)
 
 // Render edit address route.
 UserRouter.route("/users/address/edit")

@@ -28,7 +28,7 @@ const transactionSchema = new Schema({
     paymentStatus: {
         type: String,
         enum: ["paid", "unpaid"],
-        default: "pending"
+        default: "unpaid"
     },
     stripeCustomerId : {
         type: String
