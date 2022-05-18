@@ -8,9 +8,7 @@
   <div class="product card--light">
       <a href="/products/<%= product._id %>">
       <span class="image-container">
-        <% for (let image of product.images){  %> 
-            <img class="product__image" src="<%= image.path %> "><br>
-        <% }%>
+            <img class="product__image" src="<%= product.images[0].path %> "><br>
       </span>
       
       <h1 class="product__title"><%= product.title %></h1>
