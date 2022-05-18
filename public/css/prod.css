@@ -1,110 +1,34 @@
-.container-prod {  display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 3fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "prod-1 prod-2 prod-3";
-  }
-  
-  .prod-1 {  display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 2.5fr 0.5fr 0.5fr 0.5fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "img img"
-      "title title"
-      "current-price time-ramining"
-      "price time";
-    grid-area: prod-1;
-  }
-  
-  .img { grid-area: img; }
-  
-  .title { grid-area: title; }
-  
-  .current-price { grid-area: current-price; }
-  
-  .time-ramining { grid-area: time-ramining; }
-  
-  .price { grid-area: price; }
-  
-  .time { grid-area: time; }
-  
-  .prod-2 {  display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 2.5fr 0.5fr 0.5fr 0.5fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "img-2 img-2"
-      "title-2 title-2"
-      "current-price-2 time-remaining-2"
-      "price-2 time-2";
-    grid-area: prod-2;
-  }
-  
-  .img-2 { grid-area: img-2; }
-  
-  .title-2 { grid-area: title-2; }
-  
-  .current-price-2 { grid-area: current-price-2; }
-  
-  .time-remaining-2 { grid-area: time-remaining-2; }
-  
-  .price-2 { grid-area: price-2; }
-  
-  .time-2 { grid-area: time-2; }
-  
-  .prod-3 {  display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 2.5fr 0.5fr 0.5fr 0.5fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "img-3 img-3"
-      "title-3 title-3"
-      "current-price-3 time-remaining-3"
-      "price-3 time-3";
-    grid-area: prod-3;
-  }
-  
-  .img-3 { grid-area: img-3; }
-  
-  .title-3 { grid-area: title-3; }
-  
-  .current-price-3 { grid-area: current-price-3; }
-  
-  .time-remaining-3 { grid-area: time-remaining-3; }
-  
-  .price-3 { grid-area: price-3; }
-  
-  .time-3 { grid-area: time-3; }
-  
-  
-  /* html, body , .container {
-    height: 100%;
-    margin: 0;
-  } */
-  
-  /* For presentation only, no need to copy the code below */
-  
-  .container-prod * {
-    border: 1px solid red;
-    position: relative;
-  }
-  
-  .container-prod *:after {
-    content:attr(class);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  
+.prodContainer {
+  margin: 0 auto;
+  display: flex;
+  flex-flow: wrap;
+  width: 80%;
+  font-family: var(--body-font-family);
+}
+
+.product {
+  margin: 30px auto;
+  max-width: 400px;
+}
+
+.product__image {
+  aspect-ratio: 1/1;
+  border-radius: 5px;
+}
+
+.product__title {
+  margin: 5px 0 5px 0;
+}
+
+.product__body {
+  margin-bottom: 10px;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapper--space {
+  margin: 5px 0 5px 0;
+}
