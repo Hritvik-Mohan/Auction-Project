@@ -1,60 +1,43 @@
 <% layout('layouts/boilerplate') %> 
 <link rel="stylesheet" href="/css/prod.css" />
-<!-- <h1>Products Page</h1> -->
-<br>
-<br>
-<ul>
+
+
+
+<div class="prodContainer">
     <% for (let product of products){ %>
-        <li><a href="/products/<%= product._id %>"><%= product.title %></a></li>
-    <% } %> 
-    <% if(currentUser){ %>
-        <!-- <a href="/products/new">List an Item</a> -->
-    <% } %>
-</ul>
+  <div class="product card--light">
+      <a href="/products/<%= product._id %>">
+      <span class="image-container">
+        <% for (let image of product.images){  %> 
+            <img class="product__image" src="<%= image.path %> "><br>
+        <% }%>
+      </span>
+      
+      <h1 class="product__title"><%= product.title %></h1>
+      <p class="product__body"><%= product.description %></p>
+      <div class="wrapper wrapper--space">
+          <p>CURRENT PRICE</p>
+          <p>TIME REMAINING</p>
+      </div>
+      <div class="wrapper">
+          <p> &#8377; <%= product.basePrice %> </p>
+          <p id="timer"></p>
+      </div></a>
+  </div>
+  <% } %> 
+  <% if(currentUser){ %>
+    <!-- <a href="/products/new">List an Item</a> -->
+<% } %>
+</div>
 
-<!-- <div class="container-prod my-5">
-  <div class="prod-1">
-    <div class="img"></div>
-    <div class="title"></div>
-    <div class="current-price"></div>
-    <div class="time-ramining"></div>
-    <div class="price"></div>
-    <div class="time"></div>
-  </div>
-  <div class="prod-2">
-    <div class="img-2"></div>
-    <div class="title-2"></div>
-    <div class="current-price-2"></div>
-    <div class="time-remaining-2"></div>
-    <div class="price-2"></div>
-    <div class="time-2"></div>
-  </div>
-  <div class="prod-3">
-    <div class="img-3"></div>
-    <div class="title-3"></div>
-    <div class="current-price-3"></div>
-    <div class="time-remaining-3"></div>
-    <div class="price-3"></div>
-    <div class="time-3"></div>
-  </div>
-</div> -->
-
-      <!-- Pagination -->
-      <!-- <nav class="my-4" aria-label="...">
-        <ul class="pagination pagination-circle justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item active" aria-current="page">
-            <a class="page-link" href="#">2 <span class="sr-only"></span></a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </main> -->
-  <!--Main layout-->
+<script type="module"></script>
+<script>
+    let startTime = '<%- products.startTime %>';
+    let endTime = '<%- products.endTime %>';
+    const duration = '<%- products.duration %>';
+    let highestBidInfo = '<%- JSON.stringify(products.currentHighestBid) %>';
+    let auctionStatus = '<%- products.auctionStatus %>';
+    const productId = '<%- products._id %>';
+    const loggedinUserId = '<%- currentUser %>';
+</script> 
+<script src="/js/product/productPage.js"></script>
