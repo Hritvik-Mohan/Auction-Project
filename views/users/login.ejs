@@ -1,40 +1,43 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/css/styles.css" />
 
-<div class="loginForm">
-    <div class="loginH1">Login</div>
-    <form action="/users/login" method="POST">
-        <div class="">
-            <div>
-                <label class="formLable" for="">Email</label>
+<div class="formContainer">
+    <div class="loginForm">
+        <div class="loginH1">Login</div>
+        <form action="/users/login" method="POST">
+            <div class="">
+                <div>
+                    <label class="formLable" for="">Email</label>
+                </div>
+                <div>
+                    <input name="email" type="email" class="formInput" id="email" />
+                </div>
+                
             </div>
-            <div>
-                <input name="email" type="email" class="formInput" id="email" />
+            <div class="">
+                <div class="password-wrapper">
+                    <label class="formLable" for="">Password</label>
+                    <a href="/users/forgot-password">Forgot Password</a>
+                </div>
+                
+                <input name="password" type="password" class="formInput" id="password" />
+            </div>
+            <div class="">
+                <button type="submit" class="formSubmitButton">
+                    Sign In
+                </button>
+            </div>
+    
+            <!-- <div class="">Don't have an account</div> -->
+            <div class="formLink">
+                <a href="/users/register">Create new account</a>
             </div>
             
-        </div>
-        <div class="">
-            <div class="password-wrapper">
-                <label class="formLable" for="">Password</label>
-                <a href="/users/forgot-password">Forgot Password</a>
-            </div>
-            
-            <input name="password" type="password" class="formInput" id="password" />
-        </div>
-        <div class="">
-            <button type="submit" class="formSubmitButton">
-                Sign In
-            </button>
-        </div>
-
-        <!-- <div class="">Don't have an account</div> -->
-        <div class="formLink">
-            <a href="/users/register">Create new account</a>
-        </div>
-        
-        <!-- <a href="/users/forgot-password">Forgot Password</a> -->
-    </form>
+            <!-- <a href="/users/forgot-password">Forgot Password</a> -->
+        </form>
+    </div>
 </div>
+
 
 
 <!-- <div class="">

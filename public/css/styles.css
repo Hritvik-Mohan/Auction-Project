@@ -291,24 +291,36 @@ input {
     }
 }
 
+
+.formContainer {
+    margin: 30px auto;
+    width: 30vw;
+}
+
+.formContainer-signup {
+    margin: 30px auto;
+    width: 100%;
+}
+
 .loginForm {
     font-family: var(--body-font-family);
-    margin: 30px auto;
     /* display: flex; */
-    width: 625px;
+    width: 100%;
 }
 
 .loginH1 {
     font-size: 96px;
     margin-bottom: 53px;
+    width: 100%;
 }
 
 .formLable {
     font-size: 24px;
+    /* width: 100%; */
 }
 
 .formInput {
-    width: 565px;
+    width: 100%;
     height: 90px;
     background-color: var(--light-grey);
     opacity: 70%;
@@ -345,4 +357,8 @@ input {
 .formSubmitButton:focus {
   /* box-shadow: 0 0.5em 0.5em -0.4em var(--hover); */
   transform: translateY(-0.1rem);
+}
+
+.formFlex {
+    display: flex;
 }
