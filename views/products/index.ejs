@@ -1,9 +1,9 @@
 <% layout('layouts/boilerplate') %> 
-<link rel="stylesheet" href="/css/prod.css" />
+<link rel="stylesheet" href="/css/styles.css" />
 
 
 
-<div class="prodContainer">
+<div class="container prodContainer">
     <% for (let product of products){ %>
   <div class="product card--light">
       <a class="product__wrapper" href="/products/<%= product._id %>">
