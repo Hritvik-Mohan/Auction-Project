@@ -1,8 +1,10 @@
+
 .prodContainer {
+  width: 100%;
   margin: 0 auto;
+  /* left: 15%; */
   display: flex;
   flex-flow: wrap;
-  width: 70%;
   font-family: var(--body-font-family);
 }
 
