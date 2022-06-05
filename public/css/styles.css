@@ -113,7 +113,9 @@ input {
 .container {
     padding-top: 2vh;
     /* position: fixed; */
+    margin: 0 auto;
     width: 70%;
+    max-width: 2000px;
     /*Limits the width of the container but let's it get smaller if needed.*/
     padding-left: 15%;
     padding-right: 15%;
@@ -209,7 +211,7 @@ input {
 /* } */
 
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 1080px) {
 
     .container {
         width: 80%;
@@ -406,8 +408,10 @@ input {
     /* width: 100%; */
     /* margin: 0; */
     /* left: 15%; */
-    display: flex;
-    flex-flow: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    /* justify-content: space-around; */
     font-family: var(--body-font-family);
   }
   
