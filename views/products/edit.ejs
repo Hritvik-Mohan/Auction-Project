@@ -39,13 +39,13 @@
     <div>
         <input type="file" name="images" id="images" multiple>
     </div>
-
+    <%= product %> 
     <% if(product.images?.length){ %> 
         <div>
             <p>Delete images</p>
         </div>
         <% product.images.forEach((image, index)=>{ %>
-            <img src="<%= image.thumbnail %>">
+            <img src="<%= image %>">
             <div>
                 <input type="checkbox" name="deleteImages[]" id="img-<%= index %>" value="<%= image.filename %>">
                 <label for="img-<%= index %>">Delete ?</label>

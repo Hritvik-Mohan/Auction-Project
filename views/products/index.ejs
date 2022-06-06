@@ -19,7 +19,7 @@
       </div>
       <div class="wrapper">
           <p> &#8377; <%= product.basePrice %> </p>
-          <p id="timer"></p>
+          <p class="countdown-timer" id="timer-<%= product._id %>"></p>
       </div></a>
   </div>
   <% } %> 
@@ -30,12 +30,6 @@
 
 <script type="module"></script>
 <script>
-    let startTime = '<%- products.startTime %>';
-    let endTime = '<%- products.endTime %>';
-    const duration = '<%- products.duration %>';
-    let highestBidInfo = '<%- JSON.stringify(products.currentHighestBid) %>';
-    let auctionStatus = '<%- products.auctionStatus %>';
-    const productId = '<%- products._id %>';
-    const loggedinUserId = '<%- currentUser %>';
+    let products = '<%- JSON.stringify(products) %>';
 </script> 
-<script src="/js/product/productPage.js"></script>
+<script src="/js/product/indexPage.js"></script>
