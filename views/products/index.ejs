@@ -1,15 +1,15 @@
 <% layout('layouts/boilerplate') %> 
-<link rel="stylesheet" href="/css/prod.css" />
+<link rel="stylesheet" href="/css/styles.css" />
 
 
 
-<div class="prodContainer">
+<div class="container prodContainer">
     <% for (let product of products){ %>
   <div class="product card--light">
-      <a href="/products/<%= product._id %>">
-      <span class="image-container">
+      <a class="product__wrapper" href="/products/<%= product._id %>">
+      <div class="image-container">
             <img class="product__image" src="<%= product.images[0].path %> "><br>
-      </span>
+      </div>
       
       <h1 class="product__title"><%= product.title %></h1>
       <p class="product__body"><%= product.description %></p>
