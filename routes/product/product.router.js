@@ -4,17 +4,11 @@
 const {
     Router
 } = require("express");
-const multer = require('multer')
 
 /**
  * Util imports.
  */
-const {
-    storage
-} = require("../../utils/cloudinaryUpload");
-const upload = multer({
-    storage
-})
+ const { upload } = require("../../utils/multer");
 
 /**
  * Middleware import
