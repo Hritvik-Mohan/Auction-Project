@@ -19,7 +19,7 @@
      cloudinary,
      params: {
          folder: 'AuctionApp',
-         allowedFormats: ['jped', 'png', 'jpg']
+         allowedFormats: ['jpeg', 'png', 'jpg']
      }
  });
  

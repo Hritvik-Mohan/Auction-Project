@@ -8,7 +8,7 @@
   <div class="product card--light">
       <a class="product__wrapper" href="/products/<%= product._id %>">
       <div class="image-container">
-            <img class="product__image" src="<%= product.images[0].path %> "><br>
+            <img class="product__image" src="<%= product.images[0]?.path || "https://images.unsplash.com/photo-1633078654544-61b3455b9161?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1490&q=80"%> "><br>
       </div>
       
       <h1 class="product__title"><%= product.title %></h1>
