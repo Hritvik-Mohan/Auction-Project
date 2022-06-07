@@ -135,7 +135,7 @@ module.exports.updateProduct = catchAsync(async (req, res) => {
             query.$set[key] = req.body[key];
         }
     }
-
+    
     // Check if start time or duration were changed
     if (query.$set.startTime || query.$set.duration) {
         const today = new Date();
@@ -159,33 +159,37 @@ module.exports.updateProduct = catchAsync(async (req, res) => {
         const {
             deleteImages
         } = req.body;
+        
+        // If the number of images being deleted is equal
+        // to total number of available images then prevent
+        // from deleting all images.
+        if(deleteImages.length === product.images.length){
+            req.flash("error", "Cannot delete all images");
+            return res.redirect(`/products/${product._id}/edit`);
+        }
+
+        // Delete the images from the cloudinary.
         await Promise.all(
             deleteImages.map((filename) => cloudinary.uploader.destroy(filename))
         );
-        // Delete the images from the product
-        query.$pull = {
-            images: {
-                $in: req.body.deleteImages
-            }
-        };
+        // Delete the images from the product.
+        product.images = product.images.filter(image => {
+            if(!deleteImages.includes(image.filename)) return image;
+        });
     }
 
     // Check if there are any images to be added
-    if (req.files) {
-        // Add the new images to the product
-        query.$push = {
-            images: req.files.map((file) => ({
-                path: file.path,
-                filename: file.filename,
-            })),
-        };
+    if (req.files.length > 0) {
+        product.images = [...product.images, ...req.files.map((file) => ({
+            path: file.path,
+            filename: file.filename,
+        }))];
     }
 
     // Running the update query parallely togeather.
     await Promise.all([
         Product.findByIdAndUpdate(id, query["$set"]),
-        Product.findByIdAndUpdate(id, query["$pull"]),
-        Product.findByIdAndUpdate(id, query["$push"]),
+        product.save()
     ]);
 
     return res.redirect(`/products/${id}`);

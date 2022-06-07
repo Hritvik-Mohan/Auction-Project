@@ -39,17 +39,18 @@
     <div>
         <input type="file" name="images" id="images" multiple>
     </div>
-    <%= product %> 
     <% if(product.images?.length){ %> 
-        <div>
-            <p>Delete images</p>
-        </div>
         <% product.images.forEach((image, index)=>{ %>
-            <img src="<%= image %>">
-            <div>
-                <input type="checkbox" name="deleteImages[]" id="img-<%= index %>" value="<%= image.filename %>">
-                <label for="img-<%= index %>">Delete ?</label>
-            </div>
+            <img src="<%= image.thumbnail %>">
+            <% if(product.images.length > 1){ %>
+                <div>
+                    <p>Delete image</p>
+                </div>
+                <div>
+                    <input type="checkbox" name="deleteImages[]" id="img-<%= index %>" value="<%= image.filename %>">
+                    <label for="img-<%= index %>">Delete ?</label>
+                </div> 
+            <% } %> 
         <% }) %> 
     <% } %>
 
@@ -57,7 +58,7 @@
         <label for="startTime">Start Time</label>
     </div>
     <div>
-        <input type="datetime-local" name="startTime" id="startTime" value="<%= product.startTime %>" required>
+        <input type="datetime-local" name="startTime" id="startTime" required>
     </div>
     <div>
         <label for="duration">Duration</label>
@@ -75,6 +76,9 @@
         <button type="submit">Make it so!</button>
     </div>
 </form>
-
-<script src="/js/moment-with-locales.min.js"></script>
-<script src="/js/product/editProduct.js"></script>
+<script>
+    let startTime = '<%- product.startTime %>';
+</script>
+<script src="/js/product/editPage.js">
+    
+</script>

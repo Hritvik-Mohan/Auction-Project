@@ -62,6 +62,6 @@ const getUsersBy = async () => {
   console.log(users);
 }
 
-// deleteAllUsers()
-// deleteAllProducts()
-getUsersBy();
+deleteAllUsers()
+deleteAllProducts()
+// getUsersBy();
