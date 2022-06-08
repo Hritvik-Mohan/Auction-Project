@@ -4,15 +4,10 @@
 const Transaction = require("../../models/transaction.model");
 
 /**
- * Utils imports.
- */
-const catchAsync = require("../../utils/catchAsync");
-
-/**
  * @description - This function save the transaction information in the database.
  *       
  */
-const createOrder = catchAsync(async (session) => {
+const createOrder = async (session) => {
     console.log(session);
     console.log("Save the order to the database");
 
@@ -23,25 +18,41 @@ const createOrder = catchAsync(async (session) => {
         bid_id, 
         amount 
     } = session.metadata;
-   
-    const transaction = new Transaction({
+
+   // Check if the transaction already exists
+    const existingTransaction = await Transaction.findOne({
         product: product_id,
         bidder: bidder_id,
         seller: seller_id,
-        bid: bid_id,
-        amount: amount,
-        stripeCustomerId: session.customer,
-        stripePaymentIntentId: session.payment_intent,
+        bid: bid_id
     });
-
-    await transaction.save();
-});
+    
+    // If the transaction already exists, then update the stripeCustomerId and stripePaymentIntentId.
+    // Otherwise, create a new transaction.
+    if (existingTransaction) {
+        existingTransaction.stripeCustomerId = session.customer;
+        existingTransaction.stripePaymentIntentId = session.payment_intent;
+        await existingTransaction.save();
+    } else {
+        const transaction = new Transaction({
+            product: product_id,
+            bidder: bidder_id,
+            seller: seller_id,
+            bid: bid_id,
+            amount: amount,
+            stripeCustomerId: session.customer,
+            stripePaymentIntentId: session.payment_intent,
+        });
+    
+        await transaction.save();
+    }
+}
 
 /**
  * @description - This function updates the product status to "paid".
  *                and send an email to the customer with the transaction details.
  */
-const fulfillOrder = catchAsync(async (session) => {
+const fulfillOrder = async (session) => {
     console.log("Send the email to the buyer to confirm the order");
     
     const { 
@@ -61,16 +72,16 @@ const fulfillOrder = catchAsync(async (session) => {
     await transaction.save();
 
     //TODO: Send the email to the buyer to confirm the order
-});
+};
 
 /**
  * @description - This function sends the email to the user in
  *                an event of failed payment.
  */
-const emailCustomerAboutFailedPayment = catchAsync( async (session) => {
+const emailCustomerAboutFailedPayment =  async (session) => {
     //TODO:
     console.log("Send the email to the customer to inform them that the payment failed");
-});
+};
 
 module.exports = {
     createOrder,

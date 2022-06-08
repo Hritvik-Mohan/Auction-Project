@@ -196,7 +196,7 @@ module.exports.submitBid = catchAsync(async (req, res) => {
  * @description - This function is used to render the seller's profile page.
  */
 module.exports.renderSellerProfile = catchAsync(async(req, res) => {
-    const { productId } = req.params;
+    const { id: productId } = req.params;
     
     const product = await Product.findById(productId);
     const user = await User.findById(product.user).populate('products', '_id , title');
