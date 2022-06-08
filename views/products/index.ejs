@@ -30,6 +30,6 @@
 
 <script type="module"></script>
 <script>
-    let products = '<%- JSON.stringify(products) %>';
+    let products = '<%- JSON.stringify(products).replace(/[\/\(\)\']/g, "&apos;") %>';
 </script> 
 <script src="/js/product/indexPage.js"></script>
