@@ -18,7 +18,7 @@
 <% if(currentUser && !product.user._id.equals(currentUser)){ %>
 <div id="submit-bid">
     <form action="/users/<%= product._id %>/bid" method="post">
-        <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid">
+        <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid" required>
         <button class="btn btn-success" type="submit">Submit Bid</button>
     </form>
     <form action="/users/<%= product._id %>/bid" method="post">

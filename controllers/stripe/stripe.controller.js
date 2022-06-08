@@ -40,8 +40,7 @@ module.exports.createPayment = catchAsync(async (req, res) => {
     });
 
     const price = await stripe.prices.create({
-        // unit_amount: amount * 100,
-        unit_amount: 100,
+        unit_amount: amount * 100,
         currency: 'inr',
         product: chekoutProduct.id,
     });
