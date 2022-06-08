@@ -230,26 +230,6 @@ module.exports.deleteProduct = catchAsync(async (req, res) => {
 });
 
 /**
- * Claim the winning bid.
- */
-module.exports.claimProduct = catchAsync(async (req, res) => {
-    const currentUser = req.user;
-    const product = req.product;
-
-    if(!currentUser.bidsWon.includes(product.currentHighestBid.bid)){
-        currentUser.bidsWon.push(product.currentHighestBid.bid);
-        product.auctionStatus = false;
-        await Promise.all([product.save(), currentUser.save()]);
-        req.flash("success", "You have claimed the bid.");
-        return res.redirect(`/products/${product._id}`);
-    } else {
-        req.flash('error', 'You have already won this product.');
-        return res.redirect(`/products/${product._id}`);
-    }
-
-});
-
-/**
  * @description - This function is used to declare the winner and save it to db.
  * 
  * @param {Object} req - The request object.

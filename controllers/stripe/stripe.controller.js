@@ -8,14 +8,11 @@ const stripe = require('stripe')(process.env.STRIPE_TEST_TOKEN);
  * Model imports.
  */
 const Product = require("../../models/product.model");
-const User = require("../../models/user.model");
-const Bid = require("../../models/bid.model");
 
 /**
  * Utils imports.
  */
 const catchAsync = require("../../utils/catchAsync");
-const AppError = require("../../utils/AppError");
 
 /**
  * Declations

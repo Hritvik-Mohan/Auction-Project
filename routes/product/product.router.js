@@ -29,7 +29,6 @@ const {
     updateProduct,
     deleteProduct,
     renderEditProduct,
-    claimProduct,
     declareWinner,
     renderCheckout
 } = require("../../controllers/product/product.controller");
