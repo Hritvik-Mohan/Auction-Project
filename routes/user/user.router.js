@@ -67,6 +67,11 @@ UserRouter.route('/users/register')
     res.render('users/register');
   })
 
+UserRouter.route('/users/dashboard')
+  .get((req, res) => {
+    res.render('users/dashboard');
+  })
+
 // Add address route.
 UserRouter.route("/users/addAddress")
   .get(protect, (req, res) => {
