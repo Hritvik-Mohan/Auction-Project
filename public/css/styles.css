@@ -465,21 +465,24 @@ form {
 
 
 
+
 .prodContainer {
-    width: 70%;
+    max-width: 70%;
     margin: 0 auto;
+    padding: 0;
     /* left: 15%; */
     max-width: 2000px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    column-gap: 150px;
+    grid-column-gap: 8vw;
     
     font-family: var(--body-font-family);
   }
   
   .product {
     margin: 30px auto;
-    max-width: 400px;
+    
+    max-width: 300px;
     /* border:solid .1rem;
     border-radius: 5px;
     border-color:blueviolet; */
@@ -491,32 +494,55 @@ form {
   
   .image-container {
     aspect-ratio: 1/1;
+    background-color: white;
+    border:solid .1rem;
+    border-radius: 5px;
+    border-color: #DDDDDD;
+    background-color: white;
+
+    /* min-width: 100px; */
+    min-height: 300px;
+    max-height: 100%;
+    min-width: 300px;
+    max-width: 100%;
+    /* max-height: auto; */
+    /* float: left; */
+    /* margin: 3px; */
+    /* padding: 3px; */
   }
 
   .product__image {
     display: block;
     /* max-width: 100%; */
-    /* min-width: 100%; */
-    object-fit: scale-down;
+    object-fit:scale-down;
     /* width:300px;
     height:300px; */
-    width: 100%;
+    /* width:100%; */
+    margin: auto;
     height:100%;
+    max-width: 100%;
+    /* max-width: fit-content; */
     /* aspect-ratio: 1/1; */
-    border:solid .1rem;
-    border-radius: 5px;
-    border-color: #DDDDDD;
-    background-color: white;
   }
   
   .product__title {
     margin: 5px 0 5px 0;
     /* font-size: 1.1em; */
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    /* text-overflow: "----"; */
+    -webkit-mask-image: linear-gradient(90deg, #4D34E4 80%, transparent);
   }
   
   .product__body {
     margin-bottom: 10px;
     /* font-size: 0.5em; */
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    /* text-overflow: "----"; */
+    -webkit-mask-image: linear-gradient(90deg, #4D34E4 80%, transparent);
   }
   
   .wrapper {
@@ -533,19 +559,17 @@ form {
   }
   
   @media screen and 
-  (max-width: 1920px) {
+  (max-width: 1700px) {
     .prodContainer {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        justify-content: space-between;
-        column-gap: 50px;
+        /* column-gap: 50px; */
         font-family: var(--body-font-family);
     }
   }
   
-  
   @media screen and 
-  (max-width: 1260px) {
+  (max-width: 980px) {
     .prodContainer {
       margin: 0 auto;
       display: flex;
@@ -553,17 +577,8 @@ form {
       width: 80%;
       font-family: var(--body-font-family);
     }
+    /* .image-container {
+        
+    } */
+
   }
-
-
-
-
-
-
-
-
-
-
-
-
-  
