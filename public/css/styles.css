@@ -214,7 +214,7 @@ input {
 /* } */
 
 
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 1227px) {
 
     .container {
         width: 80%;
@@ -545,7 +545,7 @@ form {
   
   
   @media screen and 
-  (max-width: 980px) {
+  (max-width: 1260px) {
     .prodContainer {
       margin: 0 auto;
       display: flex;
@@ -554,3 +554,16 @@ form {
       font-family: var(--body-font-family);
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+  

@@ -1,66 +1,60 @@
 <% layout('layouts/boilerplate') %>
 
 
-<link rel="stylesheet" href="/css/newProd.css" />
+<link rel="stylesheet" href="/css/styles.css" />
 
-<div class="global-container">
-    <div class="card login-form">
-        <div class="card-body">
-            <h1 class="text-center display-5">List a new product<br>for auction:</h1>
+<div class="formContainer-signup container">
+    <div class="loginForm">
+            <div class="loginH1">List a new product<br>for auction:</div>
             <form action="/products/new" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="title" class="mt-3">Title</label>
-                    <input type="text" name="title" class="form-control" id="title" required>
+                <div class="formGrid">
+                    <div class="formSection">
+                        <label class="formLable" for="title">Title</label>
+                        <input type="text" name="title" class="formInput" id="title" required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="description">Description</label>
+                        <input type="text" name="description" class="formInput" id="description" required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="base_price">Base Price</label>
+                        <input type="number" name="basePrice" step="any" class="formInput" id="base_price" required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="category">Select Category</label>
+                    
+                        <select class="formInput" name="category" class="form-control" id="category" required>
+                            <option value="art">Art</option>
+                            <option value="antiques">Antiques</option>
+                            <option value="vehicle">Vehicle</option>
+                            <option value="books">Books</option>
+                            <option value="collectible">Collectible</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="images">Add Image</label>
+                        <input type="file" name="images" class="formInput" id="images" multiple required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="startTime">Start Time</label>
+                   
+                        <input type="datetime-local" name="startTime" class="formInput" id="startTime" required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="duration">Duration</label>
+                        <select class="formInput" name="duration" class="formInput" id="duration" required>
+                            <option value="3">3 days</option>
+                            <option value="5">5 days</option>
+                            <option value="7">7 days</option>
+                            <option value="10">10 days</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="description" class="mt-3">Description</label>
-                    <input type="text" name="description" class="form-control" id="description" required>
-                </div>
-                <div class="form-group">
-                    <label for="base_price" class="mt-3">Base Price</label>
-                    <input type="number" name="basePrice" step="any" class="form-control" id="base_price" required>
-                </div>
-                <div>
-                    <label for="category" class="mt-3">Select Category</label>
-                </div>
-                <div>
-                    <select name="category" class="form-control" id="category" required>
-                        <option value="art">Art</option>
-                        <option value="antiques">Antiques</option>
-                        <option value="vehicle">Vehicle</option>
-                        <option value="books">Books</option>
-                        <option value="collectible">Collectible</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="images" class="mt-3">Add Image</label>
-                </div>
-                <div>
-                    <input type="file" name="images" class="form-control" id="images" multiple required>
-                </div>
-                <div>
-                    <label for="startTime" class="mt-3">Start Time</label>
-                </div>
-                <div>
-                    <input type="datetime-local" name="startTime" class="form-control" id="startTime" required>
-                </div>
-                <div>
-                    <label for="duration" class="mt-3">Duration</label>
-                </div>
-                <div>
-                    <select name="duration" class="form-control" id="duration" required>
-                        <option value="3">3 days</option>
-                        <option value="5">5 days</option>
-                        <option value="7">7 days</option>
-                        <option value="10">10 days</option>
-                    </select>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-success btn-block mt-4 btn-lg">Put this up for bidding</button>
+                <div class="formSection">
+                    <button type="submit" class="formSubmitButton">Put this up for bidding</button>
                 </div>
             </form>
-        </div>
     </div>
 </div>
 
