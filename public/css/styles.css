@@ -93,7 +93,7 @@ input {
     padding: 10px 30px;
     margin: 5px 0;
     box-sizing: border-box;
- }
+}
 
 .submit input {
     display: inline;
@@ -140,7 +140,7 @@ input {
 
 .navbar li a {
     /* color: var(--dark-color-lighter); */
-    
+
     /* padding: 0.75rem 2rem 0.75rem 2rem; */
     display: block;
     /* font-weight: 800; */
@@ -372,7 +372,7 @@ form {
 
 .formLink {
     /* padding-top: 21px; */
-    font-size:12px;
+    font-size: 12px;
 }
 
 .password-wrapper {
@@ -395,8 +395,8 @@ form {
 
 .formSubmitButton:hover,
 .formSubmitButton:focus {
-  /* box-shadow: 0 0.5em 0.5em -0.4em var(--hover); */
-  transform: translateY(-0.1rem);
+    /* box-shadow: 0 0.5em 0.5em -0.4em var(--hover); */
+    transform: translateY(-0.1rem);
 }
 
 .formGrid {
@@ -405,43 +405,42 @@ form {
     column-gap: 50px;
 }
 
-.formFlex{
+.formFlex {
     display: flex;
 }
 
-@media screen and 
-(max-width: 980px) {
-  .formGrid {
-    margin: 0;
-    display: flex;
-    flex-flow: wrap;
-    width: 100%;
-    /* font-family: var(--body-font-family); */
-  }
+@media screen and (max-width: 980px) {
+    .formGrid {
+        margin: 0;
+        display: flex;
+        flex-flow: wrap;
+        width: 100%;
+        /* font-family: var(--body-font-family); */
+    }
 
-  .formInput {
-    width: 100%;
-    font-size: 12px;
-    height: 60px;
-  }
+    .formInput {
+        width: 100%;
+        font-size: 12px;
+        height: 60px;
+    }
 
-  .loginForm {
-      margin: 0 auto;
-  }
+    .loginForm {
+        margin: 0 auto;
+    }
 
-  .loginH1 {
-    font-size: 10vw;
-}
+    .loginH1 {
+        font-size: 10vw;
+    }
 
-.formContainer{
-    margin: 0 auto;
-    width: 80%;
-}
+    .formContainer {
+        margin: 0 auto;
+        width: 80%;
+    }
 
-.formContainer-signup{
-    margin: 0 auto;
-    width: 80%;
-}
+    .formContainer-signup {
+        margin: 0 auto;
+        width: 80%;
+    }
 
 }
 
@@ -475,27 +474,27 @@ form {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 8vw;
-    
+
     font-family: var(--body-font-family);
-  }
-  
-  .product {
+}
+
+.product {
     margin: 30px auto;
-    
+
     max-width: 300px;
     /* border:solid .1rem;
     border-radius: 5px;
     border-color:blueviolet; */
     /* flex: 1 0 33%; */
-  }
+}
 
 
 
-  
-  .image-container {
+
+.image-container {
     aspect-ratio: 1/1;
     background-color: white;
-    border:solid .1rem;
+    border: solid .1rem;
     border-radius: 5px;
     border-color: #DDDDDD;
     background-color: white;
@@ -509,76 +508,73 @@ form {
     /* float: left; */
     /* margin: 3px; */
     /* padding: 3px; */
-  }
+}
 
-  .product__image {
+.product__image {
     display: block;
     /* max-width: 100%; */
-    object-fit:scale-down;
+    object-fit: scale-down;
     /* width:300px;
     height:300px; */
     /* width:100%; */
     margin: auto;
-    height:100%;
+    height: 100%;
     max-width: 100%;
     /* max-width: fit-content; */
     /* aspect-ratio: 1/1; */
-  }
-  
-  .product__title {
+}
+
+.product__title {
     margin: 5px 0 5px 0;
     /* font-size: 1.1em; */
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
     /* text-overflow: "----"; */
     -webkit-mask-image: linear-gradient(90deg, #4D34E4 80%, transparent);
-  }
-  
-  .product__body {
+}
+
+.product__body {
     margin-bottom: 10px;
     /* font-size: 0.5em; */
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
     /* text-overflow: "----"; */
     -webkit-mask-image: linear-gradient(90deg, #4D34E4 80%, transparent);
-  }
-  
-  .wrapper {
+}
+
+.wrapper {
     display: flex;
     justify-content: space-between;
-  }
-  
-  .wrapper--space {
+}
+
+.wrapper--space {
     margin: 5px 0 5px 0;
-  }
-  
-  .product__wrapper {
-    
-  }
-  
-  @media screen and 
-  (max-width: 1700px) {
+}
+
+.product__wrapper {}
+
+@media screen and (max-width: 1700px) {
     .prodContainer {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         /* column-gap: 50px; */
         font-family: var(--body-font-family);
     }
-  }
-  
-  @media screen and 
-  (max-width: 980px) {
+}
+
+@media screen and (max-width: 980px) {
     .prodContainer {
-      margin: 0 auto;
-      display: flex;
-      flex-flow: wrap;
-      width: 80%;
-      font-family: var(--body-font-family);
+        margin: 0 auto;
+        display: flex;
+        flex-flow: wrap;
+        width: 80%;
+        font-family: var(--body-font-family);
     }
+
     /* .image-container {
         
     } */
 
-  }
+}
