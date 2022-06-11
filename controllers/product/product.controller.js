@@ -13,6 +13,7 @@ const {
     cloudinary
 } = require("../../utils/cloudinaryUpload");
 const AppError = require("../../utils/AppError");
+const { convertTZ } = require("../../utils/convertTZ")
 
 /**
  * Get all products from the database
@@ -101,10 +102,11 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     user.products.push(product._id);
 
     // 5. Setting the auction status based on time.
-    const today = new Date(); 
+    const today = new Date();
+    const todayInIST = convertTZ(today, "Asia/Kolkata"); 
     const endTime = new Date(product.endTime);
 
-    if(product.startTime <= today && endTime >= today){
+    if(product.startTime <= todayInIST && endTime >= todayInIST){
         product.auctionStatus = true;
     } else {
         product.auctionStatus = false;
