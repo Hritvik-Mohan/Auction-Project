@@ -13,6 +13,7 @@ const {
     cloudinary
 } = require("../../utils/cloudinaryUpload");
 const AppError = require("../../utils/AppError");
+const { convertTZ } = require("../../utils/convertTZ")
 
 /**
  * Get all products from the database
@@ -69,7 +70,21 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     } =
     req.body;
 
-    // console.log(req.body);
+    // Validation
+    if (!title || !description || !basePrice || !category || !startTime || !duration) {
+        req.flash("error", "Please fill all the fields");
+        return res.redirect("/products/new");
+    }
+
+    if(title.length < 3 || title.length > 280) {
+        req.flash("error", "Title should be between 3 and 280 characters");
+        return res.redirect("/products/new");
+    }
+
+    if(description.length < 10 || description.length > 1000) {
+        req.flash("error", "Description should be between 10 and 1000 characters");
+        return res.redirect("/products/new");
+    }
 
     // 1. Creating the new product.
     const product = new Product(req.body);
@@ -88,9 +103,10 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
 
     // 5. Setting the auction status based on time.
     const today = new Date();
+    const todayInIST = convertTZ(today, "Asia/Kolkata"); 
     const endTime = new Date(product.endTime);
 
-    if(product.startTime <= today && endTime >= today){
+    if(product.startTime <= todayInIST && endTime >= todayInIST){
         product.auctionStatus = true;
     } else {
         product.auctionStatus = false;
