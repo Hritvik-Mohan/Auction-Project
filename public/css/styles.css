@@ -526,7 +526,8 @@ form {
 
 .product__title {
     margin: 5px 0 5px 0;
-    /* font-size: 1.1em; */
+    font-size: 1.4em;
+    font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -536,7 +537,8 @@ form {
 
 .product__body {
     margin-bottom: 10px;
-    /* font-size: 0.5em; */
+    font-size: 0.9em;
+    font-weight: 350;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -547,6 +549,8 @@ form {
 .wrapper {
     display: flex;
     justify-content: space-between;
+    font-weight: 400;
+    font-size: small;
 }
 
 .wrapper--space {
