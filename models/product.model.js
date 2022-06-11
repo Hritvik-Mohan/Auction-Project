@@ -10,6 +10,10 @@ const Schema = mongoose.Schema;
 const User = require("./user.model");
 const Bid = require("./bid.model");
 
+/**
+ * Utils import.
+ */
+const { convertTZ } = require("../utils/convertTZ");
 
 const opts = { toJSON: { virtuals: true } }
 
@@ -94,10 +98,12 @@ const productSchema = new Schema({
 
 // Virtal function to compute the end time of the auction in ISOString.
 productSchema.virtual('endTime').get(function(){
-  const startTimeInSeconds = new Date(this.startTime).getTime() / 1000;
+  const startTimeToIST = convertTZ(this.startTime, 'Asia/Kolkata');
+  const startTimeInSeconds = new Date(startTimeToIST).getTime() / 1000;
   const endTimeInSeconds = startTimeInSeconds + this.duration * 24 * 60 * 60;
   const endTime = new Date(endTimeInSeconds * 1000);
-  return endTime.toISOString();
+  const endTimeInIST = convertTZ(endTime, 'Asia/Kolkata');
+  return endTimeInIST.toISOString();
 });
 
 // Remove the product id from user.products array after deleting the product.
