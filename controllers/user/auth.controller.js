@@ -1,10 +1,17 @@
 /**
+ * Node modules.
+ */
+const validator = require("validator");
+
+/**
  * Utils imports
  */
 const catchAsync = require("../../utils/catchAsync");
 const emailTemplate = require("../../utils/emailTemplate");
 const sendMail = require("../../utils/nodemailer")
 const { newToken } = require("../../utils/jwt");
+const { dateEighteenYearsAgo } = require("../../utils/misc.functions");
+const { cloudinary } = require("../../utils/cloudinaryUpload");
 
 /**
  * Models Imports.
@@ -19,13 +26,39 @@ const User = require("../../models/user.model");
  * @returns {undefined}
  */
 module.exports.registerUser = catchAsync(async (req, res) => {
- 
+  
   // 1. Get user data
   const { email, firstName, lastName, password, phoneNumber, dob } = req.body;
 
   // 2. Check if all the fields are filled.
   if(!email || !firstName || !lastName || !password || !phoneNumber || !dob) {
+    await cloudinary.uploader.destroy(req.file.filename);
     req.flash("error", "Please fill all the fields");
+    return res.redirect("/users/register");
+  }
+
+  // 2.1 Validate the data received.
+  if(!validator.isEmail(email)) {
+    await cloudinary.uploader.destroy(req.file.filename);
+    req.flash("error", "Please enter a valid email");
+    return res.redirect("/users/register");
+  }
+
+  if(!validator.isMobilePhone(phoneNumber, "en-IN")) {
+    await cloudinary.uploader.destroy(req.file.filename);
+    req.flash("error", "Please enter a valid phone number");
+    return res.redirect("/users/register");
+  }
+
+  if(!validator.isBefore(dob, dateEighteenYearsAgo())){
+    await cloudinary.uploader.destroy(req.file.filename);
+    req.flash("error", "Age should be 18 years or older");
+    return res.redirect("/users/register");
+  }
+
+  if(!validator.isLength(password, { min: 6, max: 20 })) {
+    await cloudinary.uploader.destroy(req.file.filename);
+    req.flash("error", "Password should be between 8 and 20 characters");
     return res.redirect("/users/register");
   }
 
