@@ -12,6 +12,11 @@ const session = require("express-session");
 const flash = require("connect-flash");
 
 /**
+ * Configs Imports.
+ */
+const { sessionConfig } = require("./configs/config");
+
+/**
  * Utils Imports
  */
 const connectDb = require("./utils/connectDb");
@@ -49,14 +54,7 @@ app.use(cors());
 app.use(methodOverride('_method'));
 app.use(coookieParser(process.env.SIGN_COOKIE));
 app.use(morgan("dev"));
-app.use(session({
-  secret: process.env.SIGN_COOKIE,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7
-  }
-}));
+app.use(session(sessionConfig));
 app.use(flash());
 /**
  * Setting global variables
