@@ -99,10 +99,16 @@ const productSchema = new Schema({
 // Virtal function to compute the end time of the auction in ISOString.
 productSchema.virtual('endTime').get(function(){
   const startTimeToIST = convertTZ(this.startTime, 'Asia/Kolkata');
+  console.log("🐞 ----------------------------------------------------------------------------------------------🐞")
+  console.log("🐞 ~ file: product.model.js ~ line 102 ~ productSchema.virtual ~ startTimeToIST", startTimeToIST)
+  console.log("🐞 ----------------------------------------------------------------------------------------------🐞")
   const startTimeInSeconds = new Date(startTimeToIST).getTime() / 1000;
   const endTimeInSeconds = startTimeInSeconds + this.duration * 24 * 60 * 60;
   const endTime = new Date(endTimeInSeconds * 1000);
   const endTimeInIST = convertTZ(endTime, 'Asia/Kolkata');
+  console.log("🐞 ------------------------------------------------------------------------------------------🐞")
+  console.log("🐞 ~ file: product.model.js ~ line 109 ~ productSchema.virtual ~ endTimeInIST", endTimeInIST)
+  console.log("🐞 ------------------------------------------------------------------------------------------🐞")
   return endTimeInIST.toISOString();
 });
 

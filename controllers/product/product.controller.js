@@ -103,14 +103,27 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
 
     // 5. Setting the auction status based on time.
     const today = new Date();
+    console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: product.controller.js ~ line 106 ~ module.exports.addNewProduct=catchAsync ~ today", today)
+    console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
     const todayInIST = convertTZ(today, "Asia/Kolkata"); 
+    console.log("🐞 -------------------------------------------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: product.controller.js ~ line 110 ~ module.exports.addNewProduct=catchAsync ~ todayInIST", todayInIST)
+    console.log("🐞 -------------------------------------------------------------------------------------------------------------🐞")
     const endTime = new Date(product.endTime);
+    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: product.controller.js ~ line 114 ~ module.exports.addNewProduct=catchAsync ~ endTime", endTime)
+    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
 
     if(product.startTime <= todayInIST && endTime >= todayInIST){
         product.auctionStatus = true;
     } else {
         product.auctionStatus = false;
     };
+
+    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: product.controller.js ~ line 122 ~ module.exports.addNewProduct=catchAsync ~ product", product)
+    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
 
     // 6. Saving the product to the database and the updated user.
     await Promise.all([product.save(), user.save()]);
