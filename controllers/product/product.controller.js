@@ -169,18 +169,14 @@ module.exports.updateProduct = catchAsync(async (req, res) => {
         if(query.$set.startTime) {
             // Converting the startTime to IST as the timezone of the 
             // production server is in UTC which is +5:30 ahead.
-            console.log("starttime", query.$set.startTime, typeof query.$set.startTime);
             const startTime = new Date(query.$set.startTime);
-            console.log("🐞 -----------------------------------------------------------------------------------------------------------🐞")
-            console.log("🐞 ~ file: product.controller.js ~ line 174 ~ module.exports.updateProduct=catchAsync ~ startTime", startTime)
-            console.log("🐞 -----------------------------------------------------------------------------------------------------------🐞")
-            
-            // if(process.env.NODE_ENV === "production") {
-            //     let startTimeString = query.$set.startTime.toISOString();
-            //     const startTimeArray = startTimeString.split(".");
-            //     startTimeString = startTimeArray[0]+"+05:30";
-            //     query.$set.startTime = new Date(startTimeString);
-            // }
+           
+            if(process.env.NODE_ENV === "production") {
+                let startTimeString = startTime.toISOString();
+                const startTimeArray = startTimeString.split(".");
+                startTimeString = startTimeArray[0]+"+05:30";
+                query.$set.startTime = new Date(startTimeString);
+            }
         }
 
         const today = new Date();
