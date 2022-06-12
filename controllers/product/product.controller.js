@@ -71,7 +71,7 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     req.body;
 
     console.log("🐞 ----------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 71 ~ module.exports.addNewProduct=catchAsync ~ startTime", startTime, typeof startTime, startTime.getHours(), startTime.getMinutes(), startTime.getSeconds())
+    console.log("🐞 ~ file: product.controller.js ~ line 71 ~ module.exports.addNewProduct=catchAsync ~ startTime", startTime, typeof startTime)
     console.log("🐞 ----------------------------------------------------------------------------------------------------------🐞")
 
     // Validation
@@ -124,6 +124,10 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     } else {
         product.auctionStatus = false;
     };
+
+    console.log("🐞 ---------------------------------------------------------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: product.controller.js ~ line 123 ~ module.exports.addNewProduct=catchAsync ~ product.startTime", product.startTime, typeof product.startTime)
+    console.log("🐞 ---------------------------------------------------------------------------------------------------------------------------🐞")
 
     console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
     console.log("🐞 ~ file: product.controller.js ~ line 122 ~ module.exports.addNewProduct=catchAsync ~ product", product)
