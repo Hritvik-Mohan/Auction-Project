@@ -88,7 +88,16 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
 
     // 1. Creating the new product.
     const product = new Product(req.body);
-
+    
+    // Converting the startTime to IST as the timezone of the 
+    // production server is in UTC which is +5:30 ahead.
+    if(process.env.NODE_ENV === "production") {
+        let startTimeString = product.startTime.toISOString();
+        const startTimeArray = startTimeString.split(".");
+        startTimeString = startTimeArray[0]+"+05:30";
+        product.startTime = new Date(startTimeString);
+    }
+    
     // 2. Saving the images data to the images property of the product
     product.images = req.files.map((file) => ({
         path: file.path,
@@ -102,28 +111,17 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     user.products.push(product._id);
 
     // 5. Setting the auction status based on time.
-    const today = new Date();
-    console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 106 ~ module.exports.addNewProduct=catchAsync ~ today", today)
-    console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
-    const todayInIST = convertTZ(today, "Asia/Kolkata"); 
-    console.log("🐞 -------------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 110 ~ module.exports.addNewProduct=catchAsync ~ todayInIST", todayInIST)
-    console.log("🐞 -------------------------------------------------------------------------------------------------------------🐞")
-    const endTime = new Date(product.endTime);
-    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 114 ~ module.exports.addNewProduct=catchAsync ~ endTime", endTime)
-    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
+    let today = new Date(); 
 
-    if(product.startTime <= todayInIST && endTime >= todayInIST){
+    const endTime = product.endTime;
+    
+    if(product.startTime <= today && endTime >= today){
+        console.log("Auction is running");
         product.auctionStatus = true;
     } else {
+        console.log("Auction is not running");
         product.auctionStatus = false;
     };
-
-    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 122 ~ module.exports.addNewProduct=catchAsync ~ product", product)
-    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
 
     // 6. Saving the product to the database and the updated user.
     await Promise.all([product.save(), user.save()]);
@@ -167,6 +165,24 @@ module.exports.updateProduct = catchAsync(async (req, res) => {
     
     // Check if start time or duration were changed
     if (query.$set.startTime || query.$set.duration) {
+
+        if(query.$set.startTime) {
+            // Converting the startTime to IST as the timezone of the 
+            // production server is in UTC which is +5:30 ahead.
+            console.log("starttime", query.$set.startTime, typeof query.$set.startTime);
+            const startTime = new Date(query.$set.startTime);
+            console.log("🐞 -----------------------------------------------------------------------------------------------------------🐞")
+            console.log("🐞 ~ file: product.controller.js ~ line 174 ~ module.exports.updateProduct=catchAsync ~ startTime", startTime)
+            console.log("🐞 -----------------------------------------------------------------------------------------------------------🐞")
+            
+            // if(process.env.NODE_ENV === "production") {
+            //     let startTimeString = query.$set.startTime.toISOString();
+            //     const startTimeArray = startTimeString.split(".");
+            //     startTimeString = startTimeArray[0]+"+05:30";
+            //     query.$set.startTime = new Date(startTimeString);
+            // }
+        }
+
         const today = new Date();
         let startTimeInSeconds;
 
