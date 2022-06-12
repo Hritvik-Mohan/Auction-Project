@@ -479,7 +479,8 @@ form {
 }
 
 .product {
-    margin: 30px auto;
+    margin: auto;
+    margin-bottom: 60px;
 
     max-width: 300px;
     /* border:solid .1rem;
@@ -493,10 +494,10 @@ form {
 
 .image-container {
     aspect-ratio: 1/1;
-    background-color: white;
-    border: solid .1rem;
+    /* background-color: white; */
+    /* border: solid .1rem; */
     border-radius: 5px;
-    border-color: #DDDDDD;
+    /* border-color: #DDDDDD; */
     background-color: white;
 
     /* min-width: 100px; */
@@ -513,7 +514,9 @@ form {
 .product__image {
     display: block;
     /* max-width: 100%; */
-    object-fit: scale-down;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 5px;
     /* width:300px;
     height:300px; */
     /* width:100%; */
@@ -577,8 +580,85 @@ form {
         font-family: var(--body-font-family);
     }
 
-    /* .image-container {
-        
-    } */
+    .image-container {
+        aspect-ratio: 1/1;
+        /* max-height: 400px; */
+        width: 100%
+    }
+    .product {
+        max-width: 100%;
+    }
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* padding-top: 0; */
+    /* position: fixed; */
+    margin: 0 auto;
+    width: 70%;
+    max-width: 2000px;
+    font-family: var(--body-font-family);
+    /*Limits the width of the container but let's it get smaller if needed.*/
+    /* padding-left: 15%; */
+    /* padding-right: 15%; */
+}
+
+@media screen and 
+(max-width: 980px) {
+    .product-container{
+        display: flex;
+        flex-flow: wrap;
+        width: 80%;
+    }
+}
+
+.product-img-container {
+    aspect-ratio: 1/1;
+    /* background-color: white; */
+    /* border: solid .1rem; */
+    border-radius: 5px;
+    /* border-color: #DDDDDD; */
+    background-color: white;
+
+    /* min-width: 100px; */
+    min-height: 300px;
+    max-height: 100%;
+    min-width: 300px;
+    max-width: 100%;
+    /* max-height: auto; */
+    /* float: left; */
+    /* margin: 3px; */
+    /* padding: 3px; */
+}
+
+.product-img {
+    border-radius: 5px;
+    object-fit:scale-down;
+    margin: 0 auto;
+    height:100%;
+    max-width: 100%;
+}
+
+.product-details {
+    /* border:solid .1rem; */
+    /* border-radius: 5px; */
+    /* border-color: #DDDDDD; */
+    /* background-color: white; */
 }
