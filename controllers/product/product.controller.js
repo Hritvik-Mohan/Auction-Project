@@ -96,6 +96,14 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     console.log("🐞 ~ file: product.controller.js ~ line 91 ~ module.exports.addNewProduct=catchAsync ~ product", product)
     console.log("🐞 ------------------------------------------------------------------------------------------------------🐞")
 
+    let startTimeString = product.startTime.toISOString();
+    const startTimeArray = startTimeString.split(".");
+    startTimeString = startTimeArray[0]+"+05:30";
+    product.startTime = new Date(startTimeString);
+    console.log("🐞 ---------------------------------------------------------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: product.controller.js ~ line 103 ~ module.exports.addNewProduct=catchAsync ~ product.startTime MODIFIED", product.startTime, product.startTime.getHours(), product.startTime.getMinutes())
+    console.log("🐞 ---------------------------------------------------------------------------------------------------------------------------🐞")
+
     // 2. Saving the images data to the images property of the product
     product.images = req.files.map((file) => ({
         path: file.path,
@@ -109,7 +117,7 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     user.products.push(product._id);
 
     // 5. Setting the auction status based on time.
-    let today = new Date();
+    let today = new Date(); // this is correct
     console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
     console.log("🐞 ~ file: product.controller.js ~ line 109 ~ module.exports.addNewProduct=catchAsync ~ today", today, today.getHours(), today.getMinutes())
     console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
