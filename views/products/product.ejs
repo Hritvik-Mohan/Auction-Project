@@ -1,12 +1,29 @@
 <% layout('layouts/boilerplate') %> 
 
-<br>
-<h1>Product Page</h1>
-<hr>
+<div class="product-container">
+    <div class="image-container">
+        <% for (let image of product.images){  %> 
+            <img class="product__image" src="<%= image.path %> ">
+        <% }%>
+    </div>
 
-<% for (let image of product.images){  %> 
-    <img style="width: 12rem;" src="<%= image.path %> "><br>
-<% }%>
+    <div class="product-details">
+        <h1><%= product.title %> </h1>
+        <p><%= product.description %></p>
+        <p>Category</p>
+        <p>Base Price</p>
+        <p>Current Price</p>
+        <form action="">
+            <input type="number" name="" id="">
+            <button>Submit</button>
+        </form>
+        <form action="">
+            <button>Quick Bid</button>
+        </form>
+    </div>
+</div>
+
+
 <h3>Title</h3>
 <p><%= product.title %> </p>
 <h3>Description</h3>
