@@ -170,7 +170,6 @@ module.exports.updateProduct = catchAsync(async (req, res) => {
             // Converting the startTime to IST as the timezone of the 
             // production server is in UTC which is +5:30 ahead.
             const startTime = new Date(query.$set.startTime);
-           
             if(process.env.NODE_ENV === "production") {
                 let startTimeString = startTime.toISOString();
                 const startTimeArray = startTimeString.split(".");
