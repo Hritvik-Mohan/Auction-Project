@@ -111,11 +111,8 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     user.products.push(product._id);
 
     // 5. Setting the auction status based on time.
-    let today = new Date(); // this is correct
-    console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 109 ~ module.exports.addNewProduct=catchAsync ~ today", today, today.getHours(), today.getMinutes())
-    console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
-    
+    let today = new Date(); 
+
     const endTime = product.endTime;
     
     if(product.startTime <= today && endTime >= today){
@@ -173,6 +170,11 @@ module.exports.updateProduct = catchAsync(async (req, res) => {
             // Converting the startTime to IST as the timezone of the 
             // production server is in UTC which is +5:30 ahead.
             console.log("starttime", query.$set.startTime, typeof query.$set.startTime);
+            const startTime = new Date(query.$set.startTime);
+            console.log("🐞 -----------------------------------------------------------------------------------------------------------🐞")
+            console.log("🐞 ~ file: product.controller.js ~ line 174 ~ module.exports.updateProduct=catchAsync ~ startTime", startTime)
+            console.log("🐞 -----------------------------------------------------------------------------------------------------------🐞")
+            
             // if(process.env.NODE_ENV === "production") {
             //     let startTimeString = query.$set.startTime.toISOString();
             //     const startTimeArray = startTimeString.split(".");
