@@ -13,6 +13,9 @@ const bidContainer = document.getElementById('bid-container');
 const btnCheckFetch = document.getElementById('check-fetch');
 
 const today = new Date().toISOString();
+console.log("🐞 -------------------------------------------------🐞")
+console.log("🐞 ~ file: productPage.js ~ line 16 ~ today", today)
+console.log("🐞 -------------------------------------------------🐞")
 let timeRemainingInSeconds;
 let timer;
 
