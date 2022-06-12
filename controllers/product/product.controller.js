@@ -122,8 +122,10 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
  
     if(product.startTime <= today && endTime >= today){
+        console.log("Auction is running");
         product.auctionStatus = true;
     } else {
+        console.log("Auction is not running");
         product.auctionStatus = false;
     };
 
