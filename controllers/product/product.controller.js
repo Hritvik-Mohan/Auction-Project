@@ -70,10 +70,6 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     } =
     req.body;
 
-    console.log("🐞 ----------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 71 ~ module.exports.addNewProduct=catchAsync ~ startTime", startTime, typeof startTime)
-    console.log("🐞 ----------------------------------------------------------------------------------------------------------🐞")
-
     // Validation
     if (!title || !description || !basePrice || !category || !startTime || !duration) {
         req.flash("error", "Please fill all the fields");
@@ -92,18 +88,16 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
 
     // 1. Creating the new product.
     const product = new Product(req.body);
-    console.log("🐞 ------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 91 ~ module.exports.addNewProduct=catchAsync ~ product", product)
-    console.log("🐞 ------------------------------------------------------------------------------------------------------🐞")
-
-    let startTimeString = product.startTime.toISOString();
-    const startTimeArray = startTimeString.split(".");
-    startTimeString = startTimeArray[0]+"+05:30";
-    product.startTime = new Date(startTimeString);
-    console.log("🐞 ---------------------------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 103 ~ module.exports.addNewProduct=catchAsync ~ product.startTime MODIFIED", product.startTime, product.startTime.getHours(), product.startTime.getMinutes())
-    console.log("🐞 ---------------------------------------------------------------------------------------------------------------------------🐞")
-
+    
+    // Converting the startTime to IST as the timezone of the 
+    // production server is in UTC which is +5:30 ahead.
+    if(process.env.NODE_ENV === "production") {
+        let startTimeString = product.startTime.toISOString();
+        const startTimeArray = startTimeString.split(".");
+        startTimeString = startTimeArray[0]+"+05:30";
+        product.startTime = new Date(startTimeString);
+    }
+    
     // 2. Saving the images data to the images property of the product
     product.images = req.files.map((file) => ({
         path: file.path,
@@ -123,10 +117,7 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
     
     const endTime = product.endTime;
-    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 118 ~ module.exports.addNewProduct=catchAsync ~ endTime", endTime, endTime.getHours(), endTime.getMinutes())
-    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
- 
+    
     if(product.startTime <= today && endTime >= today){
         console.log("Auction is running");
         product.auctionStatus = true;
@@ -134,14 +125,6 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
         console.log("Auction is not running");
         product.auctionStatus = false;
     };
-
-    console.log("🐞 ---------------------------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 123 ~ module.exports.addNewProduct=catchAsync ~ product.startTime", product.startTime, typeof product.startTime)
-    console.log("🐞 ---------------------------------------------------------------------------------------------------------------------------🐞")
-
-    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 122 ~ module.exports.addNewProduct=catchAsync ~ product", product)
-    console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
 
     // 6. Saving the product to the database and the updated user.
     await Promise.all([product.save(), user.save()]);
@@ -185,6 +168,19 @@ module.exports.updateProduct = catchAsync(async (req, res) => {
     
     // Check if start time or duration were changed
     if (query.$set.startTime || query.$set.duration) {
+
+        if(query.$set.startTime) {
+            // Converting the startTime to IST as the timezone of the 
+            // production server is in UTC which is +5:30 ahead.
+            console.log("starttime", query.$set.startTime, typeof query.$set.startTime);
+            // if(process.env.NODE_ENV === "production") {
+            //     let startTimeString = query.$set.startTime.toISOString();
+            //     const startTimeArray = startTimeString.split(".");
+            //     startTimeString = startTimeArray[0]+"+05:30";
+            //     query.$set.startTime = new Date(startTimeString);
+            // }
+        }
+
         const today = new Date();
         let startTimeInSeconds;
 
