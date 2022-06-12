@@ -109,9 +109,7 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     user.products.push(product._id);
 
     // 5. Setting the auction status based on time.
-    let today = new Date(); 
-    today = today.toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
-    today = new Date(today);
+    let today = new Date();
     console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
     console.log("🐞 ~ file: product.controller.js ~ line 109 ~ module.exports.addNewProduct=catchAsync ~ today", today, today.getHours(), today.getMinutes())
     console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
