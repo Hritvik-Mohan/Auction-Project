@@ -70,6 +70,10 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     } =
     req.body;
 
+    console.log("🐞 ----------------------------------------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: product.controller.js ~ line 71 ~ module.exports.addNewProduct=catchAsync ~ startTime", startTime, typeof startTime, startTime.getHours(), startTime.getMinutes(), startTime.getSeconds())
+    console.log("🐞 ----------------------------------------------------------------------------------------------------------🐞")
+
     // Validation
     if (!title || !description || !basePrice || !category || !startTime || !duration) {
         req.flash("error", "Please fill all the fields");
@@ -88,6 +92,9 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
 
     // 1. Creating the new product.
     const product = new Product(req.body);
+    console.log("🐞 ------------------------------------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: product.controller.js ~ line 91 ~ module.exports.addNewProduct=catchAsync ~ product", product)
+    console.log("🐞 ------------------------------------------------------------------------------------------------------🐞")
 
     // 2. Saving the images data to the images property of the product
     product.images = req.files.map((file) => ({
@@ -104,18 +111,15 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     // 5. Setting the auction status based on time.
     const today = new Date();
     console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 106 ~ module.exports.addNewProduct=catchAsync ~ today", today)
+    console.log("🐞 ~ file: product.controller.js ~ line 109 ~ module.exports.addNewProduct=catchAsync ~ today", today, today.getHours(), today.getMinutes())
     console.log("🐞 ---------------------------------------------------------------------------------------------------🐞")
-    const todayInIST = convertTZ(today, "Asia/Kolkata"); 
-    console.log("🐞 -------------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 110 ~ module.exports.addNewProduct=catchAsync ~ todayInIST", todayInIST)
-    console.log("🐞 -------------------------------------------------------------------------------------------------------------🐞")
-    const endTime = new Date(product.endTime);
+    
+    const endTime = product.endTime;
     console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
-    console.log("🐞 ~ file: product.controller.js ~ line 114 ~ module.exports.addNewProduct=catchAsync ~ endTime", endTime)
+    console.log("🐞 ~ file: product.controller.js ~ line 118 ~ module.exports.addNewProduct=catchAsync ~ endTime", endTime, endTime.getHours(), endTime.getMinutes())
     console.log("🐞 -------------------------------------------------------------------------------------------------------🐞")
-
-    if(product.startTime <= todayInIST && endTime >= todayInIST){
+ 
+    if(product.startTime <= today && endTime >= today){
         product.auctionStatus = true;
     } else {
         product.auctionStatus = false;
