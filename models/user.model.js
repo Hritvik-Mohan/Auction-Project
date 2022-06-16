@@ -168,6 +168,7 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+// Virtual properties.
 /**
  * @description - Virtuals are a way to create properties that are not stored 
  *                in the database, but are computed from other properties.
@@ -181,6 +182,9 @@ userSchema.virtual("transactions", {
   foreignField: "bidder"
 });
 
+userSchema.virtual("fullName").get(function () {
+  return `${this.firstName} ${this.lastName}`;
+});
 
 /**
 * This function is attached to UserSchema, i.e. Every document would have access to this funciton, where

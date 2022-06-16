@@ -25,6 +25,13 @@ module.exports.getAllProduct = catchAsync(async (req, res) => {
     });
 });
 
+module.exports.getAllListings = catchAsync(async (req, res) => {
+    const listings = await Product.find({});
+    res.render("products/allListings", {
+        listings,
+    });
+});
+
 /**
  * Get only one product based on product id.
  */
@@ -239,6 +246,9 @@ module.exports.updateProduct = catchAsync(async (req, res) => {
  * Deletes the product based on its id.
  */
 module.exports.deleteProduct = catchAsync(async (req, res) => {
+
+    const user = req.user;
+
     //1. Get product id from the params.
     const {
         id
@@ -266,7 +276,7 @@ module.exports.deleteProduct = catchAsync(async (req, res) => {
     req.flash("success", "Product deleted successfully.");
 
     //7. Redirect to products page.
-    return res.redirect("/products");
+    user.role === "ROLE_ADMIN" ? res.redirect("/listings") : res.redirect("/products");
 });
 
 /**

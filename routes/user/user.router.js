@@ -24,6 +24,7 @@ const isWinner = require("../../middlewares/isWinner");
  */
 const {
   getAllUsers,
+  deleteUserById,
   getProfile,
   getProfileById,
   renderEditProfile,
@@ -126,9 +127,14 @@ UserRouter.route('/users/profile')
 UserRouter.route('/users/edit')
   .get(protect, renderEditProfile)
 
+UserRouter.route('/users/edit/:id')
+  .get(protect, role.checkRole(role.ROLES.Admin), renderEditProfile)
+  .put(protect, role.checkRole(role.ROLES.Admin), upload.single('avatar'), updateProfile)
+
 // Get user profile by id route. /users/user_id
 UserRouter.route('/users/:id')
   .get(protect, getProfileById)
+  .delete(protect, role.checkRole(role.ROLES.Admin), deleteUserById)
 
 // Submit a bid route. /users/product_id/bid
 UserRouter.route('/users/:id/bid')

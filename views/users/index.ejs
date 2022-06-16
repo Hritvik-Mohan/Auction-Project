@@ -1,9 +1,0 @@
-<% layout('layouts/boilerplate') %> 
-
-<h1>All Users</h1>
-<hr>
-<ul>
-    <% for (let user of users){ %>
-        <li><a href="/users/<%= user._id %> "><%= user.firstName %> <%= user.lastName %></a></li>
-    <% } %>
-</ul>

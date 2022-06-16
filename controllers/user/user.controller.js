@@ -16,53 +16,78 @@ const AppError = require("../../utils/AppError");
  * @description - Get list of all the users.
  */
 module.exports.getAllUsers = catchAsync(async (req, res) => {
-    const users = await User.find({});
-    res.status(200).send(users)
+  const users = await User.find({});
+  return res.render("users/allUsers", { users })
+});
+
+/**
+ * @description - Deletes the user by id.
+ * @param {req} - request object
+ * @param {res} - response object
+ */
+module.exports.deleteUserById = catchAsync(async (req, res) => {
+  const user = await User.findByIdAndDelete(req.params.id);
+  if (!user) {
+    return next(new AppError("No user found with that ID", 404));
+  }
+  return res.redirect("/users");
 });
 
 /**
  * @description - Get the profile of logged in user.
  */
 module.exports.getProfile = catchAsync(async (req, res) => {
-    const user = await User.findById(res.locals.currentUser)
-        .populate('products', '_id , title')
-        .populate({
-            path: "bids",
-            populate: {
-              path: "product",
-            }
-          });
- 
-    return res.render("users/profile", {
-        user
-    })
+  const user = await User.findById(res.locals.currentUser)
+    .populate('products', '_id , title')
+    .populate({
+      path: "bids",
+      populate: {
+        path: "product",
+      }
+    });
+
+  return res.render("users/profile", {
+    user
+  })
 });
 
 /**
  * @description - Get public profile of a particular user based on its id.
  */
 module.exports.getProfileById = catchAsync(async (req, res) => {
-    const {
-        id
-    } = req.params;
-    const user = await User.findById(id).populate('products', '_id , title');
+  const {
+    id
+  } = req.params;
+  const user = await User.findById(id).populate('products', '_id , title');
 
-    if (!user) {
-        throw new AppError('Not Found', 404);
-    }
+  if (!user) throw new AppError('Not Found', 404);
+  if (user.role === 'ROLE_ADMIN') throw new AppError("You cannot delete an admin", 403);
 
-    return res.render(`users/view`, {
-        user
-    });
+  return res.render(`users/view`, {
+    user
+  });
 
 });
 
 /**
  * @description - Renders edit profile page for current user
  */
-module.exports.renderEditProfile = (req, res)=>{
-    const user = req.user;
-    res.render('users/edit', { user });
+module.exports.renderEditProfile = async (req, res) => {
+  let user;
+  let action;
+  const { id } = req.params;
+  
+  if(id){
+    user = await User.findById(id);
+    action = `/users/edit/${user._id}?_method=PUT`;
+  } else {
+    user = req.user;
+    action = '/users/profile?_method=PUT';
+  }
+
+  if(!user) throw new AppError('Not Found', 404);
+
+  res.render('users/edit', { user, action });
 };
 
 /**
@@ -70,194 +95,197 @@ module.exports.renderEditProfile = (req, res)=>{
  */
 module.exports.updateProfile = catchAsync(async (req, res) => {
 
-    // 1. Getting the current user.
-    const user = req.user;
+  // 1. Getting the current user.
+  let user;
+  const { id } = req.params;
+  id ? user = await User.findById(id) : user = req.user;
 
-    // 2. Based on input from the edit from setting the fields to update.
-    let query = { $set: {} };
-    for (let key in req.body){
-      if(user[key] && user[key] !== req.body[key]){
-        query.$set[key] = req.body[key];
+  // 2. Based on input from the edit from setting the fields to update.
+  let query = { $set: {} };
+  for (let key in req.body){
+    if(user[key] && user[key] !== req.body[key]){
+      query.$set[key] = req.body[key];
+    }
+  }
+
+  // 3. If user has update profile pic then...
+  if(req.file){
+    // 3.1. Delete the previous avatar from cloudinary before adding a new one
+    // await cloudinary.uploader.destroy(req.file.filename)
+    const prevAvatarFilename = req.user.avatar.filename;
+    await cloudinary.uploader.destroy(prevAvatarFilename);
+    // 3.2. Add the new avatar cloudinary path to the user object
+    query.$set.avatar = {
+      path: req.file.path,
+      filename: req.file.filename
+    }
+  }
+
+  // 4. If the email or phone number was updated then...
+  if(query.$set.email || query.$set.phoneNumber){
+      const { email, phoneNumber } = query.$set;
+      // 4.1. Check if the email or phone number is already taken
+      const existingUser = await User.findOne({
+          $or: [{
+              email
+            }, //Check if this matches
+            {
+              phoneNumber
+            } // OR this matches
+          ]
+        });
+
+      if (existingUser) {
+          req.flash('error', 'Make sure the new email or phone number is unique.');
+          return res.redirect('/users/edit');
       }
-    }
+  }
 
-    // 3. If user has update profile pic then...
-    if(req.file){
-      // 3.1. Delete the previous avatar from cloudinary before adding a new one
-      // await cloudinary.uploader.destroy(req.file.filename)
-      const prevAvatarFilename = req.user.avatar.filename;
-      await cloudinary.uploader.destroy(prevAvatarFilename);
-      // 3.2. Add the new avatar cloudinary path to the user object
-      query.$set.avatar = {
-        path: req.file.path,
-        filename: req.file.filename
-      }
-    }
+  // 5. Finally updating the user.
+  await User.findByIdAndUpdate(user._id, query);
 
-    // 4. If the email or phone number was updated then...
-    if(query.$set.email || query.$set.phoneNumber){
-        const { email, phoneNumber } = query.$set;
-        // 4.1. Check if the email or phone number is already taken
-        const existingUser = await User.findOne({
-            $or: [{
-                email
-              }, //Check if this matches
-              {
-                phoneNumber
-              } // OR this matches
-            ]
-          });
+  id ? res.redirect(`/users/${id}`) : res.redirect('/users/profile');
 
-        if (existingUser) {
-            req.flash('error', 'Make sure the new email or phone number is unique.');
-            return res.redirect('/users/edit');
-        }
-    }
-
-    // 5. Finally updating the user.
-    await User.findByIdAndUpdate(user._id, query);
-
-    res.redirect(`/users/profile`);
 })
 
 /**
  * @description - This function is used to submit the bid for a product.
  */
 module.exports.submitBid = catchAsync(async (req, res) => {
-    // 1. Get the current user.
-    const user = req.user;
+  // 1. Get the current user.
+  const user = req.user;
 
-    // 2. Get the product id.
-    const {
-        id: productId
-    } = req.params;
+  // 2. Get the product id.
+  const {
+    id: productId
+  } = req.params;
 
-    // 3. Get the bid amount.
-    const {
-        amount
-    } = req.body;
+  // 3. Get the bid amount.
+  const {
+    amount
+  } = req.body;
 
-    // 4 . If the amount was not provided then throw an error.
-    if(!amount) throw new AppError('Please enter a bid amount', 400);
-    
-    // 5. Find the product.
-    const product = await Product.findById(productId);
+  // 4 . If the amount was not provided then throw an error.
+  if (!amount) throw new AppError('Please enter a bid amount', 400);
 
-    // 6. If the product is not found then throw an error.
-    if(!product) throw new AppError('Product not found', 404);
+  // 5. Find the product.
+  const product = await Product.findById(productId);
 
-    // 7. If the product has currentHighestBid property then..
-    if(product.currentHighestBid){
-        // 7.1. If the currentHighestBid is less than the bid amount then throw an error.
-        if(amount < product.currentHighestBid.amount) throw new AppError('Bid amount must be greater than the current highest bid', 400);
-    }
+  // 6. If the product is not found then throw an error.
+  if (!product) throw new AppError('Product not found', 404);
 
-    // 8. Check if the user has already bid on this product.
-    const existingBid = await Bid.findOne({
-        user: user._id,
-        product: productId
-    })
-    // 8.1 If user has already bid on this product then update the bid amount
-    if(existingBid){
-        existingBid.amount = amount;
-        product.currentHighestBid.amount = amount;
-        product.currentHighestBid.user = user._id;
-        product.currentHighestBid.bid = existingBid._id;
+  // 7. If the product has currentHighestBid property then..
+  if (product.currentHighestBid) {
+    // 7.1. If the currentHighestBid is less than the bid amount then throw an error.
+    if (amount < product.currentHighestBid.amount) throw new AppError('Bid amount must be greater than the current highest bid', 400);
+  }
 
-        await Promise.all([existingBid.save(), product.save()]);
-
-        return res.redirect(`/products/${productId}`);
-    }
-
-    // 9. If user has not bid on this product then create a new bid.
-    const bid = new Bid({
-        user: user._id,
-        product: productId,
-        amount
-    });
-
-    // 10. Update the currentHighestBid property of the product.
+  // 8. Check if the user has already bid on this product.
+  const existingBid = await Bid.findOne({
+    user: user._id,
+    product: productId
+  })
+  // 8.1 If user has already bid on this product then update the bid amount
+  if (existingBid) {
+    existingBid.amount = amount;
     product.currentHighestBid.amount = amount;
     product.currentHighestBid.user = user._id;
-    product.currentHighestBid.bid = bid._id;
+    product.currentHighestBid.bid = existingBid._id;
 
-    // 11. Associate the bid with the product and the user.
-    product.bids.push(bid._id);
-    user.bids.push(bid._id);
+    await Promise.all([existingBid.save(), product.save()]);
 
-    // 12. Save the bid, product and user.
-    await Promise.all([bid.save(), product.save(), user.save()]);
-  
     return res.redirect(`/products/${productId}`);
+  }
+
+  // 9. If user has not bid on this product then create a new bid.
+  const bid = new Bid({
+    user: user._id,
+    product: productId,
+    amount
+  });
+
+  // 10. Update the currentHighestBid property of the product.
+  product.currentHighestBid.amount = amount;
+  product.currentHighestBid.user = user._id;
+  product.currentHighestBid.bid = bid._id;
+
+  // 11. Associate the bid with the product and the user.
+  product.bids.push(bid._id);
+  user.bids.push(bid._id);
+
+  // 12. Save the bid, product and user.
+  await Promise.all([bid.save(), product.save(), user.save()]);
+
+  return res.redirect(`/products/${productId}`);
 });
 
 
 /**
  * @description - This function is used to render the seller's profile page.
  */
-module.exports.renderSellerProfile = catchAsync(async(req, res) => {
-    const { id: productId } = req.params;
-    
-    const product = await Product.findById(productId);
-    const user = await User.findById(product.user).populate('products', '_id , title');
-    return res.render('users/sellerProfile', { product, user });
+module.exports.renderSellerProfile = catchAsync(async (req, res) => {
+  const { id: productId } = req.params;
+
+  const product = await Product.findById(productId);
+  const user = await User.findById(product.user).populate('products', '_id , title');
+  return res.render('users/sellerProfile', { product, user });
 });
 
 /**
  * @description - This function is used to update the user's address.
  */
 module.exports.updateUserAddress = catchAsync(async (req, res) => {
-    // Update the users address
-    const user = req.user;
-    const { billingAddress, shippingAddress } = user.address;
-    
-    // Check what fields are changed and update the address
-    let query = {
-      $set: {}
-    }
+  // Update the users address
+  const user = req.user;
+  const { billingAddress, shippingAddress } = user.address;
 
-    // Match the fields
-    for (let key in req.body) {
-      if(key.startsWith("s_")) {
-        if(billingAddress[key.slice(2)] && billingAddress[key.slice(2)] !== req.body[key]){
-          query.$set[`address.billingAddress.${key.slice(2)}`] = req.body[key];
-        }
-      } else {
-        if(shippingAddress[key.slice(2)] && shippingAddress[key.slice(2)] !== req.body[key]){
-          query.$set[`address.shippingAddress.${key.slice(2)}`] = req.body[key];
-        }
+  // Check what fields are changed and update the address
+  let query = {
+    $set: {}
+  }
+
+  // Match the fields
+  for (let key in req.body) {
+    if (key.startsWith("s_")) {
+      if (billingAddress[key.slice(2)] && billingAddress[key.slice(2)] !== req.body[key]) {
+        query.$set[`address.billingAddress.${key.slice(2)}`] = req.body[key];
+      }
+    } else {
+      if (shippingAddress[key.slice(2)] && shippingAddress[key.slice(2)] !== req.body[key]) {
+        query.$set[`address.shippingAddress.${key.slice(2)}`] = req.body[key];
       }
     }
+  }
 
-    // Finally update the user's address.
-    await User.findByIdAndUpdate(user._id, query);
+  // Finally update the user's address.
+  await User.findByIdAndUpdate(user._id, query);
 
-    req.flash("success", "Address updated successfully");
+  req.flash("success", "Address updated successfully");
 
-    return res.redirect("/users/profile");
+  return res.redirect("/users/profile");
 });
 
 /**
  * @description - This function is used to save the user's address.
  */
 module.exports.saveUserAddress = catchAsync(async (req, res) => {
-    const user = req.user;
+  const user = req.user;
 
-    const billingAddress = {};
-    const shippingAddress = {};
+  const billingAddress = {};
+  const shippingAddress = {};
 
-    const shippingAddressArray = ["s_name", "s_phoneNumber", "s_address", "s_city", "s_state", "s_pincode"];
-    const billingAddressArray = ["b_name", "b_phoneNumber", "b_address", "b_city", "b_state", "b_pincode"];
+  const shippingAddressArray = ["s_name", "s_phoneNumber", "s_address", "s_city", "s_state", "s_pincode"];
+  const billingAddressArray = ["b_name", "b_phoneNumber", "b_address", "b_city", "b_state", "b_pincode"];
 
-    shippingAddressArray.forEach(item => billingAddress[item.slice(2)] = req.body[item]);
-    billingAddressArray.forEach(item => shippingAddress[item.slice(2)] = req.body[item]);
+  shippingAddressArray.forEach(item => billingAddress[item.slice(2)] = req.body[item]);
+  billingAddressArray.forEach(item => shippingAddress[item.slice(2)] = req.body[item]);
 
-    user.address.shippingAddress = shippingAddress;
-    user.address.billingAddress = billingAddress;
+  user.address.shippingAddress = shippingAddress;
+  user.address.billingAddress = billingAddress;
 
-    await user.save();
+  await user.save();
 
-    req.flash("success", "Address added successfully");
+  req.flash("success", "Address added successfully");
 
-    return res.redirect("/users/profile");
+  return res.redirect("/users/profile");
 });
