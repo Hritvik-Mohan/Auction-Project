@@ -30,6 +30,8 @@ module.exports.deleteUserById = catchAsync(async (req, res) => {
   if (!user) {
     return next(new AppError("No user found with that ID", 404));
   }
+  if (user.role === 'ROLE_ADMIN') throw new AppError("You cannot delete an admin", 403);
+
   return res.redirect("/users");
 });
 
@@ -61,8 +63,7 @@ module.exports.getProfileById = catchAsync(async (req, res) => {
   const user = await User.findById(id).populate('products', '_id , title');
 
   if (!user) throw new AppError('Not Found', 404);
-  if (user.role === 'ROLE_ADMIN') throw new AppError("You cannot delete an admin", 403);
-
+  
   return res.render(`users/view`, {
     user
   });
