@@ -13,7 +13,6 @@ const {
     cloudinary
 } = require("../../utils/cloudinaryUpload");
 const AppError = require("../../utils/AppError");
-const { convertTZ } = require("../../utils/convertTZ")
 
 /**
  * Get all products from the database
