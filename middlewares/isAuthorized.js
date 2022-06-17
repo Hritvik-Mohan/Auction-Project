@@ -9,10 +9,8 @@ const isAuthorized = (req, res, next) => {
     } = req.params;
 
     // 3. Check if the user is the owner of the product.
-    if (user.products.includes(productId)) {
-        return next();
-    }
-
+    if (user.products.includes(productId) || user.role === "ROLE_ADMIN") return next();
+    
     // 4. If not, flash the message, 'You are not authorized'.
     req.flash('error', 'You are not authorized.');
 

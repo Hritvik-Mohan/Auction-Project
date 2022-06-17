@@ -9,12 +9,6 @@ const Schema = mongoose.Schema;
  */
 const User = require("./user.model");
 const Bid = require("./bid.model");
-
-/**
- * Utils import.
- */
-const { convertTZ } = require("../utils/convertTZ");
-
 const opts = { toJSON: { virtuals: true } }
 
 const imageSchema = new Schema({
@@ -111,12 +105,11 @@ productSchema.post('findOneAndDelete', async function(deletedProduct, next){
   try{
     const user = await User.findById(deletedProduct.user);
     // await User.pull({ _id: user._id }, { products: deletedProduct._id });
-    const result = await Promise.all([
+    await Promise.all([
       Bid.deleteMany({_id: { $in: deletedProduct.bids}}),
       User.updateMany({}, {$pull: {bids: {$in: deletedProduct.bids}}}), 
       user.products.pull(deletedProduct._id),
     ]);
-    console.log(result);
     await user.save();
     next();
   } catch(err){

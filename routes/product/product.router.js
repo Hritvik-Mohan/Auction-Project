@@ -14,6 +14,7 @@ const {
  * Middleware import
  */
 const protect = require("../../middlewares/protect");
+const role = require("../../middlewares/role")
 const isAuthorized = require("../../middlewares/isAuthorized");
 const isAuctionOver = require("../../middlewares/isAuctionOver");
 const isWinner = require("../../middlewares/isWinner");
@@ -24,6 +25,7 @@ const canCheckout = require("../../middlewares/canCheckout");
  */
 const {
     getAllProduct,
+    getAllListings,
     getOneProduct,
     addNewProduct,
     updateProduct,
@@ -41,9 +43,11 @@ const ProductRouter = Router();
 /**
  * Get all products route.
  */
-ProductRouter.route('/products')
+ProductRouter.route("/products")
     .get(getAllProduct)
 
+ProductRouter.route("/listings")
+    .get(protect, role.checkRole(role.ROLES.Admin), getAllListings)
 /**
  * Get product and add product route.
  */

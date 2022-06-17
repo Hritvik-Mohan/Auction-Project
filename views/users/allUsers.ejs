@@ -1,0 +1,15 @@
+<% layout('layouts/boilerplate') %>
+
+<div>
+    <ul>
+        <% users.forEach( user => { %>
+            <li style="margin: 30px;">
+                <a href="/users/<%= user._id %>"><%= user.fullName %></a>
+                <a href="/users/edit/<%= user._id %>" style="display: inline-block; color: white; background-color: green; margin-left: 12px; padding: 5px; border-radius: 2px;">Edit</a>
+                <form action="/users/<%= user._id %>?_method=DELETE" method="post" style="display: inline-block;">
+                    <button type="submit" style="color: white; background-color: red; margin-left: 12px; padding: 5px; border-radius: 2px;">Delete</button>
+                </form>
+            </li>
+        <% } ) %> 
+    </ul>
+</div>
