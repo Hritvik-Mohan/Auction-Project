@@ -123,21 +123,13 @@ module.exports.updateProfile = catchAsync(async (req, res) => {
   }
 
   // 4. If the email or phone number was updated then...
-  if(query.$set.email || query.$set.phoneNumber){
-      const { email, phoneNumber } = query.$set;
+  if(query.$set.phoneNumber){
+      const { phoneNumber } = query.$set;
       // 4.1. Check if the email or phone number is already taken
-      const existingUser = await User.findOne({
-          $or: [{
-              email
-            }, //Check if this matches
-            {
-              phoneNumber
-            } // OR this matches
-          ]
-        });
+      const existingUser = await User.findOne({ phoneNumber });
 
       if (existingUser) {
-          req.flash('error', 'Make sure the new email or phone number is unique.');
+          req.flash('error', 'Make sure the new phone number is unique.');
           return res.redirect('/users/edit');
       }
   }

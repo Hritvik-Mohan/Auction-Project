@@ -6,7 +6,7 @@
         <div class="card-body">
             <h1 class="text-center display-1">Confirm OTP</h1>
                 
-                <form action="<%= action %>" method="POST">
+                <form action="/users/confirm" method="POST">
                     <div class="form-group">
                         <label for="">Email</label>
                         <input name="email" type="email" class="form-control form-control-lg" id="email" />
@@ -16,14 +16,9 @@
                         <a href="#" style="float: right; font-size: 12px">Forgot Password</a>
                         <input name="otp" type="text" class="form-control form-control-lg" id="password" />
                     </div>
-                    <div class="form-group">
-                        <label for="">New Password</label>
-                        <a href="#" style="float: right; font-size: 12px">Forgot Password</a>
-                        <input name="password" type="password" class="form-control form-control-lg" id="password" />
-                    </div>
                     <div class="d-grid">
                         <button type="submit" class="btn btn-success btn-lg button-center">
-                            Make it so!
+                            Verify Me!
                         </button>
                     </div>
                 </form>
