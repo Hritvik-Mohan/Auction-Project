@@ -32,19 +32,12 @@ const protect = catchAsync( async (req, res, next)=>{
             
             next();
         }catch(err){
-            const error = err.message;
-
-            console.log(err.message)
-            console.log(err.stack)
-            
-            return res.status(401).send({
-                status: "failed",
-                message: "Not authorized",
-                error
-            })
+            req.flash("error", "session expired login again");
+            return res.redirect("/users/login");
         }
     }
     if(!jwtToken){
+        req.flash("error", "You need to login first");
         return res.redirect('/users/login');
     }
 })

@@ -60,7 +60,7 @@ app.use(flash());
  * Setting global variables
  */
  app.use(async (req, res, next)=>{
-  res.locals.currentUser = await getCurrentUser(req);
+  res.locals.currentUser = await getCurrentUser(req, res);
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
