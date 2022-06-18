@@ -13,7 +13,7 @@ const sendMail = async (email, subject, html) => {
 
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
-    service: "hotmail",
+    service: "yahoo",
     auth: {
       user: process.env.MAIL_ACC, 
       pass: process.env.MAIL_PASS, 
