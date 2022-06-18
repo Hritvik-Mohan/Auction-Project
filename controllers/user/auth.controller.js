@@ -332,6 +332,16 @@ module.exports.resetPassword = catchAsync(async (req, res) => {
     return res.redirect("/users/reset-password");
   }
 
+  if(!validator.isEmail(email)) {
+    req.flash("error", "Please enter a valid email");
+    return res.redirect("/users/reset-password");
+  }
+
+  if(!validator.isLength(password, { min: 6, max: 20 })) {
+    req.flash("error", "Password length should be between 8 and 20 characters");
+    return res.redirect("/users/reset-password");
+  }
+
   // 1. Finding the user with that email.
   const user = await User.findOne({ email });
   if (!user) {
