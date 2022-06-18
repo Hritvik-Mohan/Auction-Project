@@ -1,9 +1,10 @@
 /**
- * Check if the logged in user is a seller
+ * @description - This middleware checks if the logged in user is the seller of the 
+ *                the product or not.
  * 
- * @param {object} req 
- * @param {object} res 
- * @param {function} next 
+ * @param {object} req - request object
+ * @param {object} res - response object
+ * @param {function} next - next function
  * @returns next() | if user is the seller
  * @returns res.redirect('/products/:productId') | if user is not the seller
  */
@@ -15,7 +16,7 @@ const isSeller = (req, res, next) => {
     const {
         id: productId
     } = req.params;
-    // console.log(user.products.includes(productId));
+   
     // 3. Check if the user is the owner of the product.
     if (user.products.includes(productId)) {
         req.flash('error', 'Lol, you cannot bid on your own product.');

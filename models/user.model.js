@@ -79,6 +79,10 @@ const userSchema = new Schema({
     trim: true,
     lowercase: true
   },
+  verified: {
+    type: Boolean,
+    default: false
+  },
   phoneNumber:{
     type: String,
     required: [true, "Please add the phone number"],

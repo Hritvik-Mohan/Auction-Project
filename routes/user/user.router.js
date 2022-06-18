@@ -18,6 +18,7 @@ const role = require("../../middlewares/role")
 const isSeller = require("../../middlewares/isSeller");
 const isTimeRemaining = require("../../middlewares/isTimeRemaining");
 const isWinner = require("../../middlewares/isWinner");
+const isVerified = require("../../middlewares/isVerified");
 
 /**
  * Controller Imports
@@ -37,6 +38,8 @@ const {
 
 const {
   registerUser,
+  sendVerificationOTP,
+  verifyEmail,
   login,
   logout,
   logoutAll,
@@ -64,6 +67,23 @@ UserRouter.route('/users/register')
     res.render('users/register');
   })
 
+// Verify user email
+UserRouter.route('/users/verification')
+  .get((req, res)=>{
+    res.render('users/verify', {
+      title: "Verify your email",
+      action: "/users/verification"
+    });
+  })
+  .post(sendVerificationOTP)
+
+UserRouter.route('/users/confirm')
+  .get((req, res) => {
+    res.render('users/confirmEmail');
+  })
+  .post(verifyEmail)
+
+// User dashboard route.
 UserRouter.route('/users/dashboard')
   .get((req, res) => {
     res.render('users/dashboard');
@@ -107,14 +127,17 @@ UserRouter.route('/users/logoutAll')
 // Forgot password route.
 UserRouter.route('/users/forgot-password')
   .get((req, res) => {
-    return res.render('users/forgot-password');
+    return res.render('users/verify', {
+      title: "Forgot Password",
+      action: "/users/forgot-password"
+    });
   })
   .post(forgotPassword)
 
 // Reset password route.
 UserRouter.route('/users/reset-password')
   .get((req, res) => {
-    return res.render('users/reset-password');
+    return res.render('users/resetPassword');
   })
   .post(resetPassword);
 
@@ -127,18 +150,19 @@ UserRouter.route('/users/profile')
 UserRouter.route('/users/edit')
   .get(protect, renderEditProfile)
 
+// Admin only accessible route to get all user and update a user.
 UserRouter.route('/users/edit/:id')
   .get(protect, role.checkRole(role.ROLES.Admin), renderEditProfile)
   .put(protect, role.checkRole(role.ROLES.Admin), upload.single('avatar'), updateProfile)
 
-// Get user profile by id route. /users/user_id
+// Admin only accessible route. Get user profile by id route. /users/user_id
 UserRouter.route('/users/:id')
-  .get(protect, getProfileById)
+  .get(protect, role.checkRole(role.ROLES.Admin), getProfileById)
   .delete(protect, role.checkRole(role.ROLES.Admin), deleteUserById)
 
 // Submit a bid route. /users/product_id/bid
 UserRouter.route('/users/:id/bid')
-  .post(protect, isSeller, isTimeRemaining, submitBid);
+  .post(protect, isVerified, isSeller, isTimeRemaining, submitBid);
 
 // Contact seller route. /constactSeller/product_id
 UserRouter.route('/contactSeller/:id')

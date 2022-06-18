@@ -19,6 +19,7 @@ const isAuthorized = require("../../middlewares/isAuthorized");
 const isAuctionOver = require("../../middlewares/isAuctionOver");
 const isWinner = require("../../middlewares/isWinner");
 const canCheckout = require("../../middlewares/canCheckout");
+const isVerified = require("../../middlewares/isVerified");
 
 /**
  * Controller imports.
@@ -52,10 +53,10 @@ ProductRouter.route("/listings")
  * Get product and add product route.
  */
 ProductRouter.route('/products/new')
-    .get(protect,(req, res) => {
+    .get(protect, isVerified, (req, res) => {
         res.render('products/new');
     })
-    .post(protect, upload.array('images', 6), addNewProduct);
+    .post(protect, isVerified, upload.array('images', 6), addNewProduct);
 
 /**
  * Checkout route.

@@ -1,3 +1,11 @@
+/**
+ * @description - Middleware to check if the user is owner of the product or not.
+ * 
+ * @param {object} req - request object
+ * @param {object} res - response object
+ * @param {function} next - next function
+ * @returns 
+ */
 const isAuthorized = (req, res, next) => {
 
     // 1. Get user

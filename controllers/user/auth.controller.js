@@ -120,11 +120,80 @@ module.exports.registerUser = catchAsync(async (req, res) => {
   res.cookie("token", token, { signed: true });
   req.flash("success", "Welcome to Auction App");
 
-  return res.redirect("/products");
+  // return res.redirect("/products");
+  return res.redirect("/users/verification");
 });
 
 /**
- * This login function checks if the user exists, if yes then
+ * @description - This function is used to verify the user's email by generating
+ *                a otp and sending it to the user's email.
+ *
+ * @param {object} req - contains email and otp
+ * @param {object} res - response object
+ * @returns undefined
+ */
+module.exports.sendVerificationOTP = catchAsync(async (req, res) => {
+  const { email } = req.body;
+
+  const user = await User.findOne({ email });
+
+  const otp = Math.floor(100000 + Math.random() * 900000);
+
+  user.otp = otp;
+
+  const html = emailTemplate(otp);
+  const info = await sendMail(email, "Verify your email", html);
+
+  console.log(info);
+
+  if(!info){
+    req.flash("error", "Couldn't send mail. Try again later.")
+    return res.redirect("/users/verification")
+  }
+
+  await user.save();
+
+  // 6. Sending the response
+  req.flash("success", "OTP sent to your mail. It takes 120sec to receive this mail. Please be patient.");
+  return res.redirect('/users/confirm')
+});
+
+/**
+ * @description - This function is used to verify the user's email using the OTP
+ * 
+ * @param {object} req - contains email and otp
+ * @param {object} res - response object
+ * @returns undefined
+ */
+module.exports.verifyEmail = catchAsync(async (req, res) => {
+  const { email, otp } = req.body;
+
+  const user = await User.findOne({ email });
+ 
+  if (!user) {
+    req.flash("error", "Incorrect email");
+    return res.redirect("/users/confirm");
+  }
+
+  const result = await user.checkOTP(otp);
+  
+  if (!result) {
+    req.flash("error", "Invalid OTP");
+    return res.redirect("/users/reset-password");
+  }
+
+  user.otp = "";
+  user.verified = true;
+
+  await user.save();
+
+  // 8. Sending the response
+  req.flash("success", "Email verified successfully");
+  return res.redirect("/products");
+})
+
+/**
+ * @description - This login function checks if the user exists, if yes then
  * checks if the password verifies to the hash. If matched provides a JWT Token
  *
  * @param {object} req contains email and password
@@ -226,12 +295,15 @@ module.exports.forgotPassword = catchAsync(async (req, res) => {
 
   // 3. Setting the generated otp to the users otp property
   user.otp = otp;
-
+  
   // 4. Save the user
   await user.save();
   // 5. Sending the otp to the user's email.
   const html = emailTemplate(otp);
+  
   const info = await sendMail(email, "Reset Passoword", html);
+
+  console.log(info);
 
   if(!info){
     req.flash("error", "Couldn't send mail. Try again later.")
@@ -240,12 +312,11 @@ module.exports.forgotPassword = catchAsync(async (req, res) => {
 
   // 6. Sending the response
   req.flash("success", "OTP sent to your mail");
-  return res.redirect('/users/reset-password')
-
+  return res.redirect("/users/reset-password");
 });
 
 /**
- * This reset password function checks the email and otp
+ * @description -  This reset password function checks the email and otp
  * received from the user and if matched then changes the password
  * and sends email to the user with the new password
  *
@@ -255,6 +326,7 @@ module.exports.forgotPassword = catchAsync(async (req, res) => {
  */
 module.exports.resetPassword = catchAsync(async (req, res) => {
   const { email, otp, password } = req.body;
+ 
   if (!email || !otp ||!password) {
     req.flash("error", "All fields are required");
     return res.redirect("/users/reset-password");

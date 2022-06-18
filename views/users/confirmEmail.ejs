@@ -4,21 +4,23 @@
 <div class="global-container">
     <div class="card login-form">
         <div class="card-body">
-            <h1 class="text-center display-1">Forgot Password</h1>
+            <h1 class="text-center display-1">Confirm OTP</h1>
                 
-                <form action="/users/forgot-password" method="POST">
+                <form action="/users/confirm" method="POST">
                     <div class="form-group">
                         <label for="">Email</label>
                         <input name="email" type="email" class="form-control form-control-lg" id="email" />
                     </div>
+                    <div class="form-group">
+                        <label for="">OTP</label>
+                        <a href="#" style="float: right; font-size: 12px">Forgot Password</a>
+                        <input name="otp" type="text" class="form-control form-control-lg" id="password" />
+                    </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg button-center">
-                            Send OTP
+                        <button type="submit" class="btn btn-success btn-lg button-center">
+                            Verify Me!
                         </button>
                     </div>
-
-                    <div class="signup mt-4">Don't have an account</div>
-                    <a href="/users/register">Create new account</a>
                 </form>
         </div>
     </div>

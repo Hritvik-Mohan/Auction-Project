@@ -4,7 +4,7 @@
 const Product = require("../models/product.model");
 
 /**
- * Check if the logged in user is the winner of the product.
+ * @description - This middleware checks if the logged in user is the winner of the product.
  * 
  * @param {object} req 
  * @param {object} res 

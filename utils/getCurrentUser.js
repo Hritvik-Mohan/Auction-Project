@@ -21,7 +21,7 @@ const getCurrentUser = async (req, res) => {
         const payload = await verifyToken(token, process.env.JWT_SECRET);
         const user = await User
             .findById(payload.id)
-            .select("firstName lastName email role");
+            .select("firstName lastName email role verified");
         return user;
     } else {
         return undefined;
