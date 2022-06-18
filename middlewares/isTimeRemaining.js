@@ -5,7 +5,7 @@ const Product = require("../models/product.model");
 
 // Note: This middleware is for user router. Not to be used in product router.
 /**
- * Check if auction is still active.
+ * @description - This middleware checks if auction is still active.
  * 
  * @param {object} req 
  * @param {object} res 

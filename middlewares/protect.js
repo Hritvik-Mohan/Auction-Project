@@ -3,7 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 const User = require("../models/user.model");
 
 /**
- * Get the profile of logged in user.
+ * @description - This middlware checks if the user is logged in or not.
  * 
  * @params {object} req
  * @params {object} res

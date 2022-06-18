@@ -37,12 +37,14 @@ const {
 
 const {
   registerUser,
+  verifyEmail,
   login,
   logout,
   logoutAll,
   forgotPassword,
   resetPassword
 } = require("../../controllers/user/auth.controller");
+const { get } = require("mongoose");
 
 /**
  * Decalarations
@@ -63,6 +65,16 @@ UserRouter.route('/users/register')
   .get((req, res) => {
     res.render('users/register');
   })
+
+// Verify user email
+UserRouter.route('/users/verification')
+  .get((req, res)=>{
+    res.render('users/verify', {
+      title: "Verify your email",
+      action: "/users/verification"
+    });
+  })
+  .post(verifyEmail)
 
 UserRouter.route('/users/dashboard')
   .get((req, res) => {
@@ -107,15 +119,22 @@ UserRouter.route('/users/logoutAll')
 // Forgot password route.
 UserRouter.route('/users/forgot-password')
   .get((req, res) => {
-    return res.render('users/forgot-password');
+    return res.render('users/verify', {
+      title: "Forgot Password",
+      action: "/users/forgot-password"
+    });
   })
   .post(forgotPassword)
 
 // Reset password route.
-UserRouter.route('/users/reset-password')
+UserRouter.route('/users/confirm')
   .get((req, res) => {
-    return res.render('users/reset-password');
+    return res.render('users/confirm', {
+      action: "/users/reset-password"
+    });
   })
+
+UserRouter.route("/users/reset-password")
   .post(resetPassword);
 
 // Get logged in user's profile route.

@@ -120,7 +120,37 @@ module.exports.registerUser = catchAsync(async (req, res) => {
   res.cookie("token", token, { signed: true });
   req.flash("success", "Welcome to Auction App");
 
-  return res.redirect("/products");
+  // return res.redirect("/products");
+  return res.render("users/verify", {
+    title: "Verify your email",
+    action: "/users/verification"
+  })
+});
+
+/**
+ * @description - This function is used to verify the user's email by generating
+ *                a otp and sending it to the user's email.
+ *
+ * @param {object} req - contains email and otp
+ * @param {object} res - response object
+ * @returns undefined
+ */
+module.exports.verifyEmail = catchAsync(async (req, res) => {
+  const { email } = req.body;
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  const html = emailTemplate(otp);
+  const info = await sendMail(email, "Verify your email", html);
+
+  if(!info){
+    req.flash("error", "Couldn't send mail. Try again later.")
+    return res.redirect("/users/verification")
+  }
+
+  // 6. Sending the response
+  req.flash("success", "OTP sent to your mail");
+  return res.render('/users/confirm', {
+    action: ""
+  })
 });
 
 /**
