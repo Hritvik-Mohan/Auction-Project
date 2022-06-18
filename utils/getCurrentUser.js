@@ -16,14 +16,18 @@ const { verifyToken } = require("./jwt");
  * @returns {undefined} - if user is not authenticated
  */
 const getCurrentUser = async (req, res) => {
-    if(req.signedCookies && req.signedCookies.token){
-        const token = req.signedCookies.token;
-        const payload = await verifyToken(token, process.env.JWT_SECRET);
-        const user = await User
-            .findById(payload.id)
-            .select("firstName lastName email role verified");
-        return user;
-    } else {
+    try {
+        if(req.signedCookies && req.signedCookies.token){
+            const token = req.signedCookies.token;
+            const payload = await verifyToken(token, process.env.JWT_SECRET);
+            const user = await User
+                .findById(payload.id)
+                .select("firstName lastName email role verified");
+            return user;
+        } else {
+            return undefined;
+        }
+    } catch(err){
         return undefined;
     }
 }
