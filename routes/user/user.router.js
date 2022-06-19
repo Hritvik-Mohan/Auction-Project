@@ -19,6 +19,7 @@ const isSeller = require("../../middlewares/isSeller");
 const isTimeRemaining = require("../../middlewares/isTimeRemaining");
 const isWinner = require("../../middlewares/isWinner");
 const isVerified = require("../../middlewares/isVerified");
+const isBidValid = require("../../middlewares/isBidValid");
 
 /**
  * Controller Imports
@@ -162,7 +163,7 @@ UserRouter.route('/users/:id')
 
 // Submit a bid route. /users/product_id/bid
 UserRouter.route('/users/:id/bid')
-  .post(protect, isVerified, isSeller, isTimeRemaining, submitBid);
+  .post(protect, isVerified, isSeller, isTimeRemaining, isBidValid, submitBid);
 
 // Contact seller route. /constactSeller/product_id
 UserRouter.route('/contactSeller/:id')

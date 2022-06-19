@@ -148,68 +148,55 @@ module.exports.submitBid = catchAsync(async (req, res) => {
   // 1. Get the current user.
   const user = req.user;
 
-  // 2. Get the product id.
-  const {
-    id: productId
-  } = req.params;
-
-  // 3. Get the bid amount.
+  // 2. Get the bid amount.
   const {
     amount
   } = req.body;
 
-  // 4 . If the amount was not provided then throw an error.
-  if (!amount) throw new AppError('Please enter a bid amount', 400);
+  // 3. Get the product.
+  const product = req.product;
 
-  // 5. Find the product.
-  const product = await Product.findById(productId);
+  // 4. If the product has currentHighestBid.amount property then..
+  if (product.currentHighestBid.amount) {
+    // 4.1. Check if the user has already bid on this product.
+    const existingBid = await Bid.findOne({
+      user: user._id,
+      product: product._id
+    })
 
-  // 6. If the product is not found then throw an error.
-  if (!product) throw new AppError('Product not found', 404);
+    // 4.2 If user has already bid on this product then update the bid amount
+    if (existingBid) {
+      existingBid.amount = amount;
+      product.currentHighestBid.amount = amount;
+      product.currentHighestBid.user = user._id;
+      product.currentHighestBid.bid = existingBid._id;
 
-  // 7. If the product has currentHighestBid property then..
-  if (product.currentHighestBid) {
-    // 7.1. If the currentHighestBid is less than the bid amount then throw an error.
-    if (amount < product.currentHighestBid.amount) throw new AppError('Bid amount must be greater than the current highest bid', 400);
+      await Promise.all([existingBid.save(), product.save()]);
+
+      return res.redirect(`/products/${product._id}`);
+    }
   }
 
-  // 8. Check if the user has already bid on this product.
-  const existingBid = await Bid.findOne({
-    user: user._id,
-    product: productId
-  })
-  // 8.1 If user has already bid on this product then update the bid amount
-  if (existingBid) {
-    existingBid.amount = amount;
-    product.currentHighestBid.amount = amount;
-    product.currentHighestBid.user = user._id;
-    product.currentHighestBid.bid = existingBid._id;
-
-    await Promise.all([existingBid.save(), product.save()]);
-
-    return res.redirect(`/products/${productId}`);
-  }
-
-  // 9. If user has not bid on this product then create a new bid.
+  // 5. If user has not bid on this product then create a new bid.
   const bid = new Bid({
     user: user._id,
-    product: productId,
+    product: product._id,
     amount
   });
 
-  // 10. Update the currentHighestBid property of the product.
+  // 6. Update the currentHighestBid property of the product.
   product.currentHighestBid.amount = amount;
   product.currentHighestBid.user = user._id;
   product.currentHighestBid.bid = bid._id;
 
-  // 11. Associate the bid with the product and the user.
+  // 7. Associate the bid with the product and the user.
   product.bids.push(bid._id);
   user.bids.push(bid._id);
 
-  // 12. Save the bid, product and user.
+  // 8. Save the bid, product and user.
   await Promise.all([bid.save(), product.save(), user.save()]);
 
-  return res.redirect(`/products/${productId}`);
+  return res.redirect(`/products/${product._id}`);
 });
 
 
