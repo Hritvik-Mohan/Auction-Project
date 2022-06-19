@@ -103,10 +103,15 @@ UserRouter.route("/users/address/edit")
   .get(protect, (req, res) => {
     const user = req.user;
     const { billingAddress, shippingAddress } = user.address;
-    res.render("users/editAddress", {
-      billingAddress,
-      shippingAddress
-    });
+    
+    if(billingAddress && shippingAddress){
+      return res.render("users/editAddress", {
+        billingAddress,
+        shippingAddress
+      });
+    } else {
+      return res.render("users/addAddress");
+    }
   })
 
 

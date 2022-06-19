@@ -5,6 +5,11 @@ console.log('productPage script loaded...');
 startTime = new Date(startTime).toISOString();
 endTime = new Date(endTime).toISOString();
 highestBidInfo = JSON.parse(highestBidInfo)
+try {
+    loggedinUserId = JSON.parse(loggedinUserId);
+} catch(err){
+    loggedinUserId = null;
+}
 
 const contactSellerDiv = document.getElementById('contact-seller');
 const labelTimer = document.getElementById('timer');
@@ -13,9 +18,6 @@ const bidContainer = document.getElementById('bid-container');
 const btnCheckFetch = document.getElementById('check-fetch');
 
 const today = new Date().toISOString();
-console.log("🐞 -------------------------------------------------🐞")
-console.log("🐞 ~ file: productPage.js ~ line 16 ~ today", today)
-console.log("🐞 -------------------------------------------------🐞")
 let timeRemainingInSeconds;
 let timer;
 
@@ -50,14 +52,14 @@ const declareWinnerFrontend = () => {
 
 const showContactSeller = () => {
     const contactSellerForm = `
-        <form action='/contactSeller/${productId}' method='GET'>
+        <form action='/contactSeller/${productId}/' method='GET'>
             <button class="btn btn-success">Contact Seller</button>
         </form>
         <a href="/products/checkout/${productId}" class="btn btn-primary">
             Checkout
         </a>
     `;
-    if(loggedinUserId && loggedinUserId === highestBidInfo.user._id)
+    if(loggedinUserId != null && loggedinUserId._id && loggedinUserId._id === highestBidInfo.user._id)
         contactSellerDiv.innerHTML = contactSellerForm;
 }
 
