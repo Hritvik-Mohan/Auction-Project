@@ -20,6 +20,11 @@ const isTimeRemaining = async (req, res, next) => {
 
     // 2. Get product data.
     const product = await Product.findById(productId);
+    if(!product) {
+        req.flash("error", "Product not found.");
+        return res.redirect("/products");
+    }
+    req.product = product;
 
     // 3. Get current time, startTime and endTime of the auction.
     const today = new Date();

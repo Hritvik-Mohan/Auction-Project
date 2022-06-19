@@ -15,6 +15,9 @@ const protect = catchAsync( async (req, res, next)=>{
     let jwtToken;
     
     req.session.returnTo = req.originalUrl;
+    console.log("🐞 ---------------------------------------------------------------------------🐞")
+    console.log("🐞 ~ file: protect.js ~ line 18 ~ protect ~ req.originalUrl", req.originalUrl)
+    console.log("🐞 ---------------------------------------------------------------------------🐞")
 
     if(req.signedCookies && req.signedCookies.token){
         try{

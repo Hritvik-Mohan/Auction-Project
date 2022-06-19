@@ -19,6 +19,7 @@ const isSeller = require("../../middlewares/isSeller");
 const isTimeRemaining = require("../../middlewares/isTimeRemaining");
 const isWinner = require("../../middlewares/isWinner");
 const isVerified = require("../../middlewares/isVerified");
+const isBidValid = require("../../middlewares/isBidValid");
 
 /**
  * Controller Imports
@@ -102,10 +103,15 @@ UserRouter.route("/users/address/edit")
   .get(protect, (req, res) => {
     const user = req.user;
     const { billingAddress, shippingAddress } = user.address;
-    res.render("users/editAddress", {
-      billingAddress,
-      shippingAddress
-    });
+    
+    if(billingAddress && shippingAddress){
+      return res.render("users/editAddress", {
+        billingAddress,
+        shippingAddress
+      });
+    } else {
+      return res.render("users/addAddress");
+    }
   })
 
 
@@ -162,7 +168,7 @@ UserRouter.route('/users/:id')
 
 // Submit a bid route. /users/product_id/bid
 UserRouter.route('/users/:id/bid')
-  .post(protect, isVerified, isSeller, isTimeRemaining, submitBid);
+  .post(protect, isVerified, isSeller, isTimeRemaining, isBidValid, submitBid);
 
 // Contact seller route. /constactSeller/product_id
 UserRouter.route('/contactSeller/:id')

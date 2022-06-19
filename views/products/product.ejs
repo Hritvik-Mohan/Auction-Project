@@ -32,7 +32,14 @@
 <p><%= product.category %> </p>
 <h3>Base Price</h3>
 <p> &#8377; <%= product.basePrice %> </p>
-<% if(currentUser && !product.user._id.equals(currentUser)){ %>
+
+<div id="bid-container">
+    <% if(product.currentHighestBid.amount){ %>
+        <h3>Current Highest Bid</h3>
+        <p>&#8377; <%= product.currentHighestBid.amount %></p>
+    <% } %> 
+</div>
+
 <div id="submit-bid">
     <form action="/users/<%= product._id %>/bid" method="post">
         <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid" required>
@@ -43,27 +50,6 @@
         <button class="btn btn-primary" type="submit">Quick Bid <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
     </form>
 </div> 
-<% } else { %>
-    <span class="bg-warning text-white">You must be logged in to bid on this product</span>
-     <form action="#" method="post">
-        <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid">
-        <button class="btn btn-success" type="submit" disabled>Submit Bid</button>
-    </form>
-    <form action="#" method="post">
-        <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" hidden>
-        <button class="btn btn-primary" type="submit" disabled>Quick Bid <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
-    </form>
-<% } %>
-<div id="bid-container">
-    <% if(product.currentHighestBid.amount){ %>
-<% if(product.currentHighestBid.amount){ %> 
-    <% if(product.currentHighestBid.amount){ %>
-        <h3>Current Highest Bid</h3>
-        <p>&#8377; <%= product.currentHighestBid.amount %></p>
-    <% } %> 
-<% } %> 
-    <% } %> 
-</div>
 
 <h3>Start Time</h3>
 <p class="startTime"><%= product.startTime %> </p>
@@ -86,15 +72,13 @@
 <!-- In this div I will dynamically add the contact-seller button and checkout button-->
 <div id="contact-seller"></div>
 
-
-<script type="module"></script>
 <script>
     let startTime = '<%- product.startTime %>';
     let endTime = '<%- product.endTime %>';
     const duration = '<%- product.duration %>';
-    let highestBidInfo = '<%- JSON.stringify(product.currentHighestBid) %>';
+    let highestBidInfo = '<%- JSON.stringify(product.currentHighestBid).replace(/[\/\(\)\']/g, "&apos;") %>';
     let auctionStatus = '<%- product.auctionStatus %>';
     const productId = '<%- product._id %>';
-    const loggedinUserId = '<%- currentUser %>';
+    let loggedinUserId = '<%- JSON.stringify(currentUser)%>';
 </script> 
 <script src="/js/product/productPage.js"></script>

@@ -17,7 +17,8 @@ const checkRole = (...roles) => (req, res, next) => {
   }
   const hasRole = roles.find(role => req.user.role === role);
   if (!hasRole) {
-    return res.status(403).send({status :"failed" , message : "You are not allowed to make this request."});
+    req.flash("error", "You are not authorized to perform this action");
+    return res.redirect("/products");
   }
   return next();
 };
