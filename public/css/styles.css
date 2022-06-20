@@ -90,7 +90,7 @@ input {
     outline: none;
     cursor: pointer;
     width: 100%;
-    padding: 10px 30px;
+    /* padding: 10px 30px; */
     margin: 5px 0;
     box-sizing: border-box;
 }
@@ -552,7 +552,7 @@ form {
 
 .prodContainer {
     max-width: 70%;
-    margin: 0 auto;
+    margin: 43px auto;
     padding: 0;
     /* left: 15%; */
     max-width: 2000px;
@@ -581,7 +581,7 @@ form {
     aspect-ratio: 1/1;
     /* background-color: white; */
     /* border: solid .1rem; */
-    border-radius: 5px;
+    border-radius: 15px;
     /* border-color: #DDDDDD; */
     background-color: white;
 
@@ -601,7 +601,7 @@ form {
     /* max-width: 100%; */
     aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 15px;
     /* width:300px;
     height:300px; */
     /* width:100%; */
@@ -610,12 +610,14 @@ form {
     max-width: 100%;
     /* max-width: fit-content; */
     /* aspect-ratio: 1/1; */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 .product__title {
-    margin: 5px 0 5px 0;
-    font-size: 1.4em;
-    font-weight: 400;
+    margin: 30px 0 30px 0;
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 23px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -624,7 +626,7 @@ form {
 }
 
 .product__body {
-    margin-bottom: 10px;
+    margin: 0 auto 30px auto;
     font-size: 0.9em;
     font-weight: 350;
     white-space: nowrap;
@@ -634,18 +636,45 @@ form {
     -webkit-mask-image: linear-gradient(90deg, #4D34E4 80%, transparent);
 }
 
-.wrapper {
+
+.current-price {
+    font-weight: 700;
+}
+
+.countdown-timer {
+
+}
+
+.wrapper-1 {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.wrapper-2 {
     display: flex;
     justify-content: space-between;
     font-weight: 400;
-    font-size: small;
-}
-
-.wrapper--space {
+    font-size: 0.9rem;
     margin: 5px 0 5px 0;
 }
 
 .product__wrapper {}
+
+.place-bid {
+    margin: 30px auto;
+    width: 100%;
+    background: var(--dark-color);
+    border-radius: 15px;
+    filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.25));
+}
+.place-bid_button {
+    color: var(--background-color);
+    height: 50px;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
 
 @media screen and (max-width: 1700px) {
     .prodContainer {
@@ -718,7 +747,7 @@ form {
     aspect-ratio: 1/1;
     /* background-color: white; */
     /* border: solid .1rem; */
-    border-radius: 5px;
+    /* border-radius: 5px; */
     /* border-color: #DDDDDD; */
     background-color: white;
 
@@ -734,7 +763,7 @@ form {
 }
 
 .product-img {
-    border-radius: 5px;
+    /* border-radius: 5px; */
     object-fit:scale-down;
     margin: 0 auto;
     height:100%;
