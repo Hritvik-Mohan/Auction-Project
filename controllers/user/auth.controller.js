@@ -7,7 +7,7 @@ const validator = require("validator");
  * Utils imports
  */
 const catchAsync = require("../../utils/catchAsync");
-const emailTemplate = require("../../utils/emailTemplate");
+const { emailOtpTemplate, emailNotificationTemplate } = require("../../utils/emailTemplates");
 const sendMail = require("../../utils/nodemailer")
 const { newToken } = require("../../utils/jwt");
 const { dateEighteenYearsAgo } = require("../../utils/misc.functions");
@@ -26,52 +26,52 @@ const User = require("../../models/user.model");
  * @returns {undefined}
  */
 module.exports.registerUser = catchAsync(async (req, res) => {
-  
+
   // 1. Get user data
   const { email, firstName, lastName, password, phoneNumber, dob } = req.body;
 
   // 2. Check if all the fields are filled.
-  if(!email || !firstName || !lastName || !password || !phoneNumber || !dob) {
+  if (!email || !firstName || !lastName || !password || !phoneNumber || !dob) {
     await cloudinary.uploader.destroy(req.file.filename);
     req.flash("error", "Please fill all the fields");
     return res.redirect("/users/register");
   }
 
   // 2.1 Validate the data received.
-  if(!validator.isEmail(email)) {
+  if (!validator.isEmail(email)) {
     await cloudinary.uploader.destroy(req.file.filename);
     req.flash("error", "Please enter a valid email");
     return res.redirect("/users/register");
   }
 
-  if(!validator.isMobilePhone(phoneNumber, "en-IN")) {
+  if (!validator.isMobilePhone(phoneNumber, "en-IN")) {
     await cloudinary.uploader.destroy(req.file.filename);
     req.flash("error", "Please enter a valid phone number");
     return res.redirect("/users/register");
   }
 
-  if(!validator.isBefore(dob, dateEighteenYearsAgo())){
+  if (!validator.isBefore(dob, dateEighteenYearsAgo())) {
     await cloudinary.uploader.destroy(req.file.filename);
     req.flash("error", "Age should be 18 years or older");
     return res.redirect("/users/register");
   }
 
-  if(!validator.isLength(password, { min: 6, max: 20 })) {
+  if (!validator.isLength(password, { min: 6, max: 20 })) {
     await cloudinary.uploader.destroy(req.file.filename);
     req.flash("error", "Password should be between 8 and 20 characters");
     return res.redirect("/users/register");
   }
 
   // 3. Check if profile picture is uploaded.
-  if(!req.file) {
+  if (!req.file) {
     req.flash("error", "Please upload a profile picture");
     return res.redirect("/users/register");
   }
 
 
-  const { 
-     path,
-     filename
+  const {
+    path,
+    filename
   } = req.file;
 
   const avatar = {
@@ -99,7 +99,7 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     return res.redirect("/users/login");
   }
 
-  
+
 
   const user = new User({
     firstName,
@@ -120,6 +120,15 @@ module.exports.registerUser = catchAsync(async (req, res) => {
   res.cookie("token", token, { signed: true });
   req.flash("success", "Welcome to Auction App");
 
+  const info = await sendMail(
+    email,
+    "Welcome to Auction App",
+    emailNotificationTemplate(`${firstName} ${lastName}`, 'Glad you joined us! Welcome to AuctionApp')
+  );
+
+  if(!info) console.log("Welcome email could not be sent");
+  console.log("Welcome email sent", info);
+  
   // return res.redirect("/products");
   return res.redirect("/users/verification");
 });
@@ -141,12 +150,12 @@ module.exports.sendVerificationOTP = catchAsync(async (req, res) => {
 
   user.otp = otp;
 
-  const html = emailTemplate(otp);
+  const html = emailOtpTemplate(otp);
   const info = await sendMail(email, "Verify your email", html);
 
   console.log(info);
 
-  if(!info){
+  if (!info) {
     req.flash("error", "Couldn't send mail. Try again later.")
     return res.redirect("/users/verification")
   }
@@ -169,14 +178,14 @@ module.exports.verifyEmail = catchAsync(async (req, res) => {
   const { email, otp } = req.body;
 
   const user = await User.findOne({ email });
- 
+
   if (!user) {
     req.flash("error", "Incorrect email");
     return res.redirect("/users/confirm");
   }
 
   const result = await user.checkOTP(otp);
-  
+
   if (!result) {
     req.flash("error", "Invalid OTP");
     return res.redirect("/users/reset-password");
@@ -229,19 +238,19 @@ module.exports.login = catchAsync(async (req, res) => {
   // Setting the token to the cookies for identifying signed user
   res.cookie("token", token, { signed: true });
   req.flash("success", "Welcome to Auction App");
-  
+
 
   // Redirecting to the previous page ---------------------
   let redirectTo = req.session.returnTo || "/products";
-  if(redirectTo === "/users/logout"){
+  if (redirectTo === "/users/logout") {
     redirectTo = "/products";
   }
-  if(redirectTo.endsWith("/bid")){
+  if (redirectTo.endsWith("/bid")) {
     redirectTo = redirectTo
       .replace("/bid", "")
       .replace("/users", "/products");
   }
-  if(redirectTo.endsWith("/logoutAll")){
+  if (redirectTo.endsWith("/logoutAll")) {
     redirectTo = "/products";
   }
   delete req.session.redirectTo;
@@ -268,7 +277,7 @@ module.exports.logout = catchAsync(async (req, res) => {
   return res.redirect("/products");
 });
 
-module.exports.logoutAll = catchAsync(async (req, res)=>{
+module.exports.logoutAll = catchAsync(async (req, res) => {
   res.clearCookie("token");
 
   req.user.tokens = [];
@@ -306,17 +315,17 @@ module.exports.forgotPassword = catchAsync(async (req, res) => {
 
   // 3. Setting the generated otp to the users otp property
   user.otp = otp;
-  
+
   // 4. Save the user
   await user.save();
   // 5. Sending the otp to the user's email.
-  const html = emailTemplate(otp);
-  
+  const html = emailOtpTemplate(otp);
+
   const info = await sendMail(email, "Reset Passoword", html);
 
   console.log(info);
 
-  if(!info){
+  if (!info) {
     req.flash("error", "Couldn't send mail. Try again later.")
     return res.redirect("/users/forgot-password")
   }
@@ -337,18 +346,18 @@ module.exports.forgotPassword = catchAsync(async (req, res) => {
  */
 module.exports.resetPassword = catchAsync(async (req, res) => {
   const { email, otp, password } = req.body;
- 
-  if (!email || !otp ||!password) {
+
+  if (!email || !otp || !password) {
     req.flash("error", "All fields are required");
     return res.redirect("/users/reset-password");
   }
 
-  if(!validator.isEmail(email)) {
+  if (!validator.isEmail(email)) {
     req.flash("error", "Please enter a valid email");
     return res.redirect("/users/reset-password");
   }
 
-  if(!validator.isLength(password, { min: 6, max: 20 })) {
+  if (!validator.isLength(password, { min: 6, max: 20 })) {
     req.flash("error", "Password length should be between 8 and 20 characters");
     return res.redirect("/users/reset-password");
   }

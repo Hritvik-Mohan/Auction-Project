@@ -56,13 +56,13 @@
 <h3>Duration</h3>
 <p><%= product.duration %> Days</p>
 <h3>Listed by</h3>
-<a href="/users/<%= product.user._id %>"><%= product.user.firstName %></a>
+<a href="/users/<%= product.user?._id || '#' %>"><%= product.user?.firstName || 'Deleted User'%></a>
 <hr>
 <h1>Time Remaining</h1>
 <p id="timer"></p>
 
 <br>
-<% if(currentUser && product.user._id.equals(currentUser)){ %>
+<% if(currentUser && product.user?._id.equals(currentUser)){ %>
     <a href="/products/<%= product._id %>/edit">Edit Product</a>
     <form action="/products/<%= product._id %>?_method=DELETE" method="post">
         <button type="submit">Delete Product</button>
