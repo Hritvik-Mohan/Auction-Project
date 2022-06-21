@@ -99,7 +99,9 @@ const declareWinnerBackend = () => {
             bidId: highestBidInfo.bid
         };
         
-        postData(`http://localhost:3000/products/${productId}`, encodeFormData(data) )
+        const url = NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://hackerspace-auctionapp.herokuapp.com';
+
+        postData(`${url}/products/${productId}`, encodeFormData(data) )
         .then(data => {
             console.log(data); 
         });
