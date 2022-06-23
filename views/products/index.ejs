@@ -14,18 +14,18 @@
       <h1 class="product__title"><%= product.title %></h1>
       <!-- <p class="product__body"><%= product.description %></p> -->
       <div class="wrapper-1">
-          <p class="current-price"> &#8377; <%= product.currentHighestBid.amount %> </p>
+          <p class="current-price"> <span class="current-price__currency">&#8377;</span> <%= product.currentHighestBid.amount %> </p>
           <p class="countdown-timer" id="timer-<%= product._id %>"></p>
       </div>
       <div class="wrapper-2">
         <p>Current Price</p>
         <p>Time Remaining</p>
     </div>
-    </a>
+    
       <div class="place-bid">
         <button class="place-bid_button">Place Bid</button>
       </div>
-  </div>
+  </div></a>
   <% } %> 
   <% if(currentUser){ %>
     <!-- <a href="/products/new">List an Item</a> -->

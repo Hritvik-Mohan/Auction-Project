@@ -113,7 +113,7 @@ const timeRemaining = () => {
     const minutes = Math.floor(timeRemainingInSeconds % (24 * 60 * 60) % (60 * 60) / 60);
     const seconds = Math.floor(timeRemainingInSeconds % (24 * 60 * 60) % (60 * 60) % 60);
 
-    labelTimer.textContent = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    labelTimer.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
     if (timeRemainingInSeconds === 0) {
         clearInterval(timer);
