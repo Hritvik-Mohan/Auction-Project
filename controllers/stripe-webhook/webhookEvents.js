@@ -2,6 +2,13 @@
  * Model imports.
  */
 const Transaction = require("../../models/transaction.model");
+const User = require("../../models/user.model");
+const Product = require("../../models/product.model");
+
+/**
+ * Util import.
+ */
+const sendMail = require("../../utils/nodemailer");
 
 /**
  * @description - This function save the transaction information in the database.
@@ -10,7 +17,7 @@ const Transaction = require("../../models/transaction.model");
 const createOrder = async (session) => {
     console.log(session);
     console.log("Save the order to the database");
-
+    
     const { 
         product_id, 
         seller_id, 
@@ -53,25 +60,40 @@ const createOrder = async (session) => {
  *                and send an email to the customer with the transaction details.
  */
 const fulfillOrder = async (session) => {
-    console.log("Send the email to the buyer to confirm the order");
-    
-    const { 
-        product_id, 
-        seller_id, 
-        bidder_id, 
-    } = session.metadata;
+    try {
+        const { 
+            product_id, 
+            seller_id, 
+            bidder_id, 
+        } = session.metadata;
 
-    const transaction = await Transaction.findOne({
-        product: product_id,
-        bidder: bidder_id,
-        seller: seller_id
-    });
+        const [ user, product, transaction ] = await Promise.all([
+            User.findById(bidder_id),
+            Product.findById(product_id),
+            Transaction.findOne({
+                product: product_id,
+                bidder: bidder_id,
+                seller: seller_id
+            })
+        ]);
 
-    transaction.paymentStatus = "paid";
+        transaction.paymentStatus = "paid";
 
-    await transaction.save();
+        await transaction.save();
 
-    //TODO: Send the email to the buyer to confirm the order
+        const info = await sendMail(
+            user.email,
+            "Payment Successful",
+            `Your payment of ${product.currentHighestBid.amount}₨ for the product ${product.title} has been successful.
+             Your order is confirmed.
+            `
+        );
+        if(info) console.log(info)
+        else console.log("Email not sent");
+
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 /**
@@ -79,8 +101,40 @@ const fulfillOrder = async (session) => {
  *                an event of failed payment.
  */
 const emailCustomerAboutFailedPayment =  async (session) => {
-    //TODO:
-    console.log("Send the email to the customer to inform them that the payment failed");
+    try {
+        const { 
+            product_id, 
+            seller_id, 
+            bidder_id, 
+        } = session.metadata;
+
+        const [ user, product, transaction ] = await Promise.all([
+            User.findById(bidder_id),
+            Product.findById(product_id),
+            Transaction.findOne({
+                product: product_id,
+                bidder: bidder_id,
+                seller: seller_id
+            })
+        ]);
+
+        transaction.paymentStatus = "unpaid";
+
+        await transaction.save();
+
+        const info = await sendMail(
+            user.email,
+            "Payment Unsuccessful",
+            `Your payment of ${product.currentHighestBid.amount}₨ for the product ${product.title} was unsuccessful.
+             Please try again.
+            `
+        );
+        if(info) console.log(info)
+        else console.log("Email not sent");
+
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 module.exports = {
