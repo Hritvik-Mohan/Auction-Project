@@ -101,8 +101,40 @@ const fulfillOrder = async (session) => {
  *                an event of failed payment.
  */
 const emailCustomerAboutFailedPayment =  async (session) => {
-    //TODO:
-    console.log("Send the email to the customer to inform them that the payment failed");
+    try {
+        const { 
+            product_id, 
+            seller_id, 
+            bidder_id, 
+        } = session.metadata;
+
+        const [ user, product, transaction ] = await Promise.all([
+            User.findById(bidder_id),
+            Product.findById(product_id),
+            Transaction.findOne({
+                product: product_id,
+                bidder: bidder_id,
+                seller: seller_id
+            })
+        ]);
+
+        transaction.paymentStatus = "unpaid";
+
+        await transaction.save();
+
+        const info = await sendMail(
+            user.email,
+            "Payment Unsuccessful",
+            `Your payment of ${product.currentHighestBid.amount}₨ for the product ${product.title} was unsuccessful.
+             Please try again.
+            `
+        );
+        if(info) console.log(info)
+        else console.log("Email not sent");
+
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 module.exports = {
