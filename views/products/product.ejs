@@ -1,24 +1,44 @@
-<% layout('layouts/boilerplate') %> 
+<% layout('layouts/boilerplate') %>
 
 <div class="product-container">
     <div class="image-container">
-        <% for (let image of product.images){  %> 
-            <img class="product__image" src="<%= image.path %> ">
+        <% for (let image of product.images){  %>
+        <img class="product__image" src="<%= image.path %> ">
         <% }%>
     </div>
 
     <div class="product-details">
-        <h1><%= product.title %> </h1>
+        <!-- <h1><%= product.title %> </h1>
         <p><%= product.description %></p>
         <p>Category</p>
         <p>Base Price</p>
-        <p>Current Price</p>
-        <form action="">
-            <input type="number" name="" id="">
-            <button>Submit</button>
+        <p>Current Price</p> -->
+        <h1 class="product__title-big"><%= product.title %></h1>
+        <p class="product__body-big"><%= product.description %></p>
+        <div class="wrapper-1">
+            <p class="current-price"> <span class="current-price__currency">&#8377;</span>
+                <%= product.currentHighestBid.amount %> /-</p>
+            <p class="countdown-timer" id="timer"></p>
+        </div>
+        <div class="wrapper-2">
+            <p>Current Price</p>
+            <p>Time Remaining</p>
+        </div>
+        <form action="/users/<%= product._id %>/bid" method="post">
+            <input class="formInput" type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>"
+            name="amount" placeholder="&#8377; " required>
+            <!-- "&#8377; "> -->
+            <div class="place-bid">
+                <button class="place-bid_button">Place Bid</button>
+            </div>
         </form>
-        <form action="">
-            <button>Quick Bid</button>
+        <div class="quick-bid-grid">
+        <input class="quick-bid-price-input" type="number" name="" id="" placeholder="&#8377; <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %> /-" disabled>
+        <form action="/users/<%= product._id %>/bid" method="post">
+                <!-- <div class="quick-bid-price-input-container">--> 
+                <input class="quick-bid-price-input" type="number" name="amount" id="" value="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" hidden > <!-- </div> -->
+                <div class="quick-bid"><button class="quick-bid_button" type="submit">Quick Bid</button></div>
+            </div>
         </form>
     </div>
 </div>
@@ -35,21 +55,24 @@
 
 <div id="bid-container">
     <% if(product.currentHighestBid.amount){ %>
-        <h3>Current Highest Bid</h3>
-        <p>&#8377; <%= product.currentHighestBid.amount %></p>
-    <% } %> 
+    <h3>Current Highest Bid</h3>
+    <p>&#8377; <%= product.currentHighestBid.amount %></p>
+    <% } %>
 </div>
 
 <div id="submit-bid">
     <form action="/users/<%= product._id %>/bid" method="post">
-        <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" name="amount" placeholder="Enter your bid" required>
+        <input type="number" min="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>"
+            name="amount" placeholder="Enter your bid" required>
         <button class="btn btn-success" type="submit">Submit Bid</button>
     </form>
     <form action="/users/<%= product._id %>/bid" method="post">
-        <input type="text" name="amount" value="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" hidden>
-        <button class="btn btn-primary" type="submit">Quick Bid <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
+        <input type="text" name="amount"
+            value="<%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %>" hidden>
+        <button class="btn btn-primary" type="submit">Quick Bid
+            <%= product.currentHighestBid.amount + 100 || product.basePrice + 100 %></button>
     </form>
-</div> 
+</div>
 
 <h3>Start Time</h3>
 <p class="startTime"><%= product.startTime %> </p>
@@ -62,12 +85,6 @@
 <p id="timer"></p>
 
 <br>
-<% if(currentUser && product.user?._id.equals(currentUser)){ %>
-    <a href="/products/<%= product._id %>/edit">Edit Product</a>
-    <form action="/products/<%= product._id %>?_method=DELETE" method="post">
-        <button type="submit">Delete Product</button>
-    </form>
-<% } %>
 
 <!-- In this div I will dynamically add the contact-seller button and checkout button-->
 <div id="contact-seller"></div>
@@ -81,5 +98,5 @@
     let auctionStatus = '<%- product.auctionStatus %>';
     const productId = '<%- product._id %>';
     let loggedinUserId = '<%- JSON.stringify(currentUser)%>';
-</script> 
+</script>
 <script src="/js/product/productPage.js"></script>
