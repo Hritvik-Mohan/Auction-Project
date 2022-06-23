@@ -1,18 +1,17 @@
 <% layout('layouts/boilerplate') %>
-<link rel="stylesheet" href="/css/login.css" />
+<link rel="stylesheet" href="/css/styles.css" />
 
-<div class="global-container">
-    <div class="card login-form">
-        <div class="card-body">
-            <h1 class="text-center display-1"><%= title %></h1>
+    <div class="formContainer">
+        <div class="loginForm">
+            <div class="loginH1-newProd"><%= title %></div>
                 
                 <form action="<%= action %>" method="POST">
-                    <div class="form-group">
-                        <label for="">Email</label>
-                        <input name="email" type="email" class="form-control form-control-lg" id="email" />
+                    <div class="formSection">
+                        <label class="formLable" for="">Email</label>
+                        <input name="email" type="email" class="formInput" id="email" />
                     </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg button-center">
+                    <div class="fromSection">
+                        <button type="submit" class="formSubmitButton">
                             Send OTP
                         </button>
                     </div>
@@ -22,4 +21,3 @@
                 </form>
         </div>
     </div>
-</div>
