@@ -5,7 +5,7 @@
 
 <div class="formContainer-signup container">
     <div class="loginForm">
-            <div class="loginH1">List a new product<br>for auction:</div>
+            <div class="loginH1-newProd">Create auction<br><div class="loginH2-newProd">Add a new product:</div></div>
             <form action="/products/new" method="POST" enctype="multipart/form-data">
                 <div class="formGrid">
                     <div class="formSection">
@@ -35,6 +35,7 @@
                     <div class="formSection">
                         <label class="formLable" for="images">Add Image</label>
                         <input type="file" name="images" class="formInput" id="images" multiple required>
+                        <!-- <label for="images">Select images</label> -->
                     </div>
                     <div class="formSection">
                         <label class="formLable" for="startTime">Start Time</label>
@@ -51,8 +52,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="formSection">
-                    <button type="submit" class="formSubmitButton">Put this up for bidding</button>
+                <div class="">
+                    <button type="submit" class="formSubmitButton new-prod-button">Submit</button>
                 </div>
             </form>
     </div>

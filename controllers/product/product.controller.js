@@ -13,6 +13,8 @@ const {
     cloudinary
 } = require("../../utils/cloudinaryUpload");
 const AppError = require("../../utils/AppError");
+const sendMail = require("../../utils/nodemailer");
+const { emailNotificationTemplate } = require("../../utils/emailTemplates");
 
 /**
  * Get all products from the database
@@ -36,7 +38,7 @@ module.exports.getAllListings = catchAsync(async (req, res) => {
  */
 module.exports.getOneProduct = catchAsync(async (req, res) => {
     const product = await Product.findById(req.params.id)
-        .populate("user", "_id, firstName")
+        .populate("user", "_id firstName lastName")
         .populate({
             path: "currentHighestBid",
             populate: {
@@ -286,41 +288,55 @@ module.exports.deleteProduct = catchAsync(async (req, res) => {
  * 
  */
 module.exports.declareWinner = catchAsync(async (req, res) => {
-   
+
     const { id: productId } = req.params;
     const { amount, userId, bidId } = req.body;
 
     if(!amount || !userId || !bidId){
         return res.send({
             msg: "Invalid request"
-        })
+        });
     }
 
     const product = await Product.findById(productId);
 
-    if(!product) throw new AppError("Product not found", 404);
+    if(!product) return res.send({
+        msg: "Product not found"
+    });
 
-    if(product.auctionStatus === false){
-        return res.send({
-            status: false,
-            msg: "Auction is not running"
-        })
-    }
+    if(product.auctionStatus === false) return res.send({
+        status: false,
+        msg: "Auction is not running"
+    });
+    
 
     const [user, bid] = await Promise.all([
         User.findById(userId),
         Bid.findById(bidId),
     ]);
 
-    if(!user || !bid) throw new AppError("Invalid informations", 404);
+    if(!user || !bid) return res.send({
+        msg: "User or bid not found"
+    });
 
     product.auctionStatus = false;
-    user.bidsWon.push(bidId);
+    user.bidsWon.push(bid._id);
 
     await Promise.all([
         product.save(),
         user.save()
     ]);
+
+    const info = await sendMail(
+        user.email,
+        "Congratulations! You have won the auction",
+        emailNotificationTemplate(
+            user.fullName, 
+            `Congratulations! You have won the auction for ${product.title}.`
+        )
+    );
+    if(!info) console.log("Could not send email");
+    else console.log(info); 
 
     return res.send({
         status: true,

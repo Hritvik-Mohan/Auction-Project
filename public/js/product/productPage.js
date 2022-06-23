@@ -99,7 +99,9 @@ const declareWinnerBackend = () => {
             bidId: highestBidInfo.bid
         };
         
-        postData(`http://localhost:3000/products/${productId}`, encodeFormData(data) )
+        const url = NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://hackerspace-auctionapp.herokuapp.com';
+
+        postData(`${url}/products/${productId}`, encodeFormData(data) )
         .then(data => {
             console.log(data); 
         });
@@ -113,7 +115,7 @@ const timeRemaining = () => {
     const minutes = Math.floor(timeRemainingInSeconds % (24 * 60 * 60) % (60 * 60) / 60);
     const seconds = Math.floor(timeRemainingInSeconds % (24 * 60 * 60) % (60 * 60) % 60);
 
-    labelTimer.textContent = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    labelTimer.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
     if (timeRemainingInSeconds === 0) {
         clearInterval(timer);
