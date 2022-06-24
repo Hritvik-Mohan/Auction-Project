@@ -51,8 +51,8 @@ module.exports.getOneProduct = catchAsync(async (req, res) => {
                 },
             },
         });
-  
 
+        
     if (!product) {
         req.flash("error", "Product not found");
         return res.redirect("/products");

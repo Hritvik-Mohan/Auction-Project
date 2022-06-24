@@ -59,9 +59,11 @@ const showContactSeller = () => {
             Checkout
         </a>
     `;
-    if(loggedinUserId != null && loggedinUserId._id && loggedinUserId._id === highestBidInfo.user._id)
+    if(loggedinUserId != null && loggedinUserId._id && loggedinUserId._id === highestBidInfo.user._id){
         contactSellerDiv.innerHTML = contactSellerForm;
+    }
 }
+
 
 
 // Function to POST data to the server.

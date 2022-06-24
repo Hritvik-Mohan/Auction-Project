@@ -117,6 +117,6 @@ productSchema.post('findOneAndDelete', async function(deletedProduct, next){
   }
 });
 
-const Product = mongoose.model('Product', productSchema)
+const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
