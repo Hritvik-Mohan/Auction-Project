@@ -7,7 +7,7 @@ const validator = require("validator");
  * Utils imports
  */
 const catchAsync = require("../../utils/catchAsync");
-const { emailOtpTemplate, emailNotificationTemplate } = require("../../utils/emailTemplates");
+const { emailOtpTemplate } = require("../../utils/emailTemplates");
 const sendMail = require("../../utils/nodemailer")
 const { newToken } = require("../../utils/jwt");
 const { dateEighteenYearsAgo } = require("../../utils/misc.functions");
@@ -99,8 +99,6 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     return res.redirect("/users/login");
   }
 
-
-
   const user = new User({
     firstName,
     lastName,
@@ -119,15 +117,6 @@ module.exports.registerUser = catchAsync(async (req, res) => {
   // Setting the token in cookies
   res.cookie("token", token, { signed: true });
   req.flash("success", "Welcome to Auction App");
-
-  const info = await sendMail(
-    email,
-    "Welcome to Auction App",
-    emailNotificationTemplate(`${firstName} ${lastName}`, 'Glad you joined us! Welcome to AuctionApp')
-  );
-
-  if(!info) console.log("Welcome email could not be sent");
-  console.log("Welcome email sent", info);
   
   // return res.redirect("/products");
   return res.redirect("/users/verification");
