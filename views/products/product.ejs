@@ -1,10 +1,16 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="product-container">
-    <div class="image-container">
-        <% for (let image of product.images){  %>
-        <img class="product__image" src="<%= image.path %> ">
-        <% }%>
+    <div class="image-container swiper">
+        <div class="swiper-wrapper">
+            <% for (let image of product.images){  %>
+                <div class="swiper-slide">
+                    <img class="product__image" src="<%= image.path %> ">
+                </div>
+                <% }%>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
     </div>
 
     <div class="product-details">
