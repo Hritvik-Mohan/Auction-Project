@@ -10,7 +10,7 @@ module.exports.sessionConfig = {
       maxAge: 1000 * 60 * 60 * 24 * 7
     },
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_CONNECTION_STRING,
+      mongoUrl: process.env.NODE_ENV === "production" ? process.env.MONGODB_CONNECTION_STRING : process.env.MONGODB_LOCAL_CONNECTION,
       touchAfter: 24 * 60 * 60
     })
 }
