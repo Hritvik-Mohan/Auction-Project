@@ -1,9 +1,14 @@
 /**
- * Moudule imorts.
+ * Node module imorts.
  */
 const {
     Router
 } = require("express");
+
+/**
+ * Model imports.
+ */
+const Product = require("../../models/product.model")
 
 /**
  * Util imports.
@@ -20,6 +25,7 @@ const isAuctionOver = require("../../middlewares/isAuctionOver");
 const isWinner = require("../../middlewares/isWinner");
 const canCheckout = require("../../middlewares/canCheckout");
 const isVerified = require("../../middlewares/isVerified");
+const pagination = require("../../middlewares/pagination");
 
 /**
  * Controller imports.
@@ -45,10 +51,10 @@ const ProductRouter = Router();
  * Get all products route.
  */
 ProductRouter.route("/products")
-    .get(getAllProduct)
+    .get(pagination(Product), getAllProduct)
 
 ProductRouter.route("/listings")
-    .get(protect, role.checkRole(role.ROLES.Admin), getAllListings)
+    .get(protect, role.checkRole(role.ROLES.Admin), pagination(Product), getAllListings)
 /**
  * Get product and add product route.
  */

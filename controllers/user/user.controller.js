@@ -16,7 +16,19 @@ const AppError = require("../../utils/AppError");
  * @description - Get list of all the users.
  */
 module.exports.getAllUsers = catchAsync(async (req, res) => {
-  const users = await User.find({});
+
+  const model = req.model;
+  const { limit, startIndex } = req.paginationParams;
+
+  const users = await model.find()
+      .limit(limit)
+      .skip(startIndex);
+
+  if(!users){
+    req.flash('error', 'No users found');
+    res.redirect('/');
+  }
+
   return res.render("users/allUsers", { users })
 });
 
