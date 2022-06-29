@@ -6,6 +6,11 @@ const {
 } = require("express");
 
 /**
+ * Model imports.
+ */
+const User = require("../../models/user.model");
+
+/**
  * Utils import.
  */
 const { upload } = require("../../utils/multer");
@@ -20,6 +25,7 @@ const isTimeRemaining = require("../../middlewares/isTimeRemaining");
 const isWinner = require("../../middlewares/isWinner");
 const isVerified = require("../../middlewares/isVerified");
 const isBidValid = require("../../middlewares/isBidValid");
+const pagination = require("../../middlewares/pagination");
 
 /**
  * Controller Imports
@@ -59,7 +65,7 @@ const UserRouter = Router();
 
 // Get all users route.
 UserRouter.route('/users')
-  .get(protect, role.checkRole(role.ROLES.Admin), getAllUsers)
+  .get(protect, role.checkRole(role.ROLES.Admin), pagination(User), getAllUsers)
   .post(upload.single('avatar'), registerUser)
 
 // Register a new user route.

@@ -20,14 +20,36 @@ const { emailNotificationTemplate } = require("../../utils/emailTemplates");
  * Get all products from the database
  */
 module.exports.getAllProduct = catchAsync(async (req, res) => {
-    const products = await Product.find({});
+    const model = req.model;
+    const { limit, startIndex } = req.paginationParams;
+
+    const products = await model.find()
+        .limit(limit)
+        .skip(startIndex);
+
+    if(!products) {
+        req.flash("error", "No products found");
+        return res.redirect("/");
+    }
+    
     res.render("products/index", {
         products,
     });
 });
 
 module.exports.getAllListings = catchAsync(async (req, res) => {
-    const listings = await Product.find({});
+    const model = req.model;
+    const { limit, startIndex } = req.paginationParams;
+
+    const listings = await model.find()
+        .limit(limit)
+        .skip(startIndex)
+    
+    if (!listings){
+        req.flash("error", "No listings found");
+        return res.redirect('/');
+    }
+
     res.render("products/allListings", {
         listings,
     });
