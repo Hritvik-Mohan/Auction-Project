@@ -48,7 +48,7 @@ const populateDb = async () => {
     }
 };
 
-populateDb();
+// populateDb();
 
 const pruneDb = async () => {
     try {
