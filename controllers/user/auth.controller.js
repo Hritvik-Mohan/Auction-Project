@@ -243,9 +243,12 @@ module.exports.login = catchAsync(async (req, res) => {
     redirectTo = "/products";
   }
   delete req.session.redirectTo;
-  // ------------------------------------------------------
+  console.log("🐞 --------------------------------------------------------------------------------------------------🐞")
+  console.log("🐞 ~ file: auth.controller.js ~ line 249 ~ module.exports.login=catchAsync ~ redirectTo", redirectTo)
+  console.log("🐞 --------------------------------------------------------------------------------------------------🐞")
 
   return res.redirect(redirectTo);
+ 
 });
 
 /**
