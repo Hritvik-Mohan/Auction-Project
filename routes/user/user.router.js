@@ -124,6 +124,7 @@ UserRouter.route("/users/address/edit")
 // Login a user route.
 UserRouter.route('/users/login')
   .get((req, res) => {
+    if(res.locals.currentUser) return res.redirect('/products');
     res.render('users/login');
   })
   .post(login)

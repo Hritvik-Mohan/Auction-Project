@@ -8,7 +8,7 @@
                 <form action="<%= action %>" method="POST">
                     <div class="formSection">
                         <label class="formLable" for="">Email</label>
-                        <input name="email" type="email" class="formInput" id="email" />
+                        <input name="email" type="email" value="<%= currentUser?.email %>" class="formInput" id="email" />
                     </div>
                     <div class="fromSection">
                         <button type="submit" class="formSubmitButton">
