@@ -37,6 +37,12 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     return res.redirect("/users/register");
   }
 
+  if(!validator.isAlpha(firstName) || !validator.isAlpha(lastName)){
+    await cloudinary.uploader.destroy(req.file.filename);
+    req.flash("error", "Invalid first name or last name");
+    return res.redirect("/users/register");
+  }
+
   // 2.1 Validate the data received.
   if (!validator.isEmail(email)) {
     await cloudinary.uploader.destroy(req.file.filename);
