@@ -20,14 +20,36 @@ const { emailNotificationTemplate } = require("../../utils/emailTemplates");
  * Get all products from the database
  */
 module.exports.getAllProduct = catchAsync(async (req, res) => {
-    const products = await Product.find({});
+    const model = req.model;
+    const { limit, startIndex } = req.paginationParams;
+
+    const products = await model.find()
+        .limit(limit)
+        .skip(startIndex);
+
+    if(!products) {
+        req.flash("error", "No products found");
+        return res.redirect("/");
+    }
+    
     res.render("products/index", {
         products,
     });
 });
 
 module.exports.getAllListings = catchAsync(async (req, res) => {
-    const listings = await Product.find({});
+    const model = req.model;
+    const { limit, startIndex } = req.paginationParams;
+
+    const listings = await model.find()
+        .limit(limit)
+        .skip(startIndex)
+    
+    if (!listings){
+        req.flash("error", "No listings found");
+        return res.redirect('/');
+    }
+
     res.render("products/allListings", {
         listings,
     });
@@ -79,17 +101,35 @@ module.exports.addNewProduct = catchAsync(async (req, res) => {
     req.body;
 
     // Validation
-    if (!title || !description || !basePrice || !category || !startTime || !duration) {
+    if (
+        title.trim().length === 0 || 
+        description.trim().length === 0 ||
+        !basePrice ||
+        !category ||
+        !startTime ||
+        !duration
+        ) {
+        
+        // Destroy the images that was uploaded.
+        await Promise.all(
+            req.files.map((filename) => cloudinary.uploader.destroy(filename.filename))
+        );
         req.flash("error", "Please fill all the fields");
         return res.redirect("/products/new");
     }
 
     if(title.length < 3 || title.length > 280) {
+        await Promise.all(
+            req.files.map((filename) => cloudinary.uploader.destroy(filename.filename))
+        );
         req.flash("error", "Title should be between 3 and 280 characters");
         return res.redirect("/products/new");
     }
 
     if(description.length < 10 || description.length > 1000) {
+        await Promise.all(
+            req.files.map((filename) => cloudinary.uploader.destroy(filename.filename))
+        );
         req.flash("error", "Description should be between 10 and 1000 characters");
         return res.redirect("/products/new");
     }
