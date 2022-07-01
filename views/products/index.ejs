@@ -1,39 +1,41 @@
-<% layout('layouts/boilerplate') %> 
+<% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/css/styles.css" />
 
 
 
-<div class="container prodContainer">
-    <% for (let product of products){ %>
-  <div class="product card--light">
-      <a class="product__wrapper" href="/products/<%= product._id %>">
+<div class="container prod-container">
+  <% for (let product of products){ %>
+  <div class="product">
+    <a href="/products/<%= product._id %>">
       <div class="image-container">
-            <img class="product__image" src="<%= product.images[0]?.path || "https://images.unsplash.com/photo-1633078654544-61b3455b9161?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1490&q=80"%> "><br>
+        <img class="product-image"
+          src="<%= product.images[0]?.path || "https://images.unsplash.com/photo-1633078654544-61b3455b9161?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1490&q=80"%> "><br>
       </div>
-      
+
       <h1 class="product__title"><%= product.title %></h1>
       <!-- <p class="product__body"><%= product.description %></p> -->
       <div class="wrapper-1">
-          <p class="current-price"> <span class="current-price__currency">&#8377;</span> <%= product.currentHighestBid.amount ? product.currentHighestBid.amount : product.basePrice %> </p>
-          <p class="countdown-timer" id="timer-<%= product._id %>"></p>
+        <p class="current-price"> <span class="current-price__currency">&#8377;</span>
+          <%= product.currentHighestBid.amount ? product.currentHighestBid.amount : product.basePrice %> </p>
+        <p class="countdown-timer" id="timer-<%= product._id %>"></p>
       </div>
       <div class="wrapper-2">
         <p>Current Price</p>
         <p>Time Remaining</p>
-    </div>
-    
+      </div>
+
       <div class="place-bid">
         <button class="place-bid_button">Place Bid</button>
       </div>
   </div></a>
-  <% } %> 
+  <% } %>
   <% if(currentUser){ %>
-    <!-- <a href="/products/new">List an Item</a> -->
-<% } %>
+  <!-- <a href="/products/new">List an Item</a> -->
+  <% } %>
 </div>
 
 <script type="module"></script>
 <script>
-    let products = '<%- JSON.stringify(products).replace(/[\/\(\)\']/g, "&apos;") %>';
-</script> 
+  let products = '<%- JSON.stringify(products).replace(/[\/\(\)\']/g, "&apos;") %>';
+</script>
 <script src="/js/product/indexPage.js"></script>

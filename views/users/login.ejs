@@ -4,7 +4,8 @@
 <div class="formContainer">
     <div class="loginForm">
         <div class="loginH1">Login</div>
-        <form action="/users/login" method="POST">
+        <form id="form" action="/users/login" method="POST">
+            <div id="error"></div>
             <div class="">
                 <div>
                     <label class="formLable" for="">Email</label>
@@ -17,6 +18,7 @@
             <div class="">
                 <div class="password-wrapper">
                     <label class="formLable" for="">Password</label>
+                    <!-- <div id="error-password"></div> -->
                     <a class="formLink" href="/users/forgot-password">Forgot Password</a>
                 </div>
                 

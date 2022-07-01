@@ -4,39 +4,46 @@
 <div class="formContainer-signup container">
     <div class="loginForm">
         <div class="loginH1">Sign Up</div>
-        <!-- <div class="card-text"> -->
-
-        <form action="/users" method="POST" enctype="multipart/form-data">
+        <form id="form" action="/users" method="POST" enctype="multipart/form-data">
+            <div id="error"></div>
             <div class="formGrid">
                 <div class="formSection">
                     <label class="formLable" for="firstName">First Name</label>
-                    <input type="text" name="firstName" class="formInput" id="firstName" required>
+                    <input type="text" name="firstName" class="formInput" id="firstName">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="lastName" class="">Last Name</label>
-                    <input type="text" name="lastName" class="formInput" id="lastName" required>
+                    <input type="text" name="lastName" class="formInput" id="lastName">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="email" class="">Email</label>
-                    <input type="email" name="email" class="formInput" id="email" required>
+                    <input type="email" name="email" class="formInput" id="email">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="avatar" class="formInput">Profile Pic</label>
-                    <input id="avatar" type="file" class="formInput" name="avatar" required>
+                    <!-- <input id="avatar" type="file" class="formInput-file" name="avatar"> -->
+
+                    <div class="formInput-file__container">
+                        <label for="file" class="formInput-file">
+                            <div id="fileLabel" class="formInput-file__flex">Choose File</div>
+                        </label>
+                    </div>
+                    <input id="file" type="file" class="formInput-file" name="avatar" onchange="pressed()">
+
                 </div>
 
 
                 <div class="formSection">
                     <label class="formLable" for="dob" class="">DOB</label>
-                    <input type="date" name="dob" class="formInput" id="dob" required>
+                    <input type="date" name="dob" class="formInput" id="dob">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="password" class="">Password</label>
-                    <input type="password" name="password" class="formInput" id="password" required>
+                    <input type="password" name="password" class="formInput" id="password">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="phoneNumber" class="">Phone Number</label>
-                    <input type="text" name="phoneNumber" class="formInput" id="phoneNumber" required>
+                    <input type="text" name="phoneNumber" class="formInput" id="phoneNumber">
                 </div>
             </div>
             <div class="formSection">

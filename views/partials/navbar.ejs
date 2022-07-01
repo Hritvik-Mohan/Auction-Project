@@ -4,20 +4,22 @@
     <input type="checkbox" id="toggler">
     <label for="toggler"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28"><path fill="none" d="M0 0h24v24H0z"/><path d="M3 4h18v2H3V4zm0 7h12v2H3v-2zm0 7h18v2H3v-2z"/></svg></label>
 
-    <div class="menu" id="menu">
+    <div class="nav-menu" id="menu">
 
         <ul class="nav-links" role="list">
             <% if(!currentUser){ %>
-            <li class="nav-item"><a href="/products">Browse</a></li>
-            <li class=  "nav-item"><a href="/users/login">Login</a></li>
-            <li class="nav-item"><a href="/users/register">Sign Up</a></li>
+                
+            <li class="nav-link"><a href="/products">Browse</a></li>
+            <li class="nav-link"><a href="/users/login">Login</a></li>
+            <li class="nav-link"><a href="/users/register">Sign Up</a></li>
 
             <% } else{ %>
+
                 <!-- <li class="nav-item"><a href="/users/profile">John</a></li> -->
-                <li class="nav-item"><a href="/users/dashboard">Dashboard</a></li>
-                <li class="nav-item"><a href="/products/new">Sell</a></li>
-                <li class="nav-item"><a href="/products">Browse</a></li>
-                <li class="nav-item"><a href="/users/logout">Sign Out</a></li>
+                <li class="nav-link"><a href="/users/dashboard">Dashboard</a></li>
+                <li class="nav-link"><a href="/products/new">Sell</a></li>
+                <li class="nav-link"><a href="/products">Browse</a></li>
+                <li class="nav-link"><a href="/users/logout">Sign Out</a></li>
 
             <% } %>
         </ul>

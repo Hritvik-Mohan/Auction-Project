@@ -1,26 +1,26 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/css/login.css" />
 
-<div class="global-container">
-    <div class="card login-form">
-        <div class="card-body">
-            <h1 class="text-center display-1">Confirm OTP</h1>
+
+    <div class="formContainer">
+        <div class="loginForm">
+            <h1 class="loginH1-newProd">Confirm OTP</h1>
+                
                 <form action="/users/confirm" method="POST">
-                    <div class="form-group">
-                        <label for="">Email</label>
-                        <input name="email" type="email" value="<%= currentUser?.email  %>" class="form-control form-control-lg" id="email" />
+                    <div class="formSection">
+                        <label class="formLable" for="">Email</label>
+                        <input name="email" type="email" value="<%= currentUser?.email %>" class="formInput" id="email" />
+
                     </div>
-                    <div class="form-group">
-                        <label for="">OTP</label>
-                        <a href="#" style="float: right; font-size: 12px">Forgot Password</a>
-                        <input name="otp" type="text" class="form-control form-control-lg" id="password" />
+                    <div class="formSection">
+                        <label class="formLable" for="">OTP</label>
+                        <input name="otp" type="text" class="formInput" id="password" />
                     </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-success btn-lg button-center">
+                        <button type="submit" class="formSubmitButton">
                             Verify Me!
                         </button>
                     </div>
                 </form>
         </div>
     </div>
-</div>

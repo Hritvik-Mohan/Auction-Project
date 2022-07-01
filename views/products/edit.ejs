@@ -1,81 +1,89 @@
 <% layout('layouts/boilerplate') %> 
 
-<form action="/products/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <div>
-        <label for="title">Title</label>
-    </div>
-    <div>
-        <input type="text" name="title" id="title" value="<%= product.title %>" required>
-    </div>
-    <div>
-        <label for="description">Description</label>
-    </div>
-    <div>
-        <input type="text" name="description" id="description" value="<%= product.description %>" required>
-    </div>
-    <div>
-        <label for="base_price">Base Price</label>
-    </div>
-    <div>
-        <input type="number" name="basePrice" step="any" id="base_price" value="<%= product.basePrice %>" required>
-    </div>
-    <div>
-        <label for="category">Select Category</label>
-    </div>
-    <div>
-        <select name="category" id="category" required>
-            <option value="<%= product.category %>"><%= product.category %></option>
-            <option value="art">Art</option>
-            <option value="antiques">Antiques</option>
-            <option value="vehicle">Vehicle</option>
-            <option value="books">Books</option>
-            <option value="collectible">Collectible</option>
-            <option value="other">Other</option>
-        </select>
-    </div>
-    <div>
-        <label for="images">Add Image</label>
-    </div>
-    <div>
-        <input type="file" name="images" id="images" multiple>
-    </div>
-    <% if(product.images?.length){ %> 
-        <% product.images.forEach((image, index)=>{ %>
-            <img src="<%= image.thumbnail %>">
-            <% if(product.images.length > 1){ %>
-                <div>
-                    <p>Delete image</p>
-                </div>
-                <div>
-                    <input type="checkbox" name="deleteImages[]" id="img-<%= index %>" value="<%= image.filename %>">
-                    <label for="img-<%= index %>">Delete ?</label>
-                </div> 
-            <% } %> 
-        <% }) %> 
-    <% } %>
+<div class="formContainer-signup container">
+    <div class="loginForm">
+        <div class="loginH1-newProd">Edit product</div>
+        <form id="form" action="/products/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 
-    <div>
-        <label for="startTime">Start Time</label>
+
+
+            <div class="formGrid">
+                <div class="formSection">
+                    <label class="formLable" for="title">Title</label>
+                    <input type="text" name="title" class="formInput" id="title" value="<%= product.title %>" required>
+                </div>
+                <div class="formSection">
+                    <label class="formLable" for="description">Description</label>
+                    <input type="text" name="description" class="formInput" id="description" value="<%= product.description %>" required>
+                </div>
+                <div class="formSection">
+                    <label class="formLable" for="base_price">Base Price</label>
+                    <input type="number" name="basePrice" step="any" class="formInput" id="base_price" value="<%= product.basePrice %>" required>
+                </div>
+                <div class="formSection">
+                    <label class="formLable" for="category">Select Category</label>
+                    <select name="category" class="formInput" id="category" required>
+                        <option value="<%= product.category %>"><%= product.category %></option>
+                        <option value="art">Art</option>
+                        <option value="antiques">Antiques</option>
+                        <option value="vehicle">Vehicle</option>
+                        <option value="books">Books</option>
+                        <option value="collectible">Collectible</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="formSection">
+                    <label class="formLable" for="startTime">Start Time</label>
+                    <input type="datetime-local" name="startTime" class="formInput" id="startTime" required>
+                </div>
+                <div class="formSection">
+                    <label class="formLable" for="duration">Duration</label>
+                    <select name="duration" class="formInput" id="duration" required>
+                        <option value="<%= product.duration %>"><%= product.duration %></option>
+                        <option value="3">3 days</option>
+                        <option value="5">5 days</option>
+                        <option value="7">7 days</option>
+                        <option value="10">10 days</option>
+                    </select>
+                </div>
+                
+                <div class="formSection">
+                    <label class="formLable" for="images">Add Image</label>
+                    <!-- <input type="file" name="images" id="images" multiple> -->
+                    <div class="formInput-file__container">
+                        <label for="file" class="formInput-file">
+                            <div id="fileLabel" class="formInput-file__flex">Choose File</div>
+                        </label>
+                    </div>
+                    <input id="file" type="file" name="images" class="formInput-file" onchange="pressed()" multiple required>
+                </div>
+            </div>
+            <div class="formSection">
+                <label class="formLable formLable__delete-images" for="startTime">Delete Images <span>(Selected images will be deleted.)</span></label>
+                <div class="formInput-file__images-container">
+                    <% if(product.images?.length){ %>
+                        <% product.images.forEach((image, index)=>{ %>
+                            <div class="formSection-image formGrid-6"><img class="formImage" src="<%= image.thumbnail %>">
+                            <% if(product.images.length > 1){ %>
+                                <!-- <div>
+                                    <p>Delete image</p>
+                                </div> -->
+                                    <span><input type="checkbox" name="deleteImages[]" id="img-<%= index %>" value="<%= image.filename %>"></span>
+                                    <!-- <label for="img-<%= index %>">Delete ?</label> -->
+                                </div>
+                                    <% } %>
+                        <% }) %>
+                    <% } %>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="formSubmitButton new-prod-button">Save</button>
+            </div>
+            
+        </form>
     </div>
-    <div>
-        <input type="datetime-local" name="startTime" id="startTime" required>
-    </div>
-    <div>
-        <label for="duration">Duration</label>
-    </div>
-    <div>
-        <select name="duration" id="duration" required>
-            <option value="<%= product.duration %>"><%= product.duration %></option>
-            <option value="3">3 days</option>
-            <option value="5">5 days</option>
-            <option value="7">7 days</option>
-            <option value="10">10 days</option>
-        </select>
-    </div>
-    <div>
-        <button type="submit">Make it so!</button>
-    </div>
-</form>
+</div>
 <script>
     let startTime = '<%- product.startTime %>';
 </script>
