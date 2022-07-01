@@ -7,12 +7,18 @@
             <h1 class="loginH1">Edit Profile</h1>
             <!-- <div class="card-text"> -->
 
-                <form action="<%= action %>" method="POST" enctype="multipart/form-data">
+                <form id="form" action="<%= action %>" method="POST" enctype="multipart/form-data">
                     <!-- <img src="<%= user.avatar.rounded %>" alt="Your current avatar"> -->
+                    <div id="error"></div>
                     <div class="formGrid">
                         <div class="formSection">
                             <label for="avatar" class="formLabel">Update Avatar</label>
-                            <input id="avatar" type="file" class="formInput" name="avatar">
+                            <div class="formInput-file__container">
+                                <label for="file" class="formInput-file">
+                                    <div id="fileLabel" class="formInput-file__flex">Choose image </div>
+                                </label>
+                            </div>
+                            <input id="file" type="file" class="formInput-file" name="avatar" onchange="pressed()">
                         </div>
                         
                         <div class="formSection">

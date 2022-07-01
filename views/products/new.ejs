@@ -34,8 +34,19 @@
                     </div>
                     <div class="formSection">
                         <label class="formLable" for="images">Add Image</label>
-                        <input type="file" name="images" class="formInput" id="images" multiple required>
-                        <!-- <label for="images">Select images</label> -->
+                        <!-- <input id="prod-images" type="file" name="images" class="formInput-file" id="images" multiple required> -->
+                        
+
+                        <div class="formInput-file__container">
+                            <label for="file" class="formInput-file">
+                                <div id="fileLabel" class="formInput-file__flex">Choose File</div>
+                            </label>
+                        </div>
+                        <input id="file" type="file" name="images" class="formInput-file" onchange="pressed()" multiple required>
+
+
+
+
                     </div>
                     <div class="formSection">
                         <label class="formLable" for="startTime">Start Time</label>
