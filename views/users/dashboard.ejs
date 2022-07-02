@@ -1,6 +1,191 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="formContainer-signup container">
+<!-- Dashboard Start -->
+
+<div class="dashboard-container container prod-container">
+
+    <!-- Dashboard Section 1 Start -->
+
+    <div class="dashboard-section-1">
+
+        <div class="dashboard-section-1__profile-image-container">
+            <div class="dashboard-section-1__profile-image"><img src="https://picsum.photos/200/300" alt="" srcset="">
+            </div>
+        </div>
+
+        <div class="dashboard-section-1__username" id="username"><%= currentUser?.firstName %></div>
+
+        <div class="dashboard-section-1__userinfo">
+            <div class="dashboard-section-1__userinfo-isvarified">Varified</div>
+            <div class="dashboard-section-1__userinfo-joined-date">Joined: Jan 1, 2022</div>
+        </div>
+
+        <div class="dashboard-section-1__tabs__sidebar">
+
+            <button class="dashboard-section-1__tabs__button" onclick="openCity(event, 'Profile')">Profile</button>
+            <button class="dashboard-section-1__tabs__button active"
+                onclick="openCity(event, 'Dashboard')">Dashboard</button>
+            <button class="dashboard-section-1__tabs__button" onclick="openCity(event, 'Settings')">Settings</button>
+
+        </div>
+    </div>
+
+    <!-- Dashboard Section 1 End -->
+
+
+    <div id="Profile" class="dashboard-section-2 div2">
+        <h1 class="dashboard-section-2__heading">
+            Profile
+        </h1>
+    </div>
+
+    <div id="Dashboard" class="dashboard-section-2 div2" style="display: block;">
+        <!-- Heading Start-->
+
+        <h1 class="dashboard-section-2__heading">
+            Dashboard
+        </h1>
+
+        <!-- Heading Start-->
+
+
+
+        <!-- Box-1 Start -->
+
+        <div class="dashboard-section-2__box">
+
+            <div class="dashboard-section-2__box__p1">
+                <div class="dashboard-section-2__box__p1__heading">
+                    <p class="dashboard-section-2__box__p1__heading-h1">My Auctions</p>
+                </div>
+                <div class="dashboard-section-2__box__p1__options ">
+                    <div class="dashboard-section-2__box__p1__options__button"><button>View</button></div>
+                    <a href="/products/new"><div class="dashboard-section-2__box__p1__options__button"><button>Create auction</button></div></a>
+                </div>
+            </div>
+
+            <div class="dashboard-section-2__box__p2">
+
+                <div class="dashboard-section-2__box__p2__stat">
+                    <p class="dashboard-section-2__box__p2__stat-h">Total</p>
+                    <p class="dashboard-section-2__box__p2__stat-no">4</p>
+                </div>
+
+                <div class="dashboard-section-2__box__p2__stat">
+                    <p class="dashboard-section-2__box__p2__stat-h">Active</p>
+                    <p class="dashboard-section-2__box__p2__stat-no">1</p>
+                </div>
+
+                <div class="dashboard-section-2__box__p2__stat">
+                    <p class="dashboard-section-2__box__p2__stat-h">Successful</p>
+                    <p class="dashboard-section-2__box__p2__stat-no">3</p>
+                </div>
+
+                <div class="dashboard-section-2__box__p2__stat">
+                    <p class="dashboard-section-2__box__p2__stat-h">Unsuccessful</p>
+                    <p class="dashboard-section-2__box__p2__stat-no">0</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Box-1 End -->
+
+        <!-- Box-2 Start -->
+
+        <div class="dashboard-section-2__box dashboard-section-2__box--green">
+
+            <div class="dashboard-section-2__box__p1 formFlex">
+                <div class="dashboard-section-2__box__p1__heading">
+                    <p class="dashboard-section-2__box__p1__heading-h1 dashboard-section-2__box__p1__heading-h1--green">
+                        My Bids</p>
+                </div>
+                <div class="dashboard-section-2__box__p1__options dashboard-section-2__box__p1__options-1 ">
+                    <div
+                        class="dashboard-section-2__box__p1__options__button dashboard-section-2__box__p1__options__button--green">
+                        <button>View</button></div>
+                </div>
+            </div>
+
+            <div class="dashboard-section-2__box__p2">
+
+                <div class="dashboard-section-2__box__p2__stat">
+                    <p class="dashboard-section-2__box__p2__stat-h">Total</p>
+                    <p class="dashboard-section-2__box__p2__stat-no">5</p>
+                </div>
+
+                <div class="dashboard-section-2__box__p2__stat">
+                    <p class="dashboard-section-2__box__p2__stat-h">Won</p>
+                    <p class="dashboard-section-2__box__p2__stat-no">3</p>
+                </div>
+
+                <div class="dashboard-section-2__box__p2__stat">
+                    <p class="dashboard-section-2__box__p2__stat-h">Not Won</p>
+                    <p class="dashboard-section-2__box__p2__stat-no">2</p>
+                </div>
+
+                <div class="dashboard-section-2__box__p2__stat">
+                    <p class="dashboard-section-2__box__p2__stat-h"></p>
+                    <p class="dashboard-section-2__box__p2__stat-no"></p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Box-2 End -->
+    </div>
+
+    <div id="Settings" class="dashboard-section-2 div2">
+        <h1 class="dashboard-section-2__heading">
+            Profile
+        </h1>
+    </div>
+
+
+</div>
+
+<!-- Dashboard End -->
+
+
+<script>
+    let username = document.getElementById("username")
+    let lowerCase_username = username.toLowerCase();
+
+    document.getElementById("username").innerHTML = lowerCase_username;
+</script>
+
+<script src="/js/dashboard/dashboard.js"></script>
+
+
+
+
+<!-- <div class="dashboard-container container prod-container">
+    
+    <div class="dashboard__section-1">
+    </div>
+
+    <div class="dashboard__section-2">
+    </div>
+
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="formContainer-signup container">
     <div class="loginForm">
 
 <div class="formGrid">
@@ -10,4 +195,4 @@
     <div><h1><a href="/users/profile">Your profile</a></h1></div>
     <div><h1><a href="/users/Edit">Edit your profile</a></h1></div>
 </div>
-</div>
+</div> -->
