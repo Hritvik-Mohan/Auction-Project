@@ -23,7 +23,7 @@
         <ul>
         <% user.bids.forEach(bid =>{ %> 
            <li>
-                <a href="/products/<%= bid.product._id %>"><%= bid.product.title %></a> 
+                <a href="/products/<%= bid.product?._id %>"><%= bid.product?.title %></a> 
            </li>
         <% }) %> 
         </ul>
