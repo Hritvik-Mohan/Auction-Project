@@ -2,6 +2,9 @@
  * Model imports.
  */
 const User = require("../models/user.model");
+const Product = require("../models/product.model");
+const Bid = require("../models/bid.model");
+const Transaction = require("../models/transaction.model");
 
 /**
  * Utils.
