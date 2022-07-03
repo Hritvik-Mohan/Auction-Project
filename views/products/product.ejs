@@ -49,6 +49,8 @@
     </div>
 </div>
 
+<div id="bid-container"></div>
+
 <!-- 
 <h3>Title</h3>
 <p><%= product.title %> </p>
@@ -58,13 +60,6 @@
 <p><%= product.category %> </p>
 <h3>Base Price</h3>
 <p> &#8377; <%= product.basePrice %> </p>
-
-<div id="bid-container">
-    <% if(product.currentHighestBid.amount){ %>
-    <h3>Current Highest Bid</h3>
-    <p>&#8377; <%= product.currentHighestBid.amount %></p>
-    <% } %>
-</div>
 
 <div id="submit-bid">
     <form action="/users/<%= product._id %>/bid" method="post">

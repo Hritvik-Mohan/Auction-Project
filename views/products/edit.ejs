@@ -10,19 +10,19 @@
             <div class="formGrid">
                 <div class="formSection">
                     <label class="formLable" for="title">Title</label>
-                    <input type="text" name="title" class="formInput" id="title" value="<%= product.title %>" required>
+                    <input type="text" name="title" class="formInput" id="title" value="<%= product.title %>">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="description">Description</label>
-                    <input type="text" name="description" class="formInput" id="description" value="<%= product.description %>" required>
+                    <input type="text" name="description" class="formInput" id="description" value="<%= product.description %>">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="base_price">Base Price</label>
-                    <input type="number" name="basePrice" step="any" class="formInput" id="base_price" value="<%= product.basePrice %>" required>
+                    <input type="number" name="basePrice" step="any" class="formInput" id="base_price" value="<%= product.basePrice %>">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="category">Select Category</label>
-                    <select name="category" class="formInput" id="category" required>
+                    <select name="category" class="formInput" id="category">
                         <option value="<%= product.category %>"><%= product.category %></option>
                         <option value="art">Art</option>
                         <option value="antiques">Antiques</option>
@@ -35,11 +35,11 @@
 
                 <div class="formSection">
                     <label class="formLable" for="startTime">Start Time</label>
-                    <input type="datetime-local" name="startTime" class="formInput" id="startTime" required>
+                    <input type="datetime-local" name="startTime" class="formInput" id="startTime">
                 </div>
                 <div class="formSection">
                     <label class="formLable" for="duration">Duration</label>
-                    <select name="duration" class="formInput" id="duration" required>
+                    <select name="duration" class="formInput" id="duration">
                         <option value="<%= product.duration %>"><%= product.duration %></option>
                         <option value="3">3 days</option>
                         <option value="5">5 days</option>
@@ -56,7 +56,7 @@
                             <div id="fileLabel" class="formInput-file__flex">Choose File</div>
                         </label>
                     </div>
-                    <input id="file" type="file" name="images" class="formInput-file" onchange="pressed()" multiple required>
+                    <input id="file" type="file" name="images" class="formInput-file" onchange="pressed()" multiple>
                 </div>
             </div>
             <div class="formSection">
