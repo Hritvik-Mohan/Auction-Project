@@ -1,11 +1,22 @@
 const Product = require("../models/product.model");
 const Bid = require("../models/bid.model");
 
-const getStats = async (user) => {
+/**
+ * @description - This function computes all the stats of the user.
+ * 
+ * @param {Object} user - The user object.
+ * @returns {Object} user - The user object with the stats.
+ */
+
+const getUserStats = async (user) => {
+    const currentUser = {
+        ...user._doc
+    };
+   
     const productsListed = await Product.find({ _id: { $in: user.products } })
+
     // Check if any bids were made on the product
-    const bidsMadeOnListedProducts = await Bid.find({ product: { $in: user.products } });
-    // console.log('bidsMadeOnListedProducts', bidsMadeOnListedProducts);
+    const successfulProducts = await Bid.find({ product: { $in: user.products } });
 
     // Now finding the unsuccessful bids
     // 1. First get all the products whose auction status is false
@@ -15,43 +26,43 @@ const getStats = async (user) => {
     const unsuccessfulProducts = productsListed
         .filter(product => product.auctionStatus === false && product.startTime < new Date() && product.hasOwnProperty('currentHighestBid') === false);
     
-    // console.log('unsuccessfulProducts', unsuccessfulProducts.length);
+    // Finding the live auctions.
+    const liveAuctions = productsListed.filter(product => product.auctionStatus === true);
+    
+    // Finding the bids made by the user.
+    const bidsDetail = await Bid.where('user').equals(user._id);
 
-    const bids = await Bid.where('user').equals(user._id);
-    const productIds = bids.map(bid => bid.product);
+    // Getting an array of product ids from the bidsDetail.
+    const productIds = bidsDetail.map(bid => bid.product);
 
-    // console.log(productIds);
+    // Finding those products in productsIds whose auction status is false.
     const products = await Product.find({ _id: { $in: productIds } })
         .where('auctionStatus')
         .equals(false)
     
-    // console.log(`bids on product whose auction status is now false - `,products.length);
-      
-    const productsWon =  products.filter(product => {
-        return product.currentHighestBid.user.toString() === user._id.toString();
-    });
-
-    console.log(productsWon.length);
-
-    const bidCount = bids.length;
-    const wonBids = user.bidsWon.length;
+    // Getting the list of auctions that user lost.
+    const bidsLost = products.filter(product => product.currentHighestBid.user.toString() !== user._id.toString());
  
-    console.log("Stats - My Bids______________________________");
-    console.log("Bids:", bidCount);
-    user.bids;
-   
-    console.log("Won Bids:", wonBids); // already on user object.
-    console.log("Lost Bids:", products.length - wonBids);
-    user.finishedAuctions = products;
+    // Details of bids made on the products by the user.
+    currentUser.bidsDetail = bidsDetail;
 
-    console.log("_____________________________________________");
+    // Contains array of products that user lost bids on.
+    currentUser.bidsLost = bidsLost;
 
-    console.log("Stats - My Auctions______________________________");
-    console.log("Total:", user.products.length);
-    console.log("Active:", wonBids);
-    console.log("Successful:", bidsMadeOnListedProducts.length);
-    console.log("Unsuccessful:", unsuccessfulProducts.length);
-    console.log("_____________________________________________");
+    // Detail of products on which user has placed bid. 
+    // The auction status of these products are false (meaning auction is over).
+    currentUser.bidsOnProducts = products;
 
-    return 
+    // Array of products listed by the user which are currently running.
+    currentUser.liveAuctions = liveAuctions;
+
+    // Array of products listed by user on which other users have placed bid on.
+    currentUser.successfulProducts = successfulProducts;
+
+    // Array of products listed by user on which 0 bids were placed.
+    currentUser.unsuccessfulProducts = unsuccessfulProducts;
+
+    return currentUser;
 }
+
+module.exports = getUserStats;
