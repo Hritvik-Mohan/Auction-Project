@@ -344,10 +344,30 @@ module.exports.declareWinner = catchAsync(async (req, res) => {
         msg: "Product not found"
     });
 
-    if(product.auctionStatus === false) return res.send({
-        status: false,
-        msg: "Auction is not running"
-    });
+    if(product.auctionStatus === false) {
+        // Check if the winner's bidsWon property is filled with the bid id or not
+        // If it is filled then it means that the winner has already been declared.
+        const [user, bid] = await Promise.all([
+            User.findById(userId),
+            Bid.findById(bidId),
+        ]);
+
+        if(!user || !bid) return res.send({
+            msg: "User or bid not found"
+        });
+
+        if(user.bidsWon.includes(bidId)) {
+            return res.send({
+                msg: "Winner already declared and auction is closed"
+            });
+        } else {
+            user.bidsWon.push(bidId);
+            await user.save();
+            return res.send({
+                msg: "Winner declared and auction is closed"
+            });
+        }
+    }
     
 
     const [user, bid] = await Promise.all([
