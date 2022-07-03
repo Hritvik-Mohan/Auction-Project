@@ -93,7 +93,9 @@ UserRouter.route('/users/confirm')
 // User dashboard route.
 UserRouter.route('/users/dashboard')
   .get((req, res) => {
-    res.render('users/dashboard');
+    res.render('users/dashboard', {
+      user: res.locals.currentUser
+    });
   })
 
 // Add address route.

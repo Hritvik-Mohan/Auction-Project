@@ -13,11 +13,11 @@
             </div>
         </div>
 
-        <div class="dashboard-section-1__username" id="username"><%= currentUser?.firstName %></div>
+        <div class="dashboard-section-1__username" id="username"></div>
 
         <div class="dashboard-section-1__userinfo">
-            <div class="dashboard-section-1__userinfo-isvarified">Varified</div>
-            <div class="dashboard-section-1__userinfo-joined-date">Joined: Jan 1, 2022</div>
+            <div class="dashboard-section-1__userinfo-isvarified" id="verified"></div>
+            <div class="dashboard-section-1__userinfo-joined-date" id="joinedDate"></div>
         </div>
 
         <div class="dashboard-section-1__tabs__sidebar">
@@ -124,22 +124,22 @@
 
                 <div class="dashboard-section-2__box__p2__stat">
                     <p class="dashboard-section-2__box__p2__stat-h">Total</p>
-                    <p class="dashboard-section-2__box__p2__stat-no">4</p>
+                    <p class="dashboard-section-2__box__p2__stat-no" id="myListings">4</p>
                 </div>
 
                 <div class="dashboard-section-2__box__p2__stat">
                     <p class="dashboard-section-2__box__p2__stat-h">Active</p>
-                    <p class="dashboard-section-2__box__p2__stat-no">1</p>
+                    <p class="dashboard-section-2__box__p2__stat-no" id="activeListings">1</p>
                 </div>
 
                 <div class="dashboard-section-2__box__p2__stat">
                     <p class="dashboard-section-2__box__p2__stat-h">Successful</p>
-                    <p class="dashboard-section-2__box__p2__stat-no">3</p>
+                    <p class="dashboard-section-2__box__p2__stat-no" id="successfulListings">3</p>
                 </div>
 
                 <div class="dashboard-section-2__box__p2__stat">
                     <p class="dashboard-section-2__box__p2__stat-h">Unsuccessful</p>
-                    <p class="dashboard-section-2__box__p2__stat-no">0</p>
+                    <p class="dashboard-section-2__box__p2__stat-no" id="unsuccessfulListings">0</p>
                 </div>
 
             </div>
@@ -168,17 +168,17 @@
 
                 <div class="dashboard-section-2__box__p2__stat">
                     <p class="dashboard-section-2__box__p2__stat-h">Total</p>
-                    <p class="dashboard-section-2__box__p2__stat-no">5</p>
+                    <p class="dashboard-section-2__box__p2__stat-no" id="myBids">5</p>
                 </div>
 
                 <div class="dashboard-section-2__box__p2__stat">
                     <p class="dashboard-section-2__box__p2__stat-h">Won</p>
-                    <p class="dashboard-section-2__box__p2__stat-no">3</p>
+                    <p class="dashboard-section-2__box__p2__stat-no" id="wonBids">3</p>
                 </div>
 
                 <div class="dashboard-section-2__box__p2__stat">
                     <p class="dashboard-section-2__box__p2__stat-h">Not Won</p>
-                    <p class="dashboard-section-2__box__p2__stat-no">2</p>
+                    <p class="dashboard-section-2__box__p2__stat-no" id="lostBids">2</p>
                 </div>
 
                 <div class="dashboard-section-2__box__p2__stat">
@@ -207,10 +207,7 @@
 
 
 <script>
-    let username = document.getElementById("username")
-    let lowerCase_username = username.toLowerCase();
-
-    document.getElementById("username").innerHTML = lowerCase_username;
+    let currentUser = '<%- JSON.stringify(user).replace(/[\/\(\)\']/g, "&apos;") %>';
 </script>
 
 <script src="/js/dashboard/dashboard.js"></script>

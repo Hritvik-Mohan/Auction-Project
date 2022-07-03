@@ -23,7 +23,7 @@
         <p class="product__body-big"><%= product.description %></p>
         <div class="wrapper-1">
             <p class="current-price"> <span class="current-price__currency">&#8377;</span>
-                <%= product.currentHighestBid.amount %> /-</p>
+                <%= product.currentHighestBid.amount || product.basePrice %> /-</p>
             <p class="countdown-timer" id="timer"></p>
         </div>
         <div class="wrapper-2">
@@ -49,7 +49,10 @@
     </div>
 </div>
 
+
+<!-- These two divs will get populated once the auction is over. -->
 <div id="bid-container"></div>
+<div id="contact-seller"></div>
 
 <!-- 
 <h3>Title</h3>
@@ -87,8 +90,7 @@
 
 <br> -->
 
-<!-- In this div I will dynamically add the contact-seller button and checkout button-->
-<div id="contact-seller"></div>
+
 
 <script>
     const NODE_ENV = '<%= process.env.NODE_ENV %>';

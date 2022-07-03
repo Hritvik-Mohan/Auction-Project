@@ -2,11 +2,15 @@
  * Model imports.
  */
 const User = require("../models/user.model");
+const Product = require("../models/product.model");
+const Bid = require("../models/bid.model");
+const Transaction = require("../models/transaction.model");
 
 /**
  * Utils.
  */
 const { verifyToken } = require("./jwt");
+const getUserStats = require("./getUserStats")
 
 /**
  * If returns the current user if it is logged in.
@@ -22,8 +26,9 @@ const getCurrentUser = async (req, res) => {
             const payload = await verifyToken(token, process.env.JWT_SECRET);
             const user = await User
                 .findById(payload.id)
-                .select("firstName lastName email role verified");
-            return user;
+                .select("firstName lastName avatar email role verified dob phoneNumber products bids bidsWon createdAt updatedAt");
+                
+            return await getUserStats(user);
         } else {
             return undefined;
         }

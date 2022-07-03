@@ -19,7 +19,7 @@ const isSeller = (req, res, next) => {
    
     // 3. Check if the user is the owner of the product.
     if (user.products.includes(productId)) {
-        req.flash('error', 'Lol, you cannot bid on your own product.');
+        req.flash('error', 'You cannot place bid on your own product.');
         return res.redirect(`/products/${productId}`);
     }
 
