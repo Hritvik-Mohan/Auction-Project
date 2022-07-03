@@ -903,7 +903,7 @@ li p {
     font-size: 2.5rem;
     font-weight: 400;
     letter-spacing: 0.04em;
-    text-transform: lowercase; 
+    text-transform: lowercase;
 }
 
 .dashboard-section-1__userinfo {
@@ -1049,11 +1049,44 @@ li p {
 
 .material-symbols-outlined {
     font-variation-settings:
-    'FILL' 0,
-    'wght' 700,
-    'GRAD' 200,
-    'opsz' 48
-  }
+        'FILL'0,
+        'wght'700,
+        'GRAD'200,
+        'opsz'48
+}
 
+/** ----------------------Profile Dashboard Start---------------------- **/
+
+.dashboard-section-2__profile-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 21px;
+    row-gap: 21px;
+}
+
+.dashboard-section-2__profile-item {
+    background: rgba(240, 240, 240, 0.85);
+    border-radius: 11px;
+    padding: 1.4rem 1.5rem;
+}
+
+.dashboad-section-2__profile__info-h {
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: rgba(33, 36, 39, 0.7);
+    text-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
+}
+
+.dashboad-section-2__profile__info {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--dark-color);
+}
+
+
+
+/** ----------------------Profile Dashboard Start---------------------- **/
 
 /** ----------------------Dashboard End------------------------- **/
