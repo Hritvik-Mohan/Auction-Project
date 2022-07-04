@@ -27,7 +27,7 @@ const getCurrentUser = async (req, res) => {
             const user = await User
                 .findById(payload.id)
                 .select("-password -tokens");
-
+                
             return await getUserStats(user);
         } else {
             return undefined;

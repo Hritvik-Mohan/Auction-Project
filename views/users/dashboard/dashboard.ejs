@@ -9,7 +9,7 @@
     <div class="dashboard-section-1">
 
         <div class="dashboard-section-1__profile-image-container">
-            <div class="dashboard-section-1__profile-image"><img src="<%= currentUser.avatar?.path || 'https://picsum.photos/200/300' %>" alt="" srcset="">
+            <div class="dashboard-section-1__profile-image"><img src="<%= currentUser.avatar?.path || 'https://picsum.photos/300' %>" alt="" srcset="">
             </div>
         </div>
 
@@ -23,8 +23,7 @@
         <div class="dashboard-section-1__tabs__sidebar">
 
             <button class="dashboard-section-1__tabs__button" onclick="openCity(event, 'Profile')">Profile</button>
-            <button class="dashboard-section-1__tabs__button active"
-                onclick="openCity(event, 'Dashboard')">Dashboard</button>
+            <button class="dashboard-section-1__tabs__button active" onclick="openCity(event, 'Dashboard')">Dashboard</button>
             <button class="dashboard-section-1__tabs__button" onclick="openCity(event, 'Settings')">Settings</button>
 
         </div>
@@ -37,6 +36,62 @@
         <h1 class="dashboard-section-2__heading">
             Profile
         </h1>
+        <div class="dashboard-section-2__profile-container">
+            <div class="dashboard-section-2__profile-item">
+                <div class="dashboad-section-2__profile__info-h">
+                    First Name
+                </div>
+                <div class="dashboad-section-2__profile__info">
+                    <%= currentUser?.firstName %>
+                </div>
+
+            </div>
+            <div class="dashboard-section-2__profile-item">
+                <div class="dashboad-section-2__profile__info-h">
+                    Last Name
+                </div>
+                <div class="dashboad-section-2__profile__info">
+                    <%= currentUser?.lastName %>
+                </div>
+
+            </div>
+            <div class="dashboard-section-2__profile-item">
+                <div class="dashboad-section-2__profile__info-h">
+                    Email
+                </div>
+                <div class="dashboad-section-2__profile__info">
+                    <%= currentUser?.email %>
+                </div>
+
+            </div>
+            <div class="dashboard-section-2__profile-item">
+                <div class="dashboad-section-2__profile__info-h">
+                    Role
+                </div>
+                <div class="dashboad-section-2__profile__info">
+                    <%= currentUser?.role %>
+                </div>
+
+            </div>
+            <div class="dashboard-section-2__profile-item">
+                <div class="dashboad-section-2__profile__info-h">
+                    Phone
+                </div>
+                <div class="dashboad-section-2__profile__info">
+                    <%= currentUser?.phoneNumber %>
+                </div>
+
+            </div>
+            <div class="dashboard-section-2__profile-item">
+                <div class="dashboad-section-2__profile__info-h">
+                    Date of birth
+                </div>
+                <div class="dashboad-section-2__profile__info">
+                    <%= currentUser?.dob %>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <div id="Dashboard" class="dashboard-section-2 div2" style="display: block;">
@@ -139,8 +194,9 @@
 
     <div id="Settings" class="dashboard-section-2 div2">
         <h1 class="dashboard-section-2__heading">
-            Profile
+            Settings
         </h1>
+
     </div>
 
 
