@@ -41,8 +41,8 @@ const declareWinnerFrontend = () => {
     } = highestBidInfo.user;
     const html = `
        <div class="product-winner-text">
-            <h1 class="product-winner-h">Winner!🎉</h1>
-            <p class="product-winner-p">Congrats <u><a href="/users/${_id}">${firstName} ${lastName}</a></u> for winning this product.</p>
+            <h1 class="product-winner-h">You’re the <br>winner! 🎉</h1>
+            <p class="product-winner-p">Congrats <u><a href="/users/${_id}">${firstName} ${lastName}</a></u> for winning this auction.</p>
         </div>
     `;
 

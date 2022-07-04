@@ -836,26 +836,29 @@ a:active {
 /** product-winner **/
 
 .product-winner-container {
-    margin: 10rem auto 10rem auto;
+    margin: 10rem auto 10rem 10%;
     padding: 2.2rem 6rem 2rem 6rem;
     /* justify-content: center; */
-    text-align: center;
-    width: 30%;
-    border: 1px solid var(--dark-color) ;
+    /* text-align: center; */
+    width: 50%;
+    /* border: 1px solid var(--dark-color); */
     border-radius: 15px;
 }
 
 
 .product-winner-text {
-
+    text-align: left;
 }
 
 .product-winner-h {
-
+    font-size: 3.2rem;
+    font-weight: 500;
 }
 
 .product-winner-p {
     margin-top: 1.2rem;
+    font-weight: 400;
+    font-size: 1.25rem;
 }
 
 
@@ -875,15 +878,28 @@ a:active {
     color: var(--background-color);
 }
 
-.contact-seller, .checkout{
+.contact-seller {
+    background: var(--background-color);
+    color: var(--accent-color);
+    border-radius: 15px;
+    /* filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.25)); */
+    border: 1px solid var(--accent-color) ;
+}
+
+.checkout {
     background: var(--accent-color);
     color: var(--background-color);
+    border: var(--accent-color);
     border-radius: 15px;
     filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.25));
 }
 
+.contact-seller-button, .checkout-button {
+    padding: 0.8rem;
+}
+
 .contact-seller-button {
-    
+    color: var(--accent-color);
 }
 
 .checkout-button {
