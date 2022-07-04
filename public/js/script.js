@@ -70,9 +70,9 @@ window.onload = function () {
     })
 };
 
-document.querySelector("body").addEventListener("click", function (e) {
-    party.confetti(this);
-});
+// document.querySelector("body").addEventListener("click", function (e) {
+//     party.confetti(this);
+// });
 
 document.querySelector(".button").addEventListener("click", function (e) {
     party.confetti(this);
