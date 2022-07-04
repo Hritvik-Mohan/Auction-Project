@@ -4,11 +4,11 @@
     <div class="running-bids">
         <h1>Total Bids</h1>
         <% currentUser.bidsDetail.forEach((bidDetail)=>{ %> 
-           <% bidDetail.product?.images.forEach((image)=>{ %>
-                <div class="images">
-                    <img style="width: 150px;" src="<%= image.path %> ">
-                </div>
-           <% }) %> 
+          
+            <div class="images">
+                <img style="width: 150px;" src="<%= bidDetail.product.images[0].path %>">
+            </div>
+       
            <div class="title">
                 <p><%= bidDetail.product?.title %></p>
            </div>
@@ -31,11 +31,11 @@
     <div class="won-bids">
         <h1>Won Bids</h1>
         <% currentUser.bidsWonDetail.forEach((bidWonDetail)=>{ %>
-            <% bidWonDetail.product?.images.forEach((image)=>{ %>
-                <div class="images">
-                    <img style="width: 150px;" src="<%= image.path %> ">
-                </div>
-            <% }) %> 
+           
+            <div class="images">
+                <img style="width: 150px;" src="<%= bidWonDetail.product?.images[0].path %> ">
+            </div>
+  
             <div class="title">
                 <p><%= bidWonDetail.product?.title %></p>
             </div>
@@ -53,11 +53,11 @@
     <div class="not-won-bids">
         <h1>Not Won Bids</h1>
         <% currentUser.bidsLost.forEach((product)=>{ %> 
-            <% product.images.forEach((image)=>{ %>
-                <div class="images">
-                    <img style="width: 150px;" src="<%= image.path %> ">
-                </div>
-            <% }) %> 
+           
+            <div class="images">
+                <img style="width: 150px;" src="<%= product.images[0].path %> ">
+            </div>
+           
             <div class="title">
                 <p><%= product.title %></p>
             </div>
