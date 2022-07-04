@@ -93,9 +93,25 @@ UserRouter.route('/users/confirm')
 // User dashboard route.
 UserRouter.route('/users/dashboard')
   .get((req, res) => {
-    res.render('users/dashboard', {
+    res.render('users/dashboard/dashboard', {
       user: res.locals.currentUser
     });
+  })
+
+// Dashboard my auctions.
+UserRouter.route('/users/dashboard/my-auctions')
+  .get((req, res)=>{
+    res.render('users/dashboard/myAuctions', {
+      user: res.locals.currentUser
+    });
+  })
+
+// Dashboard my bids.
+UserRouter.route('/users/dashboard/my-bids')
+  .get((req, res)=>{
+    res.render('users/dashboard/myBids', {
+      user: res.locals.currentUser
+    })
   })
 
 // Add address route.

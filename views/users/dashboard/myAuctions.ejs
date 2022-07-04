@@ -1,0 +1,83 @@
+<% layout('layouts/boilerplate') %>
+
+<div>
+    <div class="active-auctions" id="active-auctions">
+        <h1>Active Auctions</h1>
+        <% currentUser.liveAuctions.forEach((liveAuction) => { %> 
+            <% liveAuction.images.forEach((image)=>{ %>
+                 <div class="product-images">
+                    <img style="width: 150px;" src="<%= image.path %> ">
+                 </div>
+            <% }) %> 
+            <div class="product-title">
+                <p><%= liveAuction.title %></p>
+            </div>
+            <div class="listed-on">
+                <p>Listed on: <%= liveAuction.createdAt %></p>
+            </div>
+            <div class="base-price">
+                <p>Base Price: <%= liveAuction.basePrice %></p>
+            </div>
+            <div class="currentBid">
+                <p>Current Bid: <%= liveAuction.currentHighestBid?.amount || 'No bids placed yet' %></p>
+            </div>
+            <div class="total-bids">
+                <p>Total Bids: <%= liveAuction.bids.length %></p>
+            </div>
+        <% }) %> 
+    </div>
+    <br>
+    <hr>
+    <div class="successful-auctions" id="successful-auctions">
+        <h1>Successful Auctions</h1>
+        <% currentUser.successfulProducts.forEach((successfulProduct) => { %> 
+            <% successfulProduct.product.images.forEach((image)=>{ %>
+                 <div class="product-images">
+                    <img style="width: 150px;" src="<%= image.path %> ">
+                 </div>
+            <% }) %> 
+            <div class="product-title">
+                <p><%= successfulProduct.product.title %></p>
+            </div>
+            <div class="listed-on">
+                <p>Listed on: <%= successfulProduct.product.createdAt %></p>
+            </div>
+            <div class="base-price">
+                <p>Base Price: <%= successfulProduct.product.basePrice %></p>
+            </div>
+            <div class="currentBid">
+                <p>Current Bid: <%= successfulProduct.product.currentHighestBid?.amount || 'No bids placed yet' %></p>
+            </div>
+            <div class="total-bids">
+                <p>Total Bids: <%= successfulProduct.product.bids.length %></p>
+            </div>
+        <% }) %>
+    </div>
+    <br>
+    <hr>
+    <div class="unsuccessful-auctions" id="unsuccessful-auctions">
+        <h1>Unsuccessful Auctions</h1>
+        <% currentUser.unsuccessfulProducts.forEach((unsuccessfulProduct) => { %> 
+            <% unsuccessfulProduct.images.forEach((image)=>{ %>
+                 <div class="product-images">
+                    <img style="width: 150px;" src="<%= image.path %> ">
+                 </div>
+            <% }) %> 
+            <div class="product-title">
+                <p><%= unsuccessfulProduct.title %></p>
+            </div>
+            <div class="listed-on">
+                <p>Listed on: <%= unsuccessfulProduct.createdAt %></p>
+            </div>
+            <div class="base-price">
+                <p>Base Price: <%= unsuccessfulProduct.basePrice %></p>
+            </div>
+            <div class="currentBid">
+                <p>Current Bid: <%= unsuccessfulProduct.currentHighestBid?.amount || 'No bids placed yet' %></p>
+            </div>
+            <div class="total-bids">
+                <p>Total Bids: <%= unsuccessfulProduct.bids.length %></p>
+            </div>
+        <% }) %>
+    </div>
+</div>
