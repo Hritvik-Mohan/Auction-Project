@@ -4,11 +4,11 @@
     <div class="active-auctions" id="active-auctions">
         <h1>Active Auctions</h1>
         <% currentUser.liveAuctions.forEach((liveAuction) => { %> 
-            <% liveAuction.images.forEach((image)=>{ %>
-                 <div class="product-images">
-                    <img style="width: 150px;" src="<%= image.path %> ">
-                 </div>
-            <% }) %> 
+          
+            <div class="product-images">
+                <img style="width: 150px;" src="<%= liveAuction.images[0].path %>">
+            </div>
+     
             <div class="product-title">
                 <p><%= liveAuction.title %></p>
             </div>
@@ -31,11 +31,11 @@
     <div class="successful-auctions" id="successful-auctions">
         <h1>Successful Auctions</h1>
         <% currentUser.successfulProducts.forEach((successfulProduct) => { %> 
-            <% successfulProduct.product?.images.forEach((image)=>{ %>
-                 <div class="product-images">
-                    <img style="width: 150px;" src="<%= image.path %> ">
-                 </div>
-            <% }) %> 
+           
+            <div class="product-images">
+                <img style="width: 150px;" src="<%= successfulProduct.product.images[0].path %> ">
+            </div>
+          
             <div class="product-title">
                 <p><%= successfulProduct.product?.title %></p>
             </div>
@@ -58,11 +58,11 @@
     <div class="unsuccessful-auctions" id="unsuccessful-auctions">
         <h1>Unsuccessful Auctions</h1>
         <% currentUser.unsuccessfulProducts.forEach((unsuccessfulProduct) => { %> 
-            <% unsuccessfulProduct.images.forEach((image)=>{ %>
-                 <div class="product-images">
-                    <img style="width: 150px;" src="<%= image.path %> ">
-                 </div>
-            <% }) %> 
+          
+            <div class="product-images">
+                <img style="width: 150px;" src="<%= unsuccessfulProduct.images[0].path %> ">
+            </div>
+           
             <div class="product-title">
                 <p><%= unsuccessfulProduct.title %></p>
             </div>
