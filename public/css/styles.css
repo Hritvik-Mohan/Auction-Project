@@ -587,6 +587,14 @@ a:active {
     margin: auto;
     margin-bottom: 60px;
     max-width: 300px;
+    padding: 20px;
+    padding-bottom: 0;
+    background:rgba(251, 250, 255, 1);
+    border-radius: 22px;
+}
+
+.product :hover{
+
 }
 
 
@@ -671,17 +679,19 @@ a:active {
 .place-bid {
     margin: 30px auto;
     width: 100%;
-    background: var(--background-color);
+    /* background: var(--accent-color); */
     border-radius: 15px;
-    border: 1.6px solid var(--dark-color);
+    color: var(--dark-color);
+    border: 1.6px solid var(--accent-color);
 }
 
 
 .place-bid_button {
-    color: var(--dark-color);
+    color: var(--accent-color);
     height: 50px;
     font-weight: 400;
     font-size: 1.2rem;
+    /* color: var(--background-color); */
 }
 
 .quick-bid {

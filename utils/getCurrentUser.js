@@ -27,7 +27,8 @@ const getCurrentUser = async (req, res) => {
             const user = await User
                 .findById(payload.id)
                 .select("firstName lastName avatar email role verified dob phoneNumber products bids bidsWon createdAt updatedAt");
-                
+
+                console.log(await getUserStats(user))
             return await getUserStats(user);
         } else {
             return undefined;
