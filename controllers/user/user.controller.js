@@ -179,12 +179,14 @@ module.exports.submitBid = catchAsync(async (req, res) => {
     // 4.2 If user has already bid on this product then update the bid amount
     if (existingBid) {
       existingBid.amount = amount;
+      existingBid.count += 1;
       product.currentHighestBid.amount = amount;
       product.currentHighestBid.user = user._id;
       product.currentHighestBid.bid = existingBid._id;
 
       await Promise.all([existingBid.save(), product.save()]);
 
+      req.flash("success", "Awesome, your bid has been updated.");
       return res.redirect(`/products/${product._id}`);
     }
   }
@@ -193,7 +195,8 @@ module.exports.submitBid = catchAsync(async (req, res) => {
   const bid = new Bid({
     user: user._id,
     product: product._id,
-    amount
+    amount,
+    count: 1
   });
 
   // 6. Update the currentHighestBid property of the product.
@@ -208,6 +211,7 @@ module.exports.submitBid = catchAsync(async (req, res) => {
   // 8. Save the bid, product and user.
   await Promise.all([bid.save(), product.save(), user.save()]);
 
+  req.flash("success", "Awesome, your bid has been placed.");
   return res.redirect(`/products/${product._id}`);
 });
 
@@ -254,7 +258,7 @@ module.exports.updateUserAddress = catchAsync(async (req, res) => {
 
   req.flash("success", "Address updated successfully");
 
-  return res.redirect("/users/profile");
+  return res.redirect("/users/dashboard");
 });
 
 /**
@@ -279,5 +283,5 @@ module.exports.saveUserAddress = catchAsync(async (req, res) => {
 
   req.flash("success", "Address added successfully");
 
-  return res.redirect("/users/profile");
+  return res.redirect("/users/dashboard");
 });
