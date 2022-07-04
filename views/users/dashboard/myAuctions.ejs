@@ -31,25 +31,25 @@
     <div class="successful-auctions" id="successful-auctions">
         <h1>Successful Auctions</h1>
         <% currentUser.successfulProducts.forEach((successfulProduct) => { %> 
-            <% successfulProduct.product.images.forEach((image)=>{ %>
+            <% successfulProduct.product?.images.forEach((image)=>{ %>
                  <div class="product-images">
                     <img style="width: 150px;" src="<%= image.path %> ">
                  </div>
             <% }) %> 
             <div class="product-title">
-                <p><%= successfulProduct.product.title %></p>
+                <p><%= successfulProduct.product?.title %></p>
             </div>
             <div class="listed-on">
-                <p>Listed on: <%= successfulProduct.product.createdAt %></p>
+                <p>Listed on: <%= successfulProduct.product?.createdAt %></p>
             </div>
             <div class="base-price">
-                <p>Base Price: <%= successfulProduct.product.basePrice %></p>
+                <p>Base Price: <%= successfulProduct.product?.basePrice %></p>
             </div>
             <div class="currentBid">
-                <p>Current Bid: <%= successfulProduct.product.currentHighestBid?.amount || 'No bids placed yet' %></p>
+                <p>Current Bid: <%= successfulProduct.product?.currentHighestBid?.amount || 'No bids placed yet' %></p>
             </div>
             <div class="total-bids">
-                <p>Total Bids: <%= successfulProduct.product.bids.length %></p>
+                <p>Total Bids: <%= successfulProduct.product?.bids.length %></p>
             </div>
         <% }) %>
     </div>

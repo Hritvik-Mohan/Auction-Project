@@ -4,23 +4,23 @@
     <div class="running-bids">
         <h1>Total Bids</h1>
         <% currentUser.bidsDetail.forEach((bidDetail)=>{ %> 
-           <% bidDetail.product.images.forEach((image)=>{ %>
+           <% bidDetail.product?.images.forEach((image)=>{ %>
                 <div class="images">
                     <img style="width: 150px;" src="<%= image.path %> ">
                 </div>
            <% }) %> 
            <div class="title">
-                <p><%= bidDetail.product.title %></p>
+                <p><%= bidDetail.product?.title %></p>
            </div>
            <div class="listed-on">
-                <p>Listed on: <%= bidDetail.product.createdAt %></p>
+                <p>Listed on: <%= bidDetail.product?.createdAt %></p>
            </div>
            <div class="base-price">
-                <p>Base Price: <%= bidDetail.product.basePrice %></p>
+                <p>Base Price: <%= bidDetail.product?.basePrice %></p>
            </div>
            <div class="current-bid">
-                <p>Current Bid: <%= bidDetail.product.currentHighestBid?.amount || 'No bids placed yet' %></p>
-                <% if(bidDetail.product.currentHighestBid.user.toString() === currentUser._id.toString()){ %> 
+                <p>Current Bid: <%= bidDetail.product?.currentHighestBid?.amount || 'No bids placed yet' %></p>
+                <% if(bidDetail.product?.currentHighestBid.user.toString() === currentUser._id.toString()){ %> 
                     <p>You are the highest bidder</p>
                 <% } else { %>
                     <p>You lost the lead</p>
@@ -31,22 +31,22 @@
     <div class="won-bids">
         <h1>Won Bids</h1>
         <% currentUser.bidsWonDetail.forEach((bidWonDetail)=>{ %>
-            <% bidWonDetail.product.images.forEach((image)=>{ %>
+            <% bidWonDetail.product?.images.forEach((image)=>{ %>
                 <div class="images">
                     <img style="width: 150px;" src="<%= image.path %> ">
                 </div>
             <% }) %> 
             <div class="title">
-                <p><%= bidWonDetail.product.title %></p>
+                <p><%= bidWonDetail.product?.title %></p>
             </div>
             <div class="listed-on">
-                <p>Listed on: <%= bidWonDetail.product.createdAt %></p>
+                <p>Listed on: <%= bidWonDetail.product?.createdAt %></p>
             </div>
             <div class="base-price">
-                <p>Base Price: <%= bidWonDetail.product.basePrice %></p>
+                <p>Base Price: <%= bidWonDetail.product?.basePrice %></p>
             </div>
             <div class="current-bid">
-                <p>Current Bid: <%= bidWonDetail.product.currentHighestBid?.amount || 'No bids placed yet' %></p>
+                <p>Current Bid: <%= bidWonDetail.product?.currentHighestBid?.amount || 'No bids placed yet' %></p>
             </div>
         <% }) %> 
     </div>
