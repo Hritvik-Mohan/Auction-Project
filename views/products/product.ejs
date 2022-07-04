@@ -100,6 +100,6 @@
     let highestBidInfo = '<%- JSON.stringify(product.currentHighestBid).replace(/[\/\(\)\']/g, "&apos;") %>';
     let auctionStatus = '<%- product.auctionStatus %>';
     const productId = '<%- product._id %>';
-    let loggedinUserId = '<%- JSON.stringify(currentUser)%>';
+    let loggedinUserId = '<%- JSON.stringify(currentUser).replace(/[\/\(\)\']/g, "&apos;") %>';
 </script>
 <script src="/js/product/productPage.js"></script>

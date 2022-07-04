@@ -36,14 +36,15 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     req.flash("error", "Please fill all the fields");
     return res.redirect("/users/register");
   }
-
+  
+  // 3. Check if the firstName and lastName are only containing letters.
   if(!validator.isAlpha(firstName) || !validator.isAlpha(lastName)){
     await cloudinary.uploader.destroy(req.file.filename);
     req.flash("error", "Invalid first name or last name");
     return res.redirect("/users/register");
   }
 
-  // 2.1 Validate the data received.
+  // 4. Validate the data received.
   if (!validator.isEmail(email)) {
     await cloudinary.uploader.destroy(req.file.filename);
     req.flash("error", "Please enter a valid email");
@@ -68,7 +69,7 @@ module.exports.registerUser = catchAsync(async (req, res) => {
     return res.redirect("/users/register");
   }
 
-  // 3. Check if profile picture is uploaded.
+  // 5. Check if profile picture is uploaded.
   if (!req.file) {
     req.flash("error", "Please upload a profile picture");
     return res.redirect("/users/register");
@@ -88,7 +89,7 @@ module.exports.registerUser = catchAsync(async (req, res) => {
   // Default role
   const role = "ROLE_USER";
 
-  // 5. Check if user exists with phone or email
+  // 6. Check if user exists with phone or email
   const existingUser = await User.findOne({
     $or: [
       {

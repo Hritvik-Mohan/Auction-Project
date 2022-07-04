@@ -13,6 +13,10 @@ const bidSchema = new Schema({
     amount: {
         type: Number,
         required: true
+    },
+    count: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true
