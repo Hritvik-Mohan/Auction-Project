@@ -27,7 +27,8 @@ const getCurrentUser = require("./utils/getCurrentUser");
  * Router imports
  */
 const UserRouter = require("./routes/user/user.router");
-const ProductRouter = require("./routes/product/product.router")
+const ProductRouter = require("./routes/product/product.router");
+const ProductRouterV2 = require("./routes/product/v2/productv2.router");
 const StripeRouter = require("./routes/stripe/stripe.router");
 const WebhookRouter = require("./routes/stripe/webhook.router");
 
@@ -61,6 +62,7 @@ app.use(flash());
  */
  app.use(async (req, res, next)=>{
   res.locals.currentUser = await getCurrentUser(req, res);
+  console.log(res.locals.currentUser);
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
@@ -72,6 +74,11 @@ app.use(flash());
 app.use("/", UserRouter);
 app.use("/", ProductRouter);
 app.use("/", StripeRouter);
+
+/**
+ * Routes middleware v2
+ */
+app.use("/", ProductRouterV2);
 
 /**
  * Home route.
