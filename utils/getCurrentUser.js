@@ -26,9 +26,8 @@ const getCurrentUser = async (req, res) => {
             const payload = await verifyToken(token, process.env.JWT_SECRET);
             const user = await User
                 .findById(payload.id)
-                .select("firstName lastName avatar email role verified dob phoneNumber products bids bidsWon createdAt updatedAt");
-
-                console.log(await getUserStats(user))
+                .select("-password -tokens");
+                
             return await getUserStats(user);
         } else {
             return undefined;

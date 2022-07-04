@@ -69,7 +69,7 @@ const productSchema = new Schema({
   category: {
       type: String,
       required: true,
-      enum:['art', 'antiques', 'vehicle', 'books', 'collectible', 'other'],
+      enum:['art', 'antiques', 'vehicle', 'books', 'collectible', 'electronics', 'other'],
       trim: true
   },
   user: {

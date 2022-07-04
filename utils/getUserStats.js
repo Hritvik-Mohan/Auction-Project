@@ -16,7 +16,8 @@ const getUserStats = async (user) => {
     const productsListed = await Product.find({ _id: { $in: user.products } })
 
     // Check if any bids were made on the product
-    const successfulProducts = await Bid.find({ product: { $in: user.products } });
+    const successfulProducts = await Bid.find({ product: { $in: user.products } })
+        .populate('product');
 
     // Now finding the unsuccessful bids
     // 1. First get all the products whose auction status is false
@@ -30,7 +31,10 @@ const getUserStats = async (user) => {
     const liveAuctions = productsListed.filter(product => product.auctionStatus === true);
     
     // Finding the bids made by the user.
-    const bidsDetail = await Bid.where('user').equals(user._id);
+    const bidsDetail = await Bid.where('user').equals(user._id).populate("product");
+
+    // Finding detail of bidsWon
+    const bidsWonDetail = await Bid.find({ _id: { $in: user.bidsWon } }).populate("product");
 
     // Getting an array of product ids from the bidsDetail.
     const productIds = bidsDetail.map(bid => bid.product);
@@ -45,6 +49,9 @@ const getUserStats = async (user) => {
  
     // Details of bids made on the products by the user.
     currentUser.bidsDetail = bidsDetail;
+
+    // Detail of bids won by the user
+    currentUser.bidsWonDetail = bidsWonDetail;
 
     // Contains array of products that user lost bids on.
     currentUser.bidsLost = bidsLost;

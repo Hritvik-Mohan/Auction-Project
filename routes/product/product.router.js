@@ -13,7 +13,7 @@ const Product = require("../../models/product.model")
 /**
  * Util imports.
  */
- const { upload } = require("../../utils/multer");
+const { upload } = require("../../utils/multer");
 
 /**
  * Middleware import
