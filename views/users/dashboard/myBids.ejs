@@ -1,0 +1,75 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="my-bids">
+    <div class="running-bids">
+        <h1>Total Bids</h1>
+        <% currentUser.bidsDetail.forEach((bidDetail)=>{ %> 
+           <% bidDetail.product?.images.forEach((image)=>{ %>
+                <div class="images">
+                    <img style="width: 150px;" src="<%= image.path %> ">
+                </div>
+           <% }) %> 
+           <div class="title">
+                <p><%= bidDetail.product?.title %></p>
+           </div>
+           <div class="listed-on">
+                <p>Listed on: <%= bidDetail.product?.createdAt %></p>
+           </div>
+           <div class="base-price">
+                <p>Base Price: <%= bidDetail.product?.basePrice %></p>
+           </div>
+           <div class="current-bid">
+                <p>Current Bid: <%= bidDetail.product?.currentHighestBid?.amount || 'No bids placed yet' %></p>
+                <% if(bidDetail.product?.currentHighestBid.user.toString() === currentUser._id.toString()){ %> 
+                    <p>You are the highest bidder</p>
+                <% } else { %>
+                    <p>You lost the lead</p>
+                <% } %>
+           </div>
+        <% }) %> 
+    </div>
+    <div class="won-bids">
+        <h1>Won Bids</h1>
+        <% currentUser.bidsWonDetail.forEach((bidWonDetail)=>{ %>
+            <% bidWonDetail.product?.images.forEach((image)=>{ %>
+                <div class="images">
+                    <img style="width: 150px;" src="<%= image.path %> ">
+                </div>
+            <% }) %> 
+            <div class="title">
+                <p><%= bidWonDetail.product?.title %></p>
+            </div>
+            <div class="listed-on">
+                <p>Listed on: <%= bidWonDetail.product?.createdAt %></p>
+            </div>
+            <div class="base-price">
+                <p>Base Price: <%= bidWonDetail.product?.basePrice %></p>
+            </div>
+            <div class="current-bid">
+                <p>Current Bid: <%= bidWonDetail.product?.currentHighestBid?.amount || 'No bids placed yet' %></p>
+            </div>
+        <% }) %> 
+    </div>
+    <div class="not-won-bids">
+        <h1>Not Won Bids</h1>
+        <% currentUser.bidsLost.forEach((product)=>{ %> 
+            <% product.images.forEach((image)=>{ %>
+                <div class="images">
+                    <img style="width: 150px;" src="<%= image.path %> ">
+                </div>
+            <% }) %> 
+            <div class="title">
+                <p><%= product.title %></p>
+            </div>
+            <div class="listed-on">
+                <p>Listed on: <%= product.createdAt %></p>
+            </div>
+            <div class="base-price">
+                <p>Base Price: <%= product.basePrice %></p>
+            </div>
+            <div class="current-bid">
+                <p>Current Bid: <%= product.currentHighestBid?.amount || 'No bids placed yet' %></p>
+            </div>
+        <% }) %> 
+    </div>
+</div>
