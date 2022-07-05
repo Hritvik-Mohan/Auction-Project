@@ -1,19 +1,21 @@
 <% layout('layouts/boilerplate') %>
-<link rel="stylesheet" href="/css/profile.css" />
-<div id="container" class="card shadow-10 rounded-6">
-    <h1 class="p-3 mt-3">Profile</h1>
-    <img style="width: 12rem" src="<%= user.avatar?.rounded %> " alt="" class="center" />
-    <h6 class="mt-3">Full Name</h6>
-    <h3><%= user.firstName %> <%= user.lastName %></h3>
-    <h6>Email</h6>
-    <h3><%= user.email %></h3>
-
-    <% if(user.products.length){ %>
-    <h2>Listed items</h2>
-    <ul>
-        <% for (product of user.products){ %>
-        <li><a href="/products/<%= product._id %>"><%= product.title %></a></li>
+<!-- <link rel="stylesheet" href="/css/profile.css" /> -->
+<div id="container" class="dashboard-container container prod-container">
+    <div class="dashboard-section-1">
+        <div class="profile-dashboard-section-1__profile-image-container">
+            <div class="dashboard-section-1__profile-image"><img src="<%= user.avatar?.rounded %> " alt="" class="center" /></div>
+        </div>
+    </div>
+    <div class="dashboard-section-2 div2" style="display: block;">
+        <div class="profile-dashboard-section-1__username" style="text-transform: capitalize;"> <%= user.fullName %> </div>
+        <h3><%= user.email %></h3>
+        <% if(user.products.length){ %>
+        <h2>Listed items</h2>
+        <ul>
+            <% for (product of user.products){ %>
+            <li><a href="/products/<%= product._id %>"><%= product.title %></a></li>
+            <% } %>
+        </ul>
         <% } %>
-    </ul>
-    <% } %>
+    </div>
 </div>

@@ -1,13 +1,17 @@
 <% layout('layouts/boilerplate') %> 
-
-<h1>Public Profile</h1>
-<hr>
-<img style="width: 12rem;" src="<%= user.avatar?.path %> " alt="">
-<h2>Full Name</h2>
-<h3> <%= user.fullName %> </h3>
-<h3>Listed items</h3>
-<ul>
-    <% user.products.forEach( product => { %>
-        <li><a href="/products/<%= product._id %>"><%= product.title %></a></li>
-    <% }) %> 
-</ul>
+<div class="dashboard-container container prod-container">
+    <div class="dashboard-section-1">
+        <div class="profile-dashboard-section-1__profile-image-container">
+            <div class="dashboard-section-1__profile-image"><img src="<%= user.avatar?.path %> " alt=""></div>
+        </div>        
+    </div>
+    <div class="dashboard-section-2 div2" style="display: block;">
+        <div class="profile-dashboard-section-1__username" style="text-transform: capitalize;"> <%= user.fullName %> </div>
+        <h3>Listed items</h3>
+        <ul>
+            <% user.products.forEach( product => { %>
+                <li><a href="/products/<%= product._id %>"><%= product.title %></a></li>
+            <% }) %>
+        </ul>
+    </div>
+</div>
