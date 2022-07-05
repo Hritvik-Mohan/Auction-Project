@@ -69,3 +69,11 @@ window.onload = function () {
         console.log(messages);
     })
 };
+
+// document.querySelector("body").addEventListener("click", function (e) {
+//     party.confetti(this);
+// });
+
+document.querySelector(".button").addEventListener("click", function (e) {
+    party.confetti(this);
+});
