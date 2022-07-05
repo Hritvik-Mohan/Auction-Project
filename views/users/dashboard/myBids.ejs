@@ -1,74 +1,209 @@
 <% layout('layouts/boilerplate') %>
 
-<div class="my-bids">
-    <div class="running-bids">
-        <h1>Total Bids</h1>
+<div class="container my-bids">
+
+    <div class="dashboard-section-2__box dashboard-section-2__box--green">
+
+        <div class="dashboard-section-2__box__p1 formFlex">
+            <div class="dashboard-section-2__box__p1__heading">
+                <p class="dashboard-section-2__box__p1__heading-h1 dashboard-section-2__box__p1__heading-h1--green">
+                    My Bids</p>
+            </div>
+            <div class="dashboard-section-2__box__p1__options ">
+                <!-- <div></div> -->
+                <!-- <div class="dashboard-section-2__box__p1__options__button dashboard-section-2__box__p1__options__button--green"> -->
+                    <!-- <button><a href="/users/dashboard/my-bids">View</a></button></div> -->
+            </div>
+        </div>
+
+        <div class="dashboard-section-2__box__p2">
+
+            <div class="dashboard-section-2__box__p2__stat">
+                <p class="dashboard-section-2__box__p2__stat-h">Total</p>
+                <p class="dashboard-section-2__box__p2__stat-no" id="myBids">5</p>
+            </div>
+
+            <div class="dashboard-section-2__box__p2__stat">
+                <p class="dashboard-section-2__box__p2__stat-h">Won</p>
+                <p class="dashboard-section-2__box__p2__stat-no" id="wonBids">3</p>
+            </div>
+
+            <div class="dashboard-section-2__box__p2__stat">
+                <p class="dashboard-section-2__box__p2__stat-h">Not Won</p>
+                <p class="dashboard-section-2__box__p2__stat-no" id="lostBids">2</p>
+            </div>
+
+            <div class="dashboard-section-2__box__p2__stat">
+                <p class="dashboard-section-2__box__p2__stat-h"></p>
+                <p class="dashboard-section-2__box__p2__stat-no"></p>
+            </div>
+
+        </div>
+
+    </div>
+    
+    <div class="active-acutionsrunning-bids">
+        <h1 class="view-auctions-h--green">Total Bids</h1>
         <% currentUser.bidsDetail.forEach((bidDetail)=>{ %> 
           
-            <div class="images">
-                <img style="width: 150px;" src="<%= bidDetail.product.images[0].path %>">
+            <div class="view-auctions-container formFlex">
+                <div class="formFlex">
+                    <div class="">
+                        <img class="product-image" style="width: 150px;" src="<%= bidDetail.product.images[0].path %>">
+                    </div>
+                    <div class="view-auctions-container__info">
+                        <div class="view-auctions-container__p1__p2">
+                            <div class="view-auctions-container__p1">
+                                <div class=" formFlex">
+                                    <div class="view-auction__product-title">
+                                        <p><%= bidDetail.product?.title %></p>
+                                    </div>
+                                    <div class="total-bids">
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="listed-on">
+                                    <p>Listed on: <%= bidDetail.product?.createdAt %></p>
+                                </div>
+                            </div>
+                            <div class="view-auctions-container__p2">
+                                <div class="base-price">
+                                    <p>Base Price: <%= bidDetail.product?.basePrice %></p>
+                                </div>
+                                <div class="currentBid">
+                                    <p>Current Bid: <%= bidDetail.product?.currentHighestBid?.amount || '0' %></p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+
+
+
+                    <div class="view-auctions-container__p3">
+                        <div class="view-auctions-container__bid-msg">
+                            <% if(bidDetail.product?.currentHighestBid.user.toString() === currentUser._id.toString()){ %> 
+                                <p>You're the <br>highest <br>bidder!! :D </p>
+                            <% } else { %>
+                                <p>You lost <br>the lead :(</p>
+                            <% } %>
+                        </div>
+                        <div class="view-listing--green">
+                            <a href="/products/<%= bidDetail.product._id %>/"><button>View listing</button></a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-       
-           <div class="title">
-                <p><%= bidDetail.product?.title %></p>
-           </div>
-           <div class="listed-on">
-                <p>Listed on: <%= bidDetail.product?.createdAt %></p>
-           </div>
-           <div class="base-price">
-                <p>Base Price: <%= bidDetail.product?.basePrice %></p>
-           </div>
-           <div class="current-bid">
-                <p>Current Bid: <%= bidDetail.product?.currentHighestBid?.amount || 'No bids placed yet' %></p>
-                <% if(bidDetail.product?.currentHighestBid.user.toString() === currentUser._id.toString()){ %> 
-                    <p>You are the highest bidder</p>
-                <% } else { %>
-                    <p>You lost the lead</p>
-                <% } %>
-           </div>
         <% }) %> 
     </div>
     <div class="won-bids">
-        <h1>Won Bids</h1>
+        <h1 class="view-auctions-h--green">Won Bids</h1>
         <% currentUser.bidsWonDetail.forEach((bidWonDetail)=>{ %>
            
-            <div class="images">
-                <img style="width: 150px;" src="<%= bidWonDetail.product?.images[0].path %> ">
-            </div>
-  
-            <div class="title">
-                <p><%= bidWonDetail.product?.title %></p>
-            </div>
-            <div class="listed-on">
-                <p>Listed on: <%= bidWonDetail.product?.createdAt %></p>
-            </div>
-            <div class="base-price">
-                <p>Base Price: <%= bidWonDetail.product?.basePrice %></p>
-            </div>
-            <div class="current-bid">
-                <p>Current Bid: <%= bidWonDetail.product?.currentHighestBid?.amount || 'No bids placed yet' %></p>
+            <div class="view-auctions-container formFlex">
+                <div class="formFlex">
+                    <div class="">
+                        <img class="product-image" style="width: 150px;" src="<%= bidWonDetail.product?.images[0].path %>">
+                    </div>
+                    <div class="view-auctions-container__info">
+                        <div class="view-auctions-container__p1__p2">
+                            <div class="view-auctions-container__p1">
+                                <div class=" formFlex">
+                                    <div class="view-auction__product-title">
+                                        <p><%= bidWonDetail.product?.title %></p>
+                                    </div>
+                                    <div class="total-bids">
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="listed-on">
+                                    <p>Listed on: <%= bidWonDetail.product?.createdAt %></p>
+                                </div>
+                            </div>
+                            <div class="view-auctions-container__p2">
+                                <div class="base-price">
+                                    <p>Base Price: <%= bidWonDetail.product?.basePrice %></p>
+                                </div>
+                                <div class="currentBid">
+                                    <p>Current Bid: <%= bidWonDetail.product?.currentHighestBid?.amount || '0' %></p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+
+
+
+                    <div class="view-auctions-container__p3">
+                        <div class="view-auctions-container__bid-msg">
+                            <% if(bidWonDetail.product?.currentHighestBid.user.toString() === currentUser._id.toString()){ %> 
+                                <p>You're the <br>highest <br>bidder!! :D </p>
+                            <% } else { %>
+                                <p>You lost <br>the lead :(</p>
+                            <% } %>
+                        </div>
+                        <div class="view-listing--green">
+                            <a href="/products/<%= bidWonDetail.product._id %>/"><button>View listing</button></a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         <% }) %> 
     </div>
     <div class="not-won-bids">
-        <h1>Not Won Bids</h1>
+        <h1 class="view-auctions-h--green">Not Won Bids</h1>
         <% currentUser.bidsLost.forEach((product)=>{ %> 
            
-            <div class="images">
-                <img style="width: 150px;" src="<%= product.images[0].path %> ">
-            </div>
-           
-            <div class="title">
-                <p><%= product.title %></p>
-            </div>
-            <div class="listed-on">
-                <p>Listed on: <%= product.createdAt %></p>
-            </div>
-            <div class="base-price">
-                <p>Base Price: <%= product.basePrice %></p>
-            </div>
-            <div class="current-bid">
-                <p>Current Bid: <%= product.currentHighestBid?.amount || 'No bids placed yet' %></p>
+            <div class="view-auctions-container formFlex">
+                <div class="formFlex">
+                    <div class="">
+                        <img class="product-image" style="width: 150px;" src="<%= product.images[0].path %>">
+                    </div>
+                    <div class="view-auctions-container__info">
+                        <div class="view-auctions-container__p1__p2">
+                            <div class="view-auctions-container__p1">
+                                <div class=" formFlex">
+                                    <div class="view-auction__product-title">
+                                        <p><%= product.title %></p>
+                                    </div>
+                                    <div class="total-bids">
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="listed-on">
+                                    <p>Listed on: <%= product.createdAt %></p>
+                                </div>
+                            </div>
+                            <div class="view-auctions-container__p2">
+                                <div class="base-price">
+                                    <p>Base Price: <%= product.basePrice %></p>
+                                </div>
+                                <div class="currentBid">
+                                    <p>Current Bid: <%= product.currentHighestBid?.amount || '0' %></p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+
+
+
+                    <div class="view-auctions-container__p3">
+                        <div class="view-auctions-container__bid-msg">
+                            <% if(product?.currentHighestBid.user.toString() === currentUser._id.toString()){ %> 
+                                <p>You're the <br>highest bidder!! :D </p>
+                            <% } else { %>
+                                <p>You lost <br>the lead :(</p>
+                            <% } %>
+                        </div>
+                        <div class="view-listing--green">
+                            <a href="/products/<%= product._id %>/"><button>View listing</button></a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         <% }) %> 
     </div>

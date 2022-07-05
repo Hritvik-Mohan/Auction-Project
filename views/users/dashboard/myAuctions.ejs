@@ -1,83 +1,206 @@
 <% layout('layouts/boilerplate') %>
 
-<div>
+<div class="container">
+
+    <div class="view-dashboard__box">
+
+        <div class="dashboard-section-2__box__p1">
+            <div class="dashboard-section-2__box__p1__heading">
+                <p class="dashboard-section-2__box__p1__heading-h1">My Auctions</p>
+            </div>
+            <div class="dashboard-section-2__box__p1__options ">
+                <div></div>
+                <a href="/products/new"><div class="dashboard-section-2__box__p1__options__button "><button>Create auction</button></div></a>
+            </div>
+        </div>
+
+        <div class="dashboard-section-2__box__p2">
+
+            <div class="dashboard-section-2__box__p2__stat">
+                <p class="dashboard-section-2__box__p2__stat-h">Total</p>
+                <p class="dashboard-section-2__box__p2__stat-no" id="myListings">4</p>
+            </div>
+
+            <div class="dashboard-section-2__box__p2__stat">
+                <p class="dashboard-section-2__box__p2__stat-h">Active</p>
+                <p class="dashboard-section-2__box__p2__stat-no" id="activeListings">1</p>
+            </div>
+
+            <div class="dashboard-section-2__box__p2__stat">
+                <p class="dashboard-section-2__box__p2__stat-h">Successful</p>
+                <p class="dashboard-section-2__box__p2__stat-no" id="successfulListings">3</p>
+            </div>
+
+            <div class="dashboard-section-2__box__p2__stat">
+                <p class="dashboard-section-2__box__p2__stat-h">Unsuccessful</p>
+                <p class="dashboard-section-2__box__p2__stat-no" id="unsuccessfulListings">0</p>
+            </div>
+
+        </div>
+
+    </div>
+
     <div class="active-auctions" id="active-auctions">
-        <h1>Active Auctions</h1>
+        <h1 class="view-auctions-h">Active Auctions</h1>
         <% currentUser.liveAuctions.forEach((liveAuction) => { %> 
           
-            <div class="product-images">
-                <img style="width: 150px;" src="<%= liveAuction.images[0].path %>">
-            </div>
-     
-            <div class="product-title">
-                <p><%= liveAuction.title %></p>
-            </div>
-            <div class="listed-on">
-                <p>Listed on: <%= liveAuction.createdAt %></p>
-            </div>
-            <div class="base-price">
-                <p>Base Price: <%= liveAuction.basePrice %></p>
-            </div>
-            <div class="currentBid">
-                <p>Current Bid: <%= liveAuction.currentHighestBid?.amount || 'No bids placed yet' %></p>
-            </div>
-            <div class="total-bids">
-                <p>Total Bids: <%= liveAuction.bids.length %></p>
+            <div class="view-auctions-container formFlex">
+                <div class="formFlex">
+                    <div class="">
+                        <img class="product-image" style="width: 150px;" src="<%= liveAuction.images[0].path %>">
+                    </div>
+                    <div class="view-auctions-container__info">
+                        <div class="view-auctions-container__p1__p2">
+                            <div class="view-auctions-container__p1">
+                                <div class=" formFlex">
+                                    <div class="view-auction__product-title">
+                                        <p><%= liveAuction.title %></p>
+                                    </div>
+                                    <div class="total-bids">
+                                        <p>(<%= liveAuction.bids.length %>)</p>
+                                    </div>
+                                </div>
+                                <div class="listed-on">
+                                    <p>Listed on: <%= liveAuction.createdAt %></p>
+                                </div>
+                            </div>
+                            <div class="view-auctions-container__p2">
+                                <div class="base-price">
+                                    <p>Base Price: <%= liveAuction.basePrice %></p>
+                                </div>
+                                <div class="currentBid">
+                                    <p>Current Bid: <%= liveAuction.currentHighestBid?.amount || '0' %></p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+
+
+
+                    <div class="view-auctions-container__p3">
+                        <div class="view-listing">
+                            <a href="/products/<%= liveAuction._id %>/"><button>View listing</button></a>
+                        </div>
+                        <div class="edit-listing">
+                            <a href="/products/<%= liveAuction._id %>/edit"><button>Edit</button></a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         <% }) %> 
     </div>
-    <br>
-    <hr>
+
     <div class="successful-auctions" id="successful-auctions">
-        <h1>Successful Auctions</h1>
+        <h1 class="view-auctions-h">Successful Auctions</h1>
         <% currentUser.successfulProducts.forEach((successfulProduct) => { %> 
-           
-            <div class="product-images">
-                <img style="width: 150px;" src="<%= successfulProduct.product.images[0].path %> ">
+
+            <div class="view-auctions-container formFlex">
+                <div class="formFlex">
+                    <div class="">
+                        <img class="product-image" style="width: 150px;" src="<%= successfulProduct.product.images[0].path %>">
+                    </div>
+                    <div class="view-auctions-container__info">
+                        <div class="view-auctions-container__p1__p2">
+                            <div class="view-auctions-container__p1">
+                                <div class=" formFlex">
+                                    <div class="view-auction__product-title">
+                                        <p><%= successfulProduct.product?.title %></p>
+                                    </div>
+                                    <div class="total-bids">
+                                        <p>(<%= successfulProduct.product?.bids.length %>)</p>
+                                    </div>
+                                </div>
+                                <div class="listed-on">
+                                    <p>Listed on: <%= successfulProduct.product?.createdAt %></p>
+                                </div>
+                            </div>
+                            <div class="view-auctions-container__p2">
+                                <div class="base-price">
+                                    <p>Base Price: <%= successfulProduct.product?.basePrice %></p>
+                                </div>
+                                <div class="currentBid">
+                                    <p>Current Bid: <%= successfulProduct.product?.currentHighestBid?.amount || '0' %></p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+    
+                    <div class="view-auctions-container__p3">
+                        <div class="view-listing">
+                            <a href="/products/<%= successfulProduct.product?._id %>/"><button>View listing</button></a>
+                        </div>
+                        <div class="edit-listing">
+                            <a href="/products/<%= successfulProduct.product?._id %>/edit"><button>Edit</button></a>
+                        </div>
+                    </div>
+    
+                </div>
             </div>
-          
-            <div class="product-title">
-                <p><%= successfulProduct.product?.title %></p>
-            </div>
-            <div class="listed-on">
-                <p>Listed on: <%= successfulProduct.product?.createdAt %></p>
-            </div>
-            <div class="base-price">
-                <p>Base Price: <%= successfulProduct.product?.basePrice %></p>
-            </div>
-            <div class="currentBid">
-                <p>Current Bid: <%= successfulProduct.product?.currentHighestBid?.amount || 'No bids placed yet' %></p>
-            </div>
-            <div class="total-bids">
-                <p>Total Bids: <%= successfulProduct.product?.bids.length %></p>
-            </div>
+
         <% }) %>
     </div>
-    <br>
-    <hr>
+
     <div class="unsuccessful-auctions" id="unsuccessful-auctions">
-        <h1>Unsuccessful Auctions</h1>
+        <h1 class="view-auctions-h">Unsuccessful Auctions</h1>
         <% currentUser.unsuccessfulProducts.forEach((unsuccessfulProduct) => { %> 
           
-            <div class="product-images">
-                <img style="width: 150px;" src="<%= unsuccessfulProduct.images[0].path %> ">
-            </div>
-           
-            <div class="product-title">
-                <p><%= unsuccessfulProduct.title %></p>
-            </div>
-            <div class="listed-on">
-                <p>Listed on: <%= unsuccessfulProduct.createdAt %></p>
-            </div>
-            <div class="base-price">
-                <p>Base Price: <%= unsuccessfulProduct.basePrice %></p>
-            </div>
-            <div class="currentBid">
-                <p>Current Bid: <%= unsuccessfulProduct.currentHighestBid?.amount || 'No bids placed yet' %></p>
-            </div>
-            <div class="total-bids">
-                <p>Total Bids: <%= unsuccessfulProduct.bids.length %></p>
+            <div class="view-auctions-container formFlex">
+                <div class="formFlex">
+                    <div class="">
+                        <img class="product-image" style="width: 150px;" src="<%= unsuccessfulProduct.images[0].path %>">
+                    </div>
+                    <div class="view-auctions-container__info">
+                        <div class="view-auctions-container__p1__p2">
+                            <div class="view-auctions-container__p1">
+                                <div class=" formFlex">
+                                    <div class="view-auction__product-title">
+                                        <p><%= unsuccessfulProduct.title %></p>
+                                    </div>
+                                    <div class="total-bids">
+                                        <p>(<%= unsuccessfulProduct.bids.length %>)</p>
+                                    </div>
+                                </div>
+                                <div class="listed-on">
+                                    <p>Listed on: <%= unsuccessfulProduct.createdAt %></p>
+                                </div>
+                            </div>
+                            <div class="view-auctions-container__p2">
+                                <div class="base-price">
+                                    <p>Base Price: <%= unsuccessfulProduct.basePrice %></p>
+                                </div>
+                                <div class="currentBid">
+                                    <p>Current Bid: <%= unsuccessfulProduct.currentHighestBid?.amount || '0' %></p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+    
+                    <div class="view-auctions-container__p3">
+                        <div class="view-listing">
+                            <a href="/products/<%= unsuccessfulProduct._id %>/"><button>View listing</button></a>
+                        </div>
+                        <div class="edit-listing">
+                            <a href="/products/<%= unsuccessfulProduct._id %>/edit"><button>Edit</button></a>
+                        </div>
+                    </div>
+    
+                </div>
             </div>
         <% }) %>
     </div>
 </div>
+
+<script>
+    let currentUser = '<%- JSON.stringify(user).replace(/[\/\(\)\']/g, "&apos;") %>';
+</script>
+
+<script src="/js/dashboard/myAuctions.js"></script>
+
+
+
+
+
+
+
