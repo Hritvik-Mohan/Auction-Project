@@ -11,15 +11,73 @@ try {
     loggedinUserId = null;
 }
 
+// Current product price.
+const currentPrice = parseInt(highestBidInfo.amount) || parseInt(basePrice);
+
 const contactSellerDiv = document.getElementById('contact-seller');
 const labelTimer = document.getElementById('timer');
 const bidContainer = document.getElementById('bid-container');
 
+// Button selectors.
 const btnCheckFetch = document.getElementById('check-fetch');
+const btnPlaceBid = document.getElementById("placeBid");
+const btnQuickBid = document.getElementById("quickBid");
 
+// Date and Time variable.
 const today = new Date().toISOString();
 let timeRemainingInSeconds;
 let timer;
+
+// Form
+const form = document.getElementById('form');
+// Error div
+const errorDiv = document.getElementById('error');
+
+// Input element.
+const bidAmount = document.getElementById('bidAmount');
+const displayQuickBid = document.getElementById('displayQuickBid');
+const quickBidInput = document.getElementById('quickBidInput');
+
+/**
+ * @description - This function sets the minimum and
+ * maximum amount to bid on the product.
+ */
+const validBidAmount = () => {
+    const currentPriceLength = (currentPrice + '').length;
+    switch(currentPriceLength){
+        case 1: 
+            bidAmount.min = `${currentPrice + 1}`;
+            quickBidInput.value = bidAmount.min;
+            displayQuickBid.placeholder = `₹ ${bidAmount.min} /-`;
+            bidAmount.max = `${currentPrice * 2}`; 
+            break;
+        case 2: 
+            bidAmount.min = `${currentPrice + 5}`;
+            quickBidInput.value = bidAmount.min;
+            displayQuickBid.placeholder = `₹ ${bidAmount.min} /-`;
+            bidAmount.max = `${currentPrice * 2}`; 
+            break;
+    }
+    if(currentPriceLength > 2){
+        bidAmount.min = currentPrice + Math.pow(10, currentPriceLength - 2);
+        quickBidInput.value = bidAmount.min;
+        displayQuickBid.placeholder = `₹ ${bidAmount.min} /-`;
+        bidAmount.max = currentPrice * 2;
+    }
+}
+
+// Enable or disable submit-bid and quick-bid button.
+const enableDisableBidButtons = () => {
+    const auctionEndTime = new Date(endTime);
+    const now = new Date();
+
+    if(now > auctionEndTime) {
+        // Change placeholder text of bidAmount input.
+        bidAmount.placeholder = `Auction ended`;
+        btnPlaceBid.disabled = true;
+        btnQuickBid.disabled = true;
+    }
+}
 
 // Inititalize the times in seconds.
 const initTimeSeconds = () => {
@@ -141,9 +199,12 @@ const timeRemaining = () => {
 
 const main = () => {
 
+    enableDisableBidButtons();
+    
     if (today >= startTime && today <= endTime) {
         console.log('Auction is running...');
         initTimeSeconds();
+        validBidAmount();
         const MILLISECONDS_IN_A_SECOND = 1000;
         timer = setInterval(timeRemaining, MILLISECONDS_IN_A_SECOND);
     } else if (today < startTime) {

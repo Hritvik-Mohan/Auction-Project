@@ -6,24 +6,25 @@
 <div class="formContainer-signup container">
     <div class="loginForm">
             <div class="loginH1-newProd">Create auction<br><div class="loginH2-newProd">Add a new product:</div></div>
-            <form action="/products/new" method="POST" enctype="multipart/form-data">
+            <form id="form" action="/products/new" method="POST" enctype="multipart/form-data">
+                <div id="error"></div>
                 <div class="formGrid">
                     <div class="formSection">
                         <label class="formLable" for="title">Title</label>
-                        <input type="text" name="title" class="formInput" id="title" required>
+                        <input type="text" name="title" class="formInput" id="title">
                     </div>
                     <div class="formSection">
                         <label class="formLable" for="description">Description</label>
-                        <input type="text" name="description" class="formInput" id="description" required>
+                        <input type="text" name="description" class="formInput" id="description">
                     </div>
                     <div class="formSection">
                         <label class="formLable" for="base_price">Base Price</label>
-                        <input type="number" name="basePrice" step="any" class="formInput" id="base_price" required>
+                        <input type="number" name="basePrice" step="any" class="formInput" id="base_price">
                     </div>
                     <div class="formSection">
                         <label class="formLable" for="category">Select Category</label>
                     
-                        <select class="formInput" name="category" class="form-control" id="category" required>
+                        <select class="formInput" name="category" class="form-control" id="category">
                             <option value="art">Art</option>
                             <option value="antiques">Antiques</option>
                             <option value="vehicle">Vehicle</option>
@@ -43,7 +44,7 @@
                                 <div id="fileLabel" class="formInput-file__flex">Choose File</div>
                             </label>
                         </div>
-                        <input id="file" type="file" name="images" class="formInput-file" onchange="pressed()" multiple required>
+                        <input id="file" type="file" name="images" class="formInput-file" onchange="pressed()" multiple>
 
 
 
@@ -52,11 +53,11 @@
                     <div class="formSection">
                         <label class="formLable" for="startTime">Start Time</label>
                    
-                        <input type="datetime-local" name="startTime" class="formInput" id="startTime" required>
+                        <input type="datetime-local" name="startTime" class="formInput" id="startTime">
                     </div>
                     <div class="formSection">
                         <label class="formLable" for="duration">Duration</label>
-                        <select class="formInput" name="duration" class="formInput" id="duration" required>
+                        <select class="formInput" name="duration" class="formInput" id="duration">
                             <option value="3">3 days</option>
                             <option value="5">5 days</option>
                             <option value="7">7 days</option>
@@ -71,3 +72,4 @@
     </div>
 </div>
 
+<script src="/js/product/newProduct.js"></script>

@@ -1,5 +1,5 @@
 /**
- * @description - This function returns the date eight years ago from now.
+ * @description - This function returns the date eighteen years ago from now.
  * 
  * @returns String - Date in the format of YYYY-MM-DD
  */

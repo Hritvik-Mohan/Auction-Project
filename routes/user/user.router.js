@@ -76,13 +76,13 @@ UserRouter.route('/users/register')
 
 // Verify user email
 UserRouter.route('/users/verification')
-  .get((req, res)=>{
+  .get(protect, (req, res)=>{
     res.render('users/verify', {
       title: "Verify your email",
       action: "/users/verification"
     });
   })
-  .post(sendVerificationOTP)
+  .post(protect, sendVerificationOTP)
 
 UserRouter.route('/users/confirm')
   .get((req, res) => {
@@ -92,7 +92,7 @@ UserRouter.route('/users/confirm')
 
 // User dashboard route.
 UserRouter.route('/users/dashboard')
-  .get((req, res) => {
+  .get(protect, (req, res) => {
     res.render('users/dashboard/dashboard', {
       user: res.locals.currentUser
     });
@@ -100,7 +100,7 @@ UserRouter.route('/users/dashboard')
 
 // Dashboard my auctions.
 UserRouter.route('/users/dashboard/my-auctions')
-  .get((req, res)=>{
+  .get(protect, (req, res)=>{
     res.render('users/dashboard/myAuctions', {
       user: res.locals.currentUser
     });
@@ -108,7 +108,7 @@ UserRouter.route('/users/dashboard/my-auctions')
 
 // Dashboard my bids.
 UserRouter.route('/users/dashboard/my-bids')
-  .get((req, res)=>{
+  .get(protect, (req, res)=>{
     res.render('users/dashboard/myBids', {
       user: res.locals.currentUser
     })

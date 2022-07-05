@@ -6,7 +6,8 @@
         <div class="loginForm">
             <h1 class="loginH1-newProd">Confirm OTP</h1>
                 
-                <form action="/users/confirm" method="POST">
+                <form id="form" action="/users/confirm" method="POST">
+                    <div id="error"></div>
                     <div class="formSection">
                         <label class="formLable" for="">Email</label>
                         <input name="email" type="email" value="<%= currentUser?.email %>" class="formInput" id="email" />
@@ -14,7 +15,7 @@
                     </div>
                     <div class="formSection">
                         <label class="formLable" for="">OTP</label>
-                        <input name="otp" type="text" class="formInput" id="password" />
+                        <input name="otp" type="text" class="formInput" id="otp" />
                     </div>
                     <div class="d-grid">
                         <button type="submit" class="formSubmitButton">
@@ -24,3 +25,5 @@
                 </form>
         </div>
     </div>
+
+<script src="/js/user/confirmOTPpage.js"></script>
