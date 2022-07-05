@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 
 <div class="container not-found__container">
-    <div class="not-found__h">404</div>
-    <p class="not-found__p">This page does not exist or unavailable.</p>
+    <div class="not-found__h"><%= status %></div>
+    <p class="not-found__p"><%= message %></p>
     <img src="/img/notFound.png" alt="" srcset="">
 </div>

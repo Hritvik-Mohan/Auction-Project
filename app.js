@@ -62,7 +62,6 @@ app.use(flash());
  */
  app.use(async (req, res, next)=>{
   res.locals.currentUser = await getCurrentUser(req, res);
-  console.log(res.locals.currentUser);
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
@@ -91,7 +90,7 @@ app.route("/").get((req, res) => {
  * If none of the routes matches.
  */
 app.all('*', (req, res, next)=>{
-  next(new AppError('Page Not Found', 404));
+  next(new AppError('This page does not exist or unavailable.', 404));
 })
 
 /**
@@ -99,7 +98,7 @@ app.all('*', (req, res, next)=>{
  */
 app.use((err, req, res, next)=>{
   const { status=500, message="Something went wrong", stack } = err;
-  res.status(status).send({err, message, stack});
+  res.render("error", {status, message});
 })
 
 const runServer = async () =>{
