@@ -1,67 +1,91 @@
 <% layout('layouts/boilerplate') %>
 
-<div>
-    <form action="/users/addAddress?_method=PUT" method="post">
-        <div>
-            <h1>Shipping Address</h1>
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="s_name" value="<%= shippingAddress.name  %>" placeholder="Full name" required>
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number</label>
-                <input type="text" class="form-control" name="s_phoneNumber" value="<%= shippingAddress.phoneNumber  %>" id="phoneNumber" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" name="s_address" class="form-control" value="<%= shippingAddress.address %>" id="address" required>
-            </div>
-            <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" name="s_city" class="form-control" value="<%= shippingAddress.city  %>" id="city" required>
-            </div>
-            <div class="form-group">
-                <label for="state">State</label>
-                <input type="text" name="s_state" class="form-control" value="<%= shippingAddress.state %>" id="state" required>
-            </div>
-            <div class="form-group">
-                <label for="zip">Pincode</label>
-                <input type="text" name="s_pincode" class="form-control" value="<%= shippingAddress.pincode  %>" id="zip" required>
-            </div>
+<link rel="stylesheet" href="/css/register.css" />
+<div class="formContainer-signup container">
+
+
+    <div class="loginForm">
+        <div class="loginForm">
+            <h1 class="loginH1-newProd">Shipping Address</h1>
+            <form action="/users/addAddress?_method=PUT" method="post">
+                <div id="error"></div>
+                <div class="formGrid">
+                    <div class="formSection">
+                        <label class="formLable" for="name">Name</label>
+                        <input type="text" class="formInput" id="name" name="s_name" value="<%= shippingAddress.name  %>"
+                            placeholder="Full name" required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="phoneNumber">Phone Number</label>
+                        <input type="text" class="formInput" name="s_phoneNumber"
+                            value="<%= shippingAddress.phoneNumber  %>" id="phoneNumber" required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="address">Address</label>
+                        <input type="text" name="s_address" class="formInput" value="<%= shippingAddress.address %>"
+                            id="address" required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="city">City</label>
+                        <input type="text" name="s_city" class="formInput" value="<%= shippingAddress.city  %>" id="city"
+                            required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="state">State</label>
+                        <input type="text" name="s_state" class="formInput" value="<%= shippingAddress.state %>" id="state"
+                            required>
+                    </div>
+                    <div class="formSection">
+                        <label class="formLable" for="zip">Pincode</label>
+                        <input type="text" name="s_pincode" class="formInput" value="<%= shippingAddress.pincode  %>"
+                            id="zip" required>
+                    </div>
+                </div>
+                <div class="formFlex form__same-billing-input">
+                    <div class=""><input type="checkbox" name="same" value="1"></div>
+                    <div class="form__same-billing-address">
+                        <p>Billing address same as shipping address</p>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="loginH1-newProd">Billing Address</h1>
+                    <div class="formGrid">
+                        <div class="formSection">
+                            <label class="formLable" for="name">Name</label>
+                            <input type="text" class="formInput" id="name" name="b_name" value="<%= billingAddress.name %>"
+                                placeholder="Full name" required>
+                        </div>
+                        <div class="formSection">
+                            <label class="formLable" for="phoneNumber">Phone Number</label>
+                            <input type="text" class="formInput" name="b_phoneNumber"
+                                value="<%= billingAddress.phoneNumber %>" id="phoneNumber" required>
+                        </div>
+                        <div class="formSection">
+                            <label class="formLable" for="address">Address</label>
+                            <input type="text" name="b_address" class="formInput" value="<%= billingAddress.address %>"
+                                id="address" required>
+                        </div>
+                        <div class="formSection">
+                            <label class="formLable" for="city">City</label>
+                            <input type="text" name="b_city" class="formInput" value="<%= billingAddress.city %>" id="city"
+                                required>
+                        </div>
+                        <div class="formSection">
+                            <label class="formLable" for="state">State</label>
+                            <input type="text" name="b_state" class="formInput" value="<%= billingAddress.state %>"
+                                id="state" required>
+                        </div>
+                        <div class="formSection">
+                            <label class="formLable" for="zip">Pincode</label>
+                            <input type="text" name="b_pincode" class="formInput" value="<%= billingAddress.pincode  %>"
+                                id="zip" required>
+                        </div>
+                    </div>
+                </div>
         </div>
-        <div>
-            <p>Billing address same as shipping address</p>
-            <input type="checkbox" name="same" value="1">
+        <div class="formSection">
+            <button type="submit" class="formSubmitButton">Save</button>
         </div>
-        <div>
-            <h1>Billing Address</h1>
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name" name="b_name" value="<%= billingAddress.name %>" placeholder="Full name" required>
-            </div>
-            <div class="form-group">
-                <label for="phoneNumber">Phone Number</label>
-                <input type="text" class="form-control" name="b_phoneNumber" value="<%= billingAddress.phoneNumber %>" id="phoneNumber" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Address</label>
-                <input type="text" name="b_address" class="form-control" value="<%= billingAddress.address %>" id="address" required>
-            </div>
-            <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" name="b_city" class="form-control" value="<%= billingAddress.city %>" id="city" required>
-            </div>
-            <div class="form-group">
-                <label for="state">State</label>
-                <input type="text" name="b_state" class="form-control" value="<%= billingAddress.state %>" id="state" required>
-            </div>
-            <div class="form-group">
-                <label for="zip">Pincode</label>
-                <input type="text" name="b_pincode" class="form-control" value="<%= billingAddress.pincode  %>" id="zip" required>
-            </div>
-        </div>
-        <div class="d-grid">
-            <button type="submit" class="btn btn-success btn-block mt-4 btn-lg">Submit</button>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
