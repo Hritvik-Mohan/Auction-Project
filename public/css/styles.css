@@ -1357,6 +1357,27 @@ li p {
 
 
 
-/** ----------------------Profile Dashboard Start---------------------- **/
+/** ----------------------Profile Dashboard End---------------------- **/
 
 /** ----------------------Dashboard End------------------------- **/
+
+
+.not-found__container {
+    /* margin: auto auto; */
+    text-align: center;
+}
+
+.not-found__h {
+    font-size: 11rem;
+    font-weight: 300;
+    color: var(--accent-color);
+}
+
+.not-found__p {
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+.not-found__container > img {
+    margin-top: 2.8rem;
+}
