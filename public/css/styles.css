@@ -735,7 +735,6 @@ a:active {
 .place-bid:hover,
 .place-bid:focus {
     transform: translateY(-0.1rem);
-
 }
 
 /* .place-bid_button:hover {
@@ -1392,4 +1391,13 @@ li p {
 
 .profile-dashboard-section-1__profile-image-container {
     width: 70%;
+}
+
+
+.auction-ended {
+    opacity: 70%;
+    cursor: not-allowed;
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.7;
 }

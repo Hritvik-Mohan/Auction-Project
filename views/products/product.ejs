@@ -30,23 +30,25 @@
             <p>Current Price</p>
             <p>Time Remaining</p>
         </div>
-        <form id="form" action="/users/<%= product._id %>/bid" method="post">
-            <div id="error"></div>
-            <input id="bidAmount" class="formInput" type="number" min="<%= product.currentHighestBid.amount + 1 || product.basePrice + 1 %>"
-            name="amount" placeholder="&#8377;">
-            <!-- "&#8377; "> -->
-            <div class="place-bid">
-                <button class="place-bid_button" id="placeBid">Place Bid</button>
-            </div>
-        </form>
-        <div class="quick-bid-grid">
-        <input class="quick-bid-price-input" type="number" name="" id="displayQuickBid" disabled>
-        <form action="/users/<%= product._id %>/bid" method="post">
-                <!-- <div class="quick-bid-price-input-container">--> 
-                <input class="quick-bid-price-input" type="number" name="amount" id="quickBidInput" value="" hidden > <!-- </div> -->
-                <div class="quick-bid"><button class="quick-bid_button" type="submit" id="quickBid">Quick Bid</button></div>
-            </div>
-        </form>
+        <div id="bid-form">
+            <form id="form" action="/users/<%= product._id %>/bid" method="post">
+                <div id="error"></div>
+                <input id="bidAmount" class="formInput" type="number" min="<%= product.currentHighestBid.amount + 1 || product.basePrice + 1 %>"
+                name="amount" placeholder="&#8377;">
+                <!-- "&#8377; "> -->
+                <div class="place-bid">
+                    <button class="place-bid_button" id="placeBid">Place Bid</button>
+                </div>
+            </form>
+            <div class="quick-bid-grid">
+            <input class="quick-bid-price-input" type="number" name="" id="displayQuickBid" disabled>
+            <form action="/users/<%= product._id %>/bid" method="post">
+                    <!-- <div class="quick-bid-price-input-container">-->
+                    <input class="quick-bid-price-input" type="number" name="amount" id="quickBidInput" value="" hidden > <!-- </div> -->
+                    <div class="quick-bid"><button class="quick-bid_button" type="submit" id="quickBid">Quick Bid</button></div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

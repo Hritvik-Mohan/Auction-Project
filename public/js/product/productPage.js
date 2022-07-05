@@ -11,6 +11,8 @@ try {
     loggedinUserId = null;
 }
 
+const bidForm = document.getElementById('bid-form');
+
 // Current product price.
 const currentPrice = parseInt(highestBidInfo.amount) || parseInt(basePrice);
 
@@ -74,6 +76,7 @@ const enableDisableBidButtons = () => {
     if(now > auctionEndTime) {
         // Change placeholder text of bidAmount input.
         bidAmount.placeholder = `Auction ended`;
+        bidForm.classList.add('auction-ended');
         btnPlaceBid.disabled = true;
         btnQuickBid.disabled = true;
     }
