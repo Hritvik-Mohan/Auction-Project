@@ -1,44 +1,106 @@
-<% layout('layouts/boilerplate') %> 
-
-<div>
-    <div>
-        <h1>Checkout</h1>
-        <% for (let image of product.images){  %> 
-            <img style="width: 12rem;" src="<%= image.path %> "><br>
-        <% }%>
-        <h3>Title</h3>
-        <p><%= product.title %> </p>
-        <h3>Description</h3>
-        <p><%= product.description %></p>
-        <h3>Amount Total</h3>
-        <p><strong><%= product.currentHighestBid.amount %>&#8377;</strong></p> 
- 
-        <% if(billingAddress && shippingAddress){ %>
-            <h3>Billing Address</h3>
-            <p>Name: <%= billingAddress.name %></p>
-            <p>Address: <%= billingAddress.address %></p>
-            <p>City: <%= billingAddress.city %></p>
-            <p>State: <%= billingAddress.state %></p>
-            <p>Pincode: <%= billingAddress.pincode %></p>
-            <p>Phone number: <%= billingAddress.phoneNumber %></p>
-
-            <h3>Shipping Address</h3>
-            <p>Name: <%= shippingAddress.name %></p>
-            <p>Address: <%= shippingAddress.address %></p>
-            <p>City: <%= shippingAddress.city %></p>
-            <p>State: <%= shippingAddress.state %></p>
-            <p>Pincode: <%= shippingAddress.pincode %></p>
-            <p>Phone number: <%= shippingAddress.phoneNumber %></p>
-
-            <a class="btn btn-primary" href="/users/address/edit">Change</a>
-            <form action="/stripe/create-checkout-session/<%= product._id %>" method="POST">
-                <button type="submit" id="checkout-button" class="btn btn-success">Proceed to payment</button>
-            </form>
-        <% } else { %>  
-            <a class="btn btn-primary" href="/users/addAddress">Add</a>
-        <% } %> 
-       
-
-
+<% layout('layouts/boilerplate') %>
+<div class="container checkout-container">
+    <div class="">
+        <h1 class="checkout-h">Checkout</h1>
+    </div>
+    <div class="">
+        <div class="formGrid-2">
+            <div class="checkout-section-1">
+                <div class="checkout-product">
+                    <a href="/products/<%= product._id %>">
+                        <div class="image-container">
+                            <img class="product-image"
+                                src="<%= product.images[0]?.path || "https://images.unsplash.com/photo-1633078654544-61b3455b9161?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1490&q=80"%> "><br>
+                        </div>
+                        <h1 class="product__title"><%= product.title %></h1>
+                        <!-- <p class="product__body"><%= product.description %></p> -->
+                        <p class="checkout-total-amount">Total Amount</p>
+                        <div class="wrapper-1">
+                            <p class="current-price"> <span class="current-price__currency">&#8377;</span>
+                                <%= product.currentHighestBid.amount ? product.currentHighestBid.amount : product.basePrice %>
+                            </p>
+                        </div>
+                        <div class="checkout-buttons">
+                            <div class="checkout__contact-seller contact-seller">
+                                <form action='/contactSeller/${productId}/' method='GET'>
+                                    <button class="contact-seller-button checkout__contact-seller-b">Contact Seller</button>
+                                </form>
+                            </div>
+                            <div class="checkout-or">or</div>
+                            <div class="checkout__proceed-to-payment checkout">
+                                <form action="/stripe/create-checkout-session/<%= product._id %>" method="POST">
+                                    <button type="submit" id="checkout-button"
+                                        class="checkout-button checkout__proceed-to-payment-b">Proceed to payment</button>
+                                </form>
+                            </div>
+                        </div>
+                </div></a>
+            </div>
+            <div class="checkout-section-2">
+                <% if(billingAddress && shippingAddress){ %>
+                <a class="btn btn-primary" href="/users/address/edit"><u>Edit address</u></a>
+                <h1 class="checkout__billing-address-h">Billing Address</h1>
+                <div class="checkout__billing-address">
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">Name: </p>
+                        <p><%= billingAddress.name %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">Address: </p>
+                        <p><%= billingAddress.address %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">City: </p>
+                        <p><%= billingAddress.city %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">State: </p>
+                        <p><%= billingAddress.state %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">Pincode: </p>
+                        <p><%= billingAddress.pincode %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">Phone number: </p>
+                        <p><%= billingAddress.phoneNumber %></p>
+                    </div>
+                </div>
+                <h1 class="checkout__shipping-address-h">Shipping Address</h1>
+                <div class="">
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">Name: </p>
+                        <p><%= shippingAddress.name %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">Address: </p>
+                        <p><%= shippingAddress.address %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">City: </p>
+                        <p><%= shippingAddress.city %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">State: </p>
+                        <p><%= shippingAddress.state %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">Pincode: </p>
+                        <p><%= shippingAddress.pincode %></p>
+                    </div>
+                    <div class="checkout__address-info formFlex">
+                        <p class="checkout__address-info-h">Phone number: </p>
+                        <p><%= shippingAddress.phoneNumber %></p>
+                    </div>
+                </div>
+                <% } else { %>
+                <a class="btn btn-primary" href="/users/addAddress">Add</a>
+                <% } %>
+            </div>
+    </div>
+    </div>
 </div>
+
+
+
 <script src="/js/product/checkoutPage.js"></script>

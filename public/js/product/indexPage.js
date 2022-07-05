@@ -21,7 +21,7 @@ const timeRemaining = (product) => {
     const seconds = Math.floor(product.timeRemainingInSeconds % (24 * 60 * 60) % (60 * 60) % 60);
 
     const labelTimer = document.getElementById(`timer-${product._id}`);
-    labelTimer.textContent = `${days}D ${hours}H ${minutes}M ${seconds}S`;
+    labelTimer.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
     if (product.timeRemainingInSeconds === 0) {
         clearInterval(product.timer);
