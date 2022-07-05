@@ -17,7 +17,7 @@ const lostBids = document.getElementById("lostBids");
 
 
 username.textContent = currentUser.firstName;
-verified.innerHTML = currentUser.verified ? "Verified" : `<a style="color: red;" href="/users/verification">Verify you account</a>`;
+verified.innerHTML = currentUser.verified ? "Verified" : `<a style="color: red;" href="/users/verification">Verify your account</a>`;
 joinedDate.textContent = new Intl.DateTimeFormat(
     'en-US', 
     { year: 'numeric', month: 'long', day: '2-digit' })

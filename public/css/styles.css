@@ -589,13 +589,11 @@ a:active {
     max-width: 300px;
     padding: 20px;
     padding-bottom: 0;
-    background:rgba(251, 250, 255, 1);
+    background: rgba(251, 250, 255, 1);
     border-radius: 22px;
 }
 
-.product :hover{
-
-}
+.product :hover {}
 
 
 .image-container {
@@ -814,7 +812,7 @@ a:active {
     margin: 30px 0 30px 0;
     font-size: 2.5rem;
     font-weight: 900;
-    line-height: 23px;
+    /* line-height: 23px; */
 }
 
 
@@ -842,6 +840,144 @@ a:active {
 }
 
 /** ----------------------Product Component & Product Page End------------------------- **/
+
+/** product-winner **/
+
+.product-winner-container {
+    margin: 10rem auto 10rem 10%;
+    padding: 2.2rem 6rem 2rem 6rem;
+    /* justify-content: center; */
+    /* text-align: center; */
+    width: 50%;
+    /* border: 1px solid var(--dark-color); */
+    border-radius: 15px;
+}
+
+
+.product-winner-text {
+    text-align: left;
+}
+
+.product-winner-h {
+    font-size: 3.2rem;
+    font-weight: 500;
+}
+
+.product-winner-p {
+    margin-top: 1.2rem;
+    font-weight: 400;
+    font-size: 1.25rem;
+}
+
+.checkout-total-amount {
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+.contact-checkout--seller {
+    margin: 2.5rem auto 0 auto;
+    column-gap: 30px;
+    justify-content: space-evenly;
+    color: var(--background-color);
+}
+
+.contact-checkout--seller>button {
+    margin-left: 6rem;
+    margin-right: 6rem;
+    background: var(--accent-color);
+    border-radius: 15px;
+    filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.25));
+    color: var(--background-color);
+}
+
+.contact-seller {
+    margin-top: 2rem;
+    background: var(--background-color);
+    color: var(--accent-color);
+    border-radius: 15px;
+    /* filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.25)); */
+    border: 1px solid var(--accent-color);
+}
+
+.checkout {
+    margin-top: 2rem;
+    background: var(--accent-color);
+    color: var(--background-color);
+    border: var(--accent-color);
+    border-radius: 15px;
+    filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.25));
+}
+
+.contact-seller-button,
+.checkout-button {
+    padding: 0.8rem;
+}
+
+.contact-seller-button {
+    color: var(--accent-color);
+}
+
+.checkout-or {
+    text-align: center;
+    margin: 15px;
+}
+
+.checkout-button {
+    color: var(--background-color);
+}
+
+.checkout-container {
+    width: 60%;
+}
+
+.checkout-h {
+    padding: 20px;
+    font-weight: 300;
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+    color: #000000;
+    width: 100%;
+}
+
+.checkout-product {
+    margin: auto;
+    margin-left: 0;
+    margin-bottom: 60px;
+    max-width: 300px;
+    padding: 20px;
+    padding-bottom: 0;
+    background: rgba(251, 250, 255, 1);
+    border-radius: 22px;
+}
+
+.checkout-section-2 {
+    margin-left: 50px;
+}
+
+.checkout__shipping-address-h,
+.checkout__billing-address-h {
+    font-size: 4rem;
+    font-weight: 300;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.checkout__address-info {
+    margin-bottom: 1rem;
+    column-gap: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.checkout__address-info-h {
+    font-weight: 300;
+}
+
+.view-auctions-container {
+    background: rgba(240, 240, 240, 0.5);
+    border-radius: 15px;
+    padding: 1rem;
+}
+
 
 /** ----------------------Dashboard Start------------------------- **/
 
@@ -929,6 +1065,10 @@ li p {
     color: rgba(95, 95, 95, 0.4);
 }
 
+.dashboard-section-1__userinfo-joined-date > span {
+    margin-right: 0.2rem;
+}
+
 .dashboard-section-1__tabs__button {
     /* margin-left: 0; */
     padding-left: 0;
@@ -962,7 +1102,7 @@ li p {
 
 .dashboard-section-2__box {
     padding: 1.5rem 3rem 0.5rem 2rem;
-    width: 100%;
+    width: 93.9%;
     margin: 50px 0;
     background: rgba(77, 52, 228, 0.06);
     border-radius: 9px;
@@ -1056,13 +1196,133 @@ li p {
     font-weight: 400;
 }
 
+.dashboard-section-2__box__p1__options__button--view {
+    grid-template-columns: repeat(1, 1fr);
+    /* width: 50%; */
+}
 
-.material-symbols-outlined {
-    font-variation-settings:
-        'FILL'0,
-        'wght'700,
-        'GRAD'200,
-        'opsz'48
+.dashboard-section-2__box__p1__options__button--view>button {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    padding-top: 5px;
+}
+
+.view-dashboard__box {
+    padding: 1.5rem 3rem 0.5rem 2rem;
+    width: 93.9%;
+    margin: 50px 0;
+    background: rgba(77, 52, 228, 0.06);
+    border-radius: 9px;
+    color: var(--accent-color);
+    margin-bottom: 4.25rem;
+}
+
+.view-auctions-container {
+    margin: 2rem 0;
+}
+
+.view-auctions-container__info {
+    margin-left: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.view-auction__product-title {
+    font-weight: 500;
+    font-size: 1.5rem;
+    width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-mask-image: linear-gradient(90deg, #4D34E4 90%, transparent);
+}
+
+.view-auctions-container__p2 {
+    margin-top: 11%;
+    font-weight: 400;
+    font-size: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.view-auctions-container__p1__p2 {
+    display: grid;
+    height: 100%;
+
+}
+
+.listed-on {
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.view-auctions-container__p3 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 1rem;
+    width: 30%;
+}
+
+.view-listing,
+.edit-listing {
+    border: 1.5px solid var(--accent-color);
+    margin: auto auto;
+    border-radius: 11px;
+    width: 100%;
+}
+
+.view-listing > a > button,
+.edit-listing > a > button{
+    color: var(--accent-color);
+}
+
+.view-listing--green{
+    border: 1.5px solid #18C793;
+    margin: auto auto;
+    border-radius: 11px;
+    width: 100%;
+}
+
+.view-listing--green > a > button{
+    color: #18C793;
+}
+
+.view-listing>button,
+.edit-listing>button {
+    color: var(--accent-color);
+    padding: 10px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.view-auctions-container {}
+
+.view-auctions__info-container {
+    display: flex;
+}
+
+.view-auctions-h {
+    font-weight: 400;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
+    color: #4D34E4;
+    margin-top: 2.8rem;
+}
+
+.view-auctions-container__bid-msg {
+    margin: auto auto;
+    font-weight: 300;
+    color:#18C793;
+
+}
+
+.view-auctions-h--green {
+    font-weight: 400;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
+    color:#18C793;
+    margin-top: 2.8rem;
 }
 
 /** ----------------------Profile Dashboard Start---------------------- **/
@@ -1097,6 +1357,27 @@ li p {
 
 
 
-/** ----------------------Profile Dashboard Start---------------------- **/
+/** ----------------------Profile Dashboard End---------------------- **/
 
 /** ----------------------Dashboard End------------------------- **/
+
+
+.not-found__container {
+    /* margin: auto auto; */
+    text-align: center;
+}
+
+.not-found__h {
+    font-size: 11rem;
+    font-weight: 300;
+    color: var(--accent-color);
+}
+
+.not-found__p {
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+.not-found__container > img {
+    margin-top: 2.8rem;
+}

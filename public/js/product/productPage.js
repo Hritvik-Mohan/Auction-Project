@@ -98,11 +98,10 @@ const declareWinnerFrontend = () => {
         _id
     } = highestBidInfo.user;
     const html = `
-       <div>
-            <h1>Winner!</h1>
-            <p>Congrats ${firstName} ${lastName} for winning this product 🎉</p>
-            <p><a href="/users/${_id}">See profile</a></p>
-       </div>
+       <div class="product-winner-text">
+            <h1 class="product-winner-h">You’re the <br>winner! 🎉</h1>
+            <p class="product-winner-p">Congrats <u><a href="/users/${_id}">${firstName} ${lastName}</a></u> for winning this auction.</p>
+        </div>
     `;
 
     bidContainer.insertAdjacentHTML('afterbegin', html);
@@ -110,12 +109,18 @@ const declareWinnerFrontend = () => {
 
 const showContactSeller = () => {
     const contactSellerForm = `
-        <form action='/contactSeller/${productId}/' method='GET'>
-            <button class="btn btn-success">Contact Seller</button>
-        </form>
-        <a href="/products/checkout/${productId}" class="btn btn-primary">
-            Checkout
-        </a>
+        <div class="contact-checkout--seller formGrid-2">
+            <div class="contact-seller">
+                <form action='/contactSeller/${productId}/' method='GET'>
+                    <button class="contact-seller-button">Contact Seller</button>
+                </form>
+            </div>
+            <div class="checkout">
+                <a href="/products/checkout/${productId}" >
+                    <button class="checkout-button">Checkout</button>
+                </a>
+            </div>
+        </div>
     `;
     if(loggedinUserId != null && loggedinUserId._id && loggedinUserId._id === highestBidInfo.user._id){
         contactSellerDiv.innerHTML = contactSellerForm;
