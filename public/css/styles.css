@@ -1065,6 +1065,10 @@ li p {
     color: rgba(95, 95, 95, 0.4);
 }
 
+.dashboard-section-1__userinfo-joined-date > span {
+    margin-right: 0.2rem;
+}
+
 .dashboard-section-1__tabs__button {
     /* margin-left: 0; */
     padding-left: 0;
