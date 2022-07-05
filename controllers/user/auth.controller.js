@@ -184,7 +184,7 @@ module.exports.verifyEmail = catchAsync(async (req, res) => {
 
   if (!result) {
     req.flash("error", "Invalid OTP");
-    return res.redirect("/users/reset-password");
+    return res.redirect("/users/confirm");
   }
 
   user.otp = "";
