@@ -5,7 +5,7 @@
         <div class="loginH1-newProd">Edit product</div>
         <form id="form" action="/products/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 
-
+            <div id="error"></div>
 
             <div class="formGrid">
                 <div class="formSection">
@@ -88,6 +88,4 @@
 <script>
     let startTime = '<%- product.startTime %>';
 </script>
-<script src="/js/product/editPage.js">
-    
-</script>
+<script src="/js/product/editPage.js"></script>
