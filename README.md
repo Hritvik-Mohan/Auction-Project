@@ -22,6 +22,8 @@ It’s a place that holds auctions on the internet. It's a platform that is a me
 - Email service for sending emails(Recommended [yahoo mail](https://in.mail.yahoo.com/), use app password given by yahoo)
 - MongoDB Compass(optional)
 - Stripe [account](https://stripe.com/) for payment(optional).
+
+## Next Steps
 1. Clone the repository
 2. Install the dependencies
 ```sh
