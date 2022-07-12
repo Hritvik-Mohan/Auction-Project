@@ -17,6 +17,7 @@ It’s a place that holds auctions on the internet. It's a platform that is a me
 ## Prerequisites
 - NodeJS v16.x
 - MongoDB v4.x
+- [nodemon](https://www.npmjs.com/package/nodemon) npm module.
 - Cloudinary [account](https://cloudinary.com/) for uploading images.
 - Email service for sending emails(Recommended [yahoo mail](https://in.mail.yahoo.com/), use app password given by yahoo)
 - MongoDB Compass(optional)
