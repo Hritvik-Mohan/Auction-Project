@@ -56,7 +56,7 @@
 <!-- These two divs will get populated once the auction is over. -->
 <div class="container product-winner-container button" onmousedown="party.confetti(this)">
     <% if(product.auctionStatus === false) { %>
-        <% if(product.currentHighestBid?.user._id.toString() === currentUser?._id.toString() ) { %> 
+        <% if(product.currentHighestBid?.user?._id.toString() === currentUser?._id.toString() ) { %> 
             <div id="bid-container"></div>
             <div id="contact-seller"></div>
         <% } %> 
