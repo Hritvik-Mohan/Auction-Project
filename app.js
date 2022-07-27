@@ -98,7 +98,7 @@ app.all('*', (req, res, next)=>{
  */
 app.use((err, req, res, next)=>{
   const { status=500, message="Something went wrong", stack } = err;
-  res.render("error", {status, message });
+  res.render("error", {status, message, stack });
 })
 
 const runServer = async () =>{
