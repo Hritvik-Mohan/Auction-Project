@@ -10,6 +10,8 @@ const morgan = require("morgan");
 const coookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require("helmet");
 
 /**
  * Configs Imports.
@@ -47,6 +49,15 @@ app.use("/", WebhookRouter);
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
+
+// Security Middlewares
+app.use(mongoSanitize());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
@@ -98,7 +109,7 @@ app.all('*', (req, res, next)=>{
  */
 app.use((err, req, res, next)=>{
   const { status=500, message="Something went wrong", stack } = err;
-  res.render("error", {status, message, stack });
+  res.render("error", {status, message });
 })
 
 const runServer = async () =>{
