@@ -1,220 +1,236 @@
 <% layout('layouts/boilerplate') %>
 
-<!-- Dashboard Start -->
+    <!-- Dashboard Start -->
 
-<div class="dashboard-container container prod-container">
+    <div class="dashboard-container container prod-container">
 
-    <!-- Dashboard Section 1 Start -->
+        <!-- Dashboard Section 1 Start -->
 
-    <div class="dashboard-section-1">
+        <div class="dashboard-section-1">
 
-        <div class="dashboard-section-1__profile-image-container">
-            <div class="dashboard-section-1__profile-image"><img src="<%= currentUser.avatar?.path || 'https://picsum.photos/300' %>" alt="" srcset="">
+            <div class="dashboard-section-1__profile-image-container">
+                <div class="dashboard-section-1__profile-image"><img
+                        src="<%= currentUser.avatar?.path || 'https://picsum.photos/300' %>" alt="" srcset="">
+                </div>
+            </div>
+
+            <div class="dashboard-section-1__username" id="username"></div>
+
+            <div class="dashboard-section-1__userinfo">
+                <div class="dashboard-section-1__userinfo-isvarified" id="verified"></div>
+                <div class="dashboard-section-1__userinfo-joined-date formFlex"><span>Joined:</span>
+                    <div class="dashboard-section-1__userinfo-joined-date" id="joinedDate"></div>
+                </div>
+            </div>
+
+            <div class="dashboard-section-1__tabs__sidebar">
+
+                <button class="dashboard-section-1__tabs__button" onclick="openCity(event, 'Profile')">Profile</button>
+                <button class="dashboard-section-1__tabs__button active"
+                    onclick="openCity(event, 'Dashboard')">Dashboard</button>
+                <button class="dashboard-section-1__tabs__button"><a href="/users/edit">Edit</a></button>
+                <% if(currentUser.role==="ROLE_ADMIN" ) { %>
+                    <button class="dashboard-section-1__tabs__button"><a href="/listings">Manage Auctions</a></button>
+                    <button class="dashboard-section-1__tabs__button"><a href="/users">Manage Users</a></button>
+                <% } %>
             </div>
         </div>
 
-        <div class="dashboard-section-1__username" id="username"></div>
+        <!-- Dashboard Section 1 End -->
 
-        <div class="dashboard-section-1__userinfo">
-            <div class="dashboard-section-1__userinfo-isvarified" id="verified"></div>
-            <div class="dashboard-section-1__userinfo-joined-date formFlex"><span>Joined:</span><div class="dashboard-section-1__userinfo-joined-date" id="joinedDate"></div></div>
+
+        <div id="Profile" class="dashboard-section-2 div2">
+            <h1 class="dashboard-section-2__heading">
+                Profile
+            </h1>
+            <div class="dashboard-section-2__profile-container">
+                <div class="dashboard-section-2__profile-item">
+                    <div class="dashboad-section-2__profile__info-h">
+                        First Name
+                    </div>
+                    <div class="dashboad-section-2__profile__info">
+                        <%= currentUser?.firstName %>
+                    </div>
+
+                </div>
+                <div class="dashboard-section-2__profile-item">
+                    <div class="dashboad-section-2__profile__info-h">
+                        Last Name
+                    </div>
+                    <div class="dashboad-section-2__profile__info">
+                        <%= currentUser?.lastName %>
+                    </div>
+
+                </div>
+                <div class="dashboard-section-2__profile-item">
+                    <div class="dashboad-section-2__profile__info-h">
+                        Email
+                    </div>
+                    <div class="dashboad-section-2__profile__info">
+                        <%= currentUser?.email %>
+                    </div>
+
+                </div>
+                <div class="dashboard-section-2__profile-item">
+                    <div class="dashboad-section-2__profile__info-h">
+                        Role
+                    </div>
+                    <div class="dashboad-section-2__profile__info">
+                        <%= currentUser?.role %>
+                    </div>
+
+                </div>
+                <div class="dashboard-section-2__profile-item">
+                    <div class="dashboad-section-2__profile__info-h">
+                        Phone
+                    </div>
+                    <div class="dashboad-section-2__profile__info">
+                        <%= currentUser?.phoneNumber %>
+                    </div>
+
+                </div>
+                <div class="dashboard-section-2__profile-item">
+                    <div class="dashboad-section-2__profile__info-h">
+                        Date of birth
+                    </div>
+                    <div class="dashboad-section-2__profile__info">
+                        <%= currentUser?.dob %>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
-        <div class="dashboard-section-1__tabs__sidebar">
+        <div id="Dashboard" class="dashboard-section-2 div2" style="display: block;">
+            <!-- Heading Start-->
 
-            <button class="dashboard-section-1__tabs__button" onclick="openCity(event, 'Profile')">Profile</button>
-            <button class="dashboard-section-1__tabs__button active" onclick="openCity(event, 'Dashboard')">Dashboard</button>
-            <button class="dashboard-section-1__tabs__button"><a href="/users/edit">Edit</a></button>
+            <h1 class="dashboard-section-2__heading">
+                Dashboard
+            </h1>
+
+            <!-- Heading Start-->
+
+
+
+            <!-- Box-1 Start -->
+
+            <div class="dashboard-section-2__box">
+
+                <div class="dashboard-section-2__box__p1">
+                    <div class="dashboard-section-2__box__p1__heading">
+                        <p class="dashboard-section-2__box__p1__heading-h1">My Auctions</p>
+                    </div>
+                    <div class="dashboard-section-2__box__p1__options ">
+                        <a href="/users/dashboard/my-auctions">
+                            <div class="dashboard-section-2__box__p1__options__button"><button>View</button></div>
+                        </a>
+                        <a href="/products/new">
+                            <div class="dashboard-section-2__box__p1__options__button"><button>Create auction</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dashboard-section-2__box__p2">
+
+                    <div class="dashboard-section-2__box__p2__stat">
+                        <p class="dashboard-section-2__box__p2__stat-h">Total</p>
+                        <p class="dashboard-section-2__box__p2__stat-no" id="myListings">4</p>
+                    </div>
+
+                    <div class="dashboard-section-2__box__p2__stat">
+                        <p class="dashboard-section-2__box__p2__stat-h">Active</p>
+                        <p class="dashboard-section-2__box__p2__stat-no" id="activeListings">1</p>
+                    </div>
+
+                    <div class="dashboard-section-2__box__p2__stat">
+                        <p class="dashboard-section-2__box__p2__stat-h">Successful</p>
+                        <p class="dashboard-section-2__box__p2__stat-no" id="successfulListings">3</p>
+                    </div>
+
+                    <div class="dashboard-section-2__box__p2__stat">
+                        <p class="dashboard-section-2__box__p2__stat-h">Unsuccessful</p>
+                        <p class="dashboard-section-2__box__p2__stat-no" id="unsuccessfulListings">0</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Box-1 End -->
+
+            <!-- Box-2 Start -->
+
+            <div class="dashboard-section-2__box dashboard-section-2__box--green">
+
+                <div class="dashboard-section-2__box__p1 formFlex">
+                    <div class="dashboard-section-2__box__p1__heading">
+                        <p
+                            class="dashboard-section-2__box__p1__heading-h1 dashboard-section-2__box__p1__heading-h1--green">
+                            My Bids</p>
+                    </div>
+                    <div class="dashboard-section-2__box__p1__options dashboard-section-2__box__p1__options-1 ">
+                        <a href="/users/dashboard/my-bids">
+                            <div
+                                class="dashboard-section-2__box__p1__options__button dashboard-section-2__box__p1__options__button--green">
+                                <button>View</button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dashboard-section-2__box__p2">
+
+                    <div class="dashboard-section-2__box__p2__stat">
+                        <p class="dashboard-section-2__box__p2__stat-h">Total</p>
+                        <p class="dashboard-section-2__box__p2__stat-no" id="myBids">5</p>
+                    </div>
+
+                    <div class="dashboard-section-2__box__p2__stat">
+                        <p class="dashboard-section-2__box__p2__stat-h">Won</p>
+                        <p class="dashboard-section-2__box__p2__stat-no" id="wonBids">3</p>
+                    </div>
+
+                    <div class="dashboard-section-2__box__p2__stat">
+                        <p class="dashboard-section-2__box__p2__stat-h">Not Won</p>
+                        <p class="dashboard-section-2__box__p2__stat-no" id="lostBids">2</p>
+                    </div>
+
+                    <div class="dashboard-section-2__box__p2__stat">
+                        <p class="dashboard-section-2__box__p2__stat-h"></p>
+                        <p class="dashboard-section-2__box__p2__stat-no"></p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Box-2 End -->
+        </div>
+
+        <div id="Settings" class="dashboard-section-2 div2">
+            <h1 class="dashboard-section-2__heading">
+                Settings
+            </h1>
 
         </div>
+
+
     </div>
 
-    <!-- Dashboard Section 1 End -->
+    <!-- Dashboard End -->
 
 
-    <div id="Profile" class="dashboard-section-2 div2">
-        <h1 class="dashboard-section-2__heading">
-            Profile
-        </h1>
-        <div class="dashboard-section-2__profile-container">
-            <div class="dashboard-section-2__profile-item">
-                <div class="dashboad-section-2__profile__info-h">
-                    First Name
-                </div>
-                <div class="dashboad-section-2__profile__info">
-                    <%= currentUser?.firstName %>
-                </div>
+    <script>
+        let currentUser = '<%- JSON.stringify(user).replace(/[\/\(\)\']/g, "&apos;") %>';
+    </script>
 
-            </div>
-            <div class="dashboard-section-2__profile-item">
-                <div class="dashboad-section-2__profile__info-h">
-                    Last Name
-                </div>
-                <div class="dashboad-section-2__profile__info">
-                    <%= currentUser?.lastName %>
-                </div>
-
-            </div>
-            <div class="dashboard-section-2__profile-item">
-                <div class="dashboad-section-2__profile__info-h">
-                    Email
-                </div>
-                <div class="dashboad-section-2__profile__info">
-                    <%= currentUser?.email %>
-                </div>
-
-            </div>
-            <div class="dashboard-section-2__profile-item">
-                <div class="dashboad-section-2__profile__info-h">
-                    Role
-                </div>
-                <div class="dashboad-section-2__profile__info">
-                    <%= currentUser?.role %>
-                </div>
-
-            </div>
-            <div class="dashboard-section-2__profile-item">
-                <div class="dashboad-section-2__profile__info-h">
-                    Phone
-                </div>
-                <div class="dashboad-section-2__profile__info">
-                    <%= currentUser?.phoneNumber %>
-                </div>
-
-            </div>
-            <div class="dashboard-section-2__profile-item">
-                <div class="dashboad-section-2__profile__info-h">
-                    Date of birth
-                </div>
-                <div class="dashboad-section-2__profile__info">
-                    <%= currentUser?.dob %>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div id="Dashboard" class="dashboard-section-2 div2" style="display: block;">
-        <!-- Heading Start-->
-
-        <h1 class="dashboard-section-2__heading">
-            Dashboard
-        </h1>
-
-        <!-- Heading Start-->
-
-
-
-        <!-- Box-1 Start -->
-
-        <div class="dashboard-section-2__box">
-
-            <div class="dashboard-section-2__box__p1">
-                <div class="dashboard-section-2__box__p1__heading">
-                    <p class="dashboard-section-2__box__p1__heading-h1">My Auctions</p>
-                </div>
-                <div class="dashboard-section-2__box__p1__options ">
-                    <a href="/users/dashboard/my-auctions"><div class="dashboard-section-2__box__p1__options__button"><button>View</button></div></a>
-                    <a href="/products/new"><div class="dashboard-section-2__box__p1__options__button"><button>Create auction</button></div></a>
-                </div>
-            </div>
-
-            <div class="dashboard-section-2__box__p2">
-
-                <div class="dashboard-section-2__box__p2__stat">
-                    <p class="dashboard-section-2__box__p2__stat-h">Total</p>
-                    <p class="dashboard-section-2__box__p2__stat-no" id="myListings">4</p>
-                </div>
-
-                <div class="dashboard-section-2__box__p2__stat">
-                    <p class="dashboard-section-2__box__p2__stat-h">Active</p>
-                    <p class="dashboard-section-2__box__p2__stat-no" id="activeListings">1</p>
-                </div>
-
-                <div class="dashboard-section-2__box__p2__stat">
-                    <p class="dashboard-section-2__box__p2__stat-h">Successful</p>
-                    <p class="dashboard-section-2__box__p2__stat-no" id="successfulListings">3</p>
-                </div>
-
-                <div class="dashboard-section-2__box__p2__stat">
-                    <p class="dashboard-section-2__box__p2__stat-h">Unsuccessful</p>
-                    <p class="dashboard-section-2__box__p2__stat-no" id="unsuccessfulListings">0</p>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Box-1 End -->
-
-        <!-- Box-2 Start -->
-
-        <div class="dashboard-section-2__box dashboard-section-2__box--green">
-
-            <div class="dashboard-section-2__box__p1 formFlex">
-                <div class="dashboard-section-2__box__p1__heading">
-                    <p class="dashboard-section-2__box__p1__heading-h1 dashboard-section-2__box__p1__heading-h1--green">
-                        My Bids</p>
-                </div>
-                <div class="dashboard-section-2__box__p1__options dashboard-section-2__box__p1__options-1 ">
-                    <a href="/users/dashboard/my-bids"><div
-                        class="dashboard-section-2__box__p1__options__button dashboard-section-2__box__p1__options__button--green">
-                        <button>View</button></div></a>
-                </div>
-            </div>
-
-            <div class="dashboard-section-2__box__p2">
-
-                <div class="dashboard-section-2__box__p2__stat">
-                    <p class="dashboard-section-2__box__p2__stat-h">Total</p>
-                    <p class="dashboard-section-2__box__p2__stat-no" id="myBids">5</p>
-                </div>
-
-                <div class="dashboard-section-2__box__p2__stat">
-                    <p class="dashboard-section-2__box__p2__stat-h">Won</p>
-                    <p class="dashboard-section-2__box__p2__stat-no" id="wonBids">3</p>
-                </div>
-
-                <div class="dashboard-section-2__box__p2__stat">
-                    <p class="dashboard-section-2__box__p2__stat-h">Not Won</p>
-                    <p class="dashboard-section-2__box__p2__stat-no" id="lostBids">2</p>
-                </div>
-
-                <div class="dashboard-section-2__box__p2__stat">
-                    <p class="dashboard-section-2__box__p2__stat-h"></p>
-                    <p class="dashboard-section-2__box__p2__stat-no"></p>
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- Box-2 End -->
-    </div>
-
-    <div id="Settings" class="dashboard-section-2 div2">
-        <h1 class="dashboard-section-2__heading">
-            Settings
-        </h1>
-
-    </div>
-
-
-</div>
-
-<!-- Dashboard End -->
-
-
-<script>
-    let currentUser = '<%- JSON.stringify(user).replace(/[\/\(\)\']/g, "&apos;") %>';
-</script>
-
-<script src="/js/dashboard/dashboard.js"></script>
+    <script src="/js/dashboard/dashboard.js"></script>
 
 
 
 
-<!-- <div class="dashboard-container container prod-container">
+    <!-- <div class="dashboard-container container prod-container">
     
     <div class="dashboard__section-1">
     </div>
@@ -238,7 +254,7 @@
 
 
 
-<!-- <div class="formContainer-signup container">
+    <!-- <div class="formContainer-signup container">
     <div class="loginForm">
 
 <div class="formGrid">
