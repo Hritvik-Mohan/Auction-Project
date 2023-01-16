@@ -98,6 +98,16 @@ app.route("/").get((req, res) => {
 });
 
 /**
+ * Check health route
+ */
+app.route("/health").get((req, res)=>{
+  return res.status(200).send({
+    status: "success",
+    message: "Server is up and running."
+  });
+});
+
+/**
  * If none of the routes matches.
  */
 app.all('*', (req, res, next)=>{
