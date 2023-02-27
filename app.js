@@ -98,7 +98,7 @@ app.route("/").get((req, res) => {
 });
 
 /**
- * Check health route
+ * Check health route changes
  */
 app.route("/health").get((req, res)=>{
   return res.status(200).send({
