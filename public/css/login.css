@@ -67,7 +67,7 @@ input[type="email"],
 input[type="password"] {
     /* background: #1a2226; */
     /* border: 2px solid; */
-    border-radius: 3px;
+    /* border-radius: 3px; */
     margin-bottom: 25px;
 }
 
