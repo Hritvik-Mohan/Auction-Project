@@ -17,7 +17,7 @@ const catchAsync = require("../../utils/catchAsync");
 /**
  * Declations
  */
-const DOMAIN = 'http://localhost:3000';
+const DOMAIN = 'http://localhost:3001';
 
 /**
  * @description - Creates a payment session
