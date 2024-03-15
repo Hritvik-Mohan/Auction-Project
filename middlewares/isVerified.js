@@ -1,22 +1,27 @@
 /**
- * @description - This middleware checks if the user's profile is 
+ * @description - This middleware checks if the user's profile is
  * verified or not.
- * 
+ *
  * @param {object} req - request object
  * @param {object} res - response object
  * @param {function} next - next function
- * @returns 
+ * @returns
  */
 const isVerified = (req, res, next) => {
-        
-    const user = req.user;
-    
-    if (!user.verified) {
-        req.flash("error", "Please verify your account first");
-        return res.redirect("/users/verification");
-    }
+	const user = req.user;
 
-    next();
-}
+	if (
+		process.env.SKIP_EMAIL_VERIFICATION &&
+		process.env.SKIP_EMAIL_VERIFICATION === "true"
+	)
+		next();
+	else {
+		if (!user.verified) {
+			req.flash("error", "Please verify your account first");
+			return res.redirect("/users/verification");
+		}
+		next();
+	}
+};
 
 module.exports = isVerified;

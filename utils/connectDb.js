@@ -13,9 +13,9 @@ const connectDb = (url = process.env.MONGODB_LOCAL_CONNECTION) => {
         useNewUrlParser: true,
         useUnifiedTopology: true
       });
-      if(con) console.log("MongoDB connected...")
+      if(con) console.log("✅ MongoDB connected...")
     } catch(e){
-      console.log(`Error: ${e}`);
+      console.log(`❌ Error connecting mongodb: ${e}`);
     }
 };  
 
