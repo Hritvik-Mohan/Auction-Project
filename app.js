@@ -126,12 +126,12 @@ const runServer = async () =>{
   if(process.env.NODE_ENV !== "production"){
     await connectDb();
     app.listen(PORT, ()=>{
-      console.log(`Development server live on http://localhost:${PORT}`);
+      console.log(`🚀 Development server live on http://localhost:${PORT}`);
     })
   } else {
     await connectDb(process.env.MONGODB_CONNECTION_STRING);
     app.listen(PORT, ()=>{
-      console.log(`Production server live on port ${PORT}`);
+      console.log(`🚀 Production server live on port ${PORT}`);
     })
   }
 }
